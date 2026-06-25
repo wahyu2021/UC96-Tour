@@ -30,3 +30,7 @@
   - [ ] Sub-task: Pastikan transisi antar-tanggal bekerja tanpa memuat ulang seluruh halaman dengan kasar.
   - [ ] Sub-task: Evaluasi animasi _Live Indicator_ apakah terlihat jelas dan memukau sesuai standar _premium_.
 - [ ] Task: Conductor - User Manual Verification 'Pengujian' (Protocol in workflow.md)
+
+## Phase 5: Review Fixes
+
+- [x] Task: Apply review suggestions `e1a5318`
