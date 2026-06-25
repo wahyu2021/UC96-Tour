@@ -2,18 +2,18 @@
 
 ## Phase 1: Setup & Database Schema
 
-- [ ] Task: Update Prisma Schema
-  - [ ] Sub-task: Buat model `MatchScore` (ID, Match ID, Team ID, Kills, Placement, PlacementPoints, TotalPoints).
-  - [ ] Sub-task: Jalankan `prisma db push` atau `prisma migrate dev` untuk memperbarui database.
-- [ ] Task: Conductor - User Manual Verification 'Setup & Database' (Protocol in workflow.md)
+- [x] Task: Update Prisma Schema
+  - [x] Sub-task: Verifikasi model `MatchResult` sudah tersedia (sudah ada sejak inisialisasi).
+  - [x] Sub-task: Jalankan `prisma db push` atau `prisma migrate dev` untuk memperbarui database.
+- [x] Task: Conductor - User Manual Verification 'Setup & Database' (Protocol in workflow.md)
 
 ## Phase 2: Pengembangan API / Backend
 
-- [ ] Task: Buat Endpoint Kalkulasi Skor Otomatis
-  - [ ] Sub-task: Buat fungsi _utility_ untuk pemetaan regulasi poin PUBG (misal: Rank 1 = 10 pts, Rank 2 = 6 pts, dst).
-  - [ ] Sub-task: Buat API `POST /api/admin/matches/[id]/scores` yang menerima input { rank, kills } dan menghitung total poin secara otomatis di server.
-  - [ ] Sub-task: Buat API `GET /api/leaderboard` untuk agregasi skor.
-- [ ] Task: Conductor - User Manual Verification 'Backend' (Protocol in workflow.md)
+- [x] Task: Buat Endpoint Kalkulasi Skor Otomatis
+  - [x] Sub-task: Buat fungsi _utility_ untuk pemetaan regulasi poin PUBG (misal: Rank 1 = 10 pts, Rank 2 = 6 pts, dst).
+  - [x] Sub-task: Buat API `POST /api/admin/matches/[id]/scores` yang menerima input { rank, kills } dan menghitung total poin secara otomatis di server.
+  - [x] Sub-task: Buat API `GET /api/leaderboard` untuk agregasi skor.
+- [x] Task: Conductor - User Manual Verification 'Backend' (Protocol in workflow.md)
 
 ## Phase 3: Pengembangan UI / Frontend
 

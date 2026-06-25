@@ -1,0 +1,100 @@
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { prisma } from '@/lib/db';
+import { getPlacementPoints } from '@/lib/scoring';
+
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const resolvedParams = await params;
+  const matchId = resolvedParams.id;
+
+  try {
+    const scores = await prisma.matchResult.findMany({
+      where: { matchId },
+      include: {
+        team: {
+          select: { id: true, name: true, logoUrl: true },
+        },
+      },
+      orderBy: { finishPosition: 'asc' },
+    });
+
+    return NextResponse.json(scores, { status: 200 });
+  } catch {
+    return NextResponse.json(
+      { error: 'Failed to fetch scores' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session || session.user.role !== 'ADMIN') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const resolvedParams = await params;
+  const matchId = resolvedParams.id;
+
+  try {
+    const { scores } = await req.json();
+
+    if (!Array.isArray(scores)) {
+      return NextResponse.json(
+        { error: 'Invalid data format' },
+        { status: 400 }
+      );
+    }
+
+    const savedScores = await prisma.$transaction(
+      scores.map((score) => {
+        const placementPoints = getPlacementPoints(score.finishPosition);
+        const totalPoints = placementPoints + score.kills;
+        const isWwcd = score.finishPosition === 1;
+
+        return prisma.matchResult.upsert({
+          where: {
+            teamId_matchId: {
+              teamId: score.teamId,
+              matchId,
+            },
+          },
+          update: {
+            killPoints: score.kills,
+            placementPoints,
+            totalPoints,
+            finishPosition: score.finishPosition,
+            isWwcd,
+          },
+          create: {
+            matchId,
+            teamId: score.teamId,
+            killPoints: score.kills,
+            placementPoints,
+            totalPoints,
+            finishPosition: score.finishPosition,
+            isWwcd,
+          },
+        });
+      })
+    );
+
+    return NextResponse.json(
+      { message: 'Scores saved successfully', count: savedScores.length },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error saving match scores:', error);
+    return NextResponse.json(
+      { error: 'Failed to save scores' },
+      { status: 500 }
+    );
+  }
+}

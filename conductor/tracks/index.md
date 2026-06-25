@@ -57,5 +57,5 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 ---
 
-- [ ] **Track: Sistem Scoring & Leaderboard Dinamis**
-      _Link: [./011-leaderboard-scoring/](./011-leaderboard-scoring/)_
+- [~] **Track: Sistem Scoring & Leaderboard Dinamis**
+  _Link: [./011-leaderboard-scoring/](./011-leaderboard-scoring/)_
