@@ -39,3 +39,8 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 - [x] **Track: Halaman Daftar Tim Publik (/teams)**
       _Link: [./007-public-teams-page/](./007-public-teams-page/)_
+
+---
+
+- [ ] **Track: Halaman Jadwal Pertandingan Publik (/schedule)**
+      _Link: [./008-public-schedule-page/](./008-public-schedule-page/)_
