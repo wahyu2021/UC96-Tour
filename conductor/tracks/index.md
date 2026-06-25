@@ -52,5 +52,5 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 ---
 
-- [ ] **Track: Retroactive Automated Tests**
+- [x] **Track: Retroactive Automated Tests**
       _Link: [./010-retroactive-tests/](./010-retroactive-tests/)_
