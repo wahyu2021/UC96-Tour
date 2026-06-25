@@ -47,5 +47,5 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 ---
 
-- [ ] **Track: Admin Match Management**
+- [x] **Track: Admin Match Management**
       _Link: [./009-admin-match-management/](./009-admin-match-management/)_

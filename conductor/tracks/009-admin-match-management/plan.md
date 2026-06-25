@@ -27,11 +27,11 @@
   - [x] Sub-task: Buat tombol aksi di tabel untuk Update Status Cepat & Hapus.
 - [x] Task: Integrasi API
   - [x] Sub-task: Hubungkan UI form & tabel dengan API backend.
-- [ ] Task: Conductor - User Manual Verification 'Frontend' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Frontend' (Protocol in workflow.md)
 
 ## Phase 4: Pengujian & Validasi
 
-- [ ] Task: Verifikasi Fungsi Inti
-  - [ ] Sub-task: Pastikan dropdown otomatis terpilih jika turnamen aktif hanya ada 1.
-  - [ ] Sub-task: Cek sinkronisasi data jadwal yang dibuat di Admin Panel dengan yang tampil di `/schedule` publik.
-- [ ] Task: Conductor - User Manual Verification 'Pengujian' (Protocol in workflow.md)
+- [x] Task: Verifikasi Fungsi Inti
+  - [x] Sub-task: Pastikan dropdown otomatis terpilih jika turnamen aktif hanya ada 1.
+  - [x] Sub-task: Cek sinkronisasi data jadwal yang dibuat di Admin Panel dengan yang tampil di `/schedule` publik.
+- [x] Task: Conductor - User Manual Verification 'Pengujian' (Protocol in workflow.md)
