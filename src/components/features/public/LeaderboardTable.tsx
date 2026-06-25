@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Trophy, RefreshCw } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
 
 interface LeaderboardTeam {
   rank: number;
@@ -117,8 +118,13 @@ export function LeaderboardTable() {
                         <span className="font-medium">{team.rank}</span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-base font-bold text-neutral-900 dark:text-white">
-                      {team.teamName}
+                    <td className="px-6 py-4 text-base font-bold">
+                      <Link
+                        href={`/teams/${team.teamId}`}
+                        className="text-neutral-900 transition-colors hover:text-[var(--color-primary)] dark:text-white dark:hover:text-[var(--color-primary)]"
+                      >
+                        {team.teamName}
+                      </Link>
                     </td>
                     <td className="px-6 py-4 text-center font-medium">
                       {team.matchesPlayed}
