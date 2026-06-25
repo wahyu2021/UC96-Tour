@@ -1,0 +1,8 @@
+{
+  "track_id": "007-public-teams-page",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T16:58:00Z",
+  "updated_at": "2026-06-25T16:58:00Z",
+  "description": "Membangun halaman publik Daftar Tim (/teams) dengan tampilan grid untuk menampilkan tim berstatus APPROVED."
+}

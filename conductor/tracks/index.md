@@ -34,3 +34,8 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 - [x] **Track: Refactor UI Components (Dropdown Custom, Input, Button, Modal, Badge)**
       _Link: [./006-ui-components-refactor/](./006-ui-components-refactor/)_
+
+---
+
+- [ ] **Track: Halaman Daftar Tim Publik (/teams)**
+      _Link: [./007-public-teams-page/](./007-public-teams-page/)_
