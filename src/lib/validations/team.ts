@@ -20,6 +20,7 @@ export const teamRegistrationSchema = z.object({
     .string()
     .min(2, 'Tag Tim minimal 2 karakter')
     .max(10, 'Tag Tim maksimal 10 karakter'),
+  tournamentId: z.string().min(1, 'Turnamen harus dipilih'),
   logoUrl: z.string().url('URL logo tidak valid').optional().or(z.literal('')),
   players: z
     .array(playerSchema)

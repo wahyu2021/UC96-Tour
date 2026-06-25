@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
@@ -14,7 +15,10 @@ const NAV_LINKS = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = React.useState(false);
+
+  if (pathname.startsWith('/admin')) return null;
 
   const toggleMenu = () => setIsOpen(!isOpen);
 

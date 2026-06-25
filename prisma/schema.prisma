@@ -7,6 +7,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum TournamentStatus {
+  DRAFT
+  ONGOING
+  COMPLETED
+}
+
+model Tournament {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?          @db.Text
+  startDate   DateTime
+  endDate     DateTime
+  maxSlots    Int              @default(32)
+  prizePool   String?
+  status      TournamentStatus @default(DRAFT)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  teams       Team[]
+}
+
 enum TeamStatus {
   PENDING
   APPROVED
@@ -31,9 +52,11 @@ model Team {
   tag          String       @unique
   logoUrl      String?
   status       TeamStatus   @default(PENDING)
+  tournamentId String?
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
+  tournament   Tournament?  @relation(fields: [tournamentId], references: [id])
   players      Player[]
   matchResults MatchResult[]
 }

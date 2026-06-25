@@ -2,6 +2,9 @@
 
 import * as React from 'react';
 import { toast } from 'sonner';
+import { Input } from '@/components/ui/Input';
+import { Select } from '@/components/ui/Select';
+import { Badge } from '@/components/ui/Badge';
 
 type Player = {
   id: string;
@@ -18,6 +21,7 @@ type Team = {
   status: string;
   createdAt: Date;
   players: Player[];
+  tournament: { name: string } | null;
 };
 
 export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
@@ -62,24 +66,27 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
   return (
     <div className="space-y-6">
       {/* Bilah Filter & Pencarian */}
-      <div className="flex flex-col gap-4 sm:flex-row">
-        <input
-          type="text"
-          placeholder="Cari nama atau tag tim..."
-          value={filterQuery}
-          onChange={(e) => setFilterQuery(e.target.value)}
-          className="w-full rounded-lg border border-neutral-300 px-4 py-2.5 text-sm transition-colors focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none sm:max-w-xs dark:border-neutral-700 dark:bg-[#121212] dark:text-white"
-        />
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded-lg border border-neutral-300 px-4 py-2.5 text-sm font-medium transition-colors focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none dark:border-neutral-700 dark:bg-[#121212] dark:text-white"
-        >
-          <option value="ALL">Semua Status</option>
-          <option value="PENDING">Menunggu (Pending)</option>
-          <option value="APPROVED">Diterima (Approved)</option>
-          <option value="REJECTED">Ditolak (Rejected)</option>
-        </select>
+      <div className="flex flex-col gap-4 sm:flex-row z-10 relative">
+        <div className="w-full sm:max-w-xs">
+          <Input
+            type="text"
+            placeholder="Cari nama atau tag tim..."
+            value={filterQuery}
+            onChange={(e) => setFilterQuery(e.target.value)}
+          />
+        </div>
+        <div className="w-full sm:max-w-[200px]">
+          <Select
+            value={statusFilter}
+            onChange={setStatusFilter}
+            options={[
+              { value: 'ALL', label: 'Semua Status' },
+              { value: 'PENDING', label: 'Menunggu (Pending)' },
+              { value: 'APPROVED', label: 'Diterima (Approved)' },
+              { value: 'REJECTED', label: 'Ditolak (Rejected)' },
+            ]}
+          />
+        </div>
       </div>
 
       {/* Tabel Data Tim */}
@@ -90,6 +97,7 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
               <tr>
                 <th className="px-6 py-5">Profil Tim</th>
                 <th className="px-6 py-5">Kapten (IGN)</th>
+                <th className="px-6 py-5">Turnamen</th>
                 <th className="px-6 py-5">Status Pendaftaran</th>
                 <th className="px-6 py-5 text-right">Aksi Panel</th>
               </tr>
@@ -98,7 +106,7 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
               {filteredTeams.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={4}
+                    colSpan={5}
                     className="px-6 py-12 text-center text-neutral-500"
                   >
                     Tidak ada data tim yang sesuai dengan filter pencarian.
@@ -149,26 +157,23 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
                         </p>
                       </td>
                       <td className="px-6 py-5">
-                        <span
-                          className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold tracking-wider uppercase ${
-                            team.status === 'APPROVED'
-                              ? 'bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400'
-                              : team.status === 'REJECTED'
-                                ? 'bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400'
-                                : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-400'
-                          }`}
-                        >
-                          <span
-                            className={`h-1.5 w-1.5 rounded-full ${
-                              team.status === 'APPROVED'
-                                ? 'bg-green-500'
-                                : team.status === 'REJECTED'
-                                  ? 'bg-red-500'
-                                  : 'bg-yellow-500'
-                            }`}
-                          ></span>
-                          {team.status}
+                        <span className="inline-flex items-center rounded-md bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-800 dark:bg-neutral-800 dark:text-neutral-300">
+                          {team.tournament?.name || 'Tanpa Turnamen'}
                         </span>
+                      </td>
+                      <td className="px-6 py-5">
+                        <Badge
+                          variant={
+                            team.status === 'APPROVED'
+                              ? 'success'
+                              : team.status === 'REJECTED'
+                                ? 'danger'
+                                : 'warning'
+                          }
+                          dot
+                        >
+                          {team.status}
+                        </Badge>
                       </td>
                       <td className="px-6 py-5 text-right">
                         <select

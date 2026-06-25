@@ -35,9 +35,15 @@ export default async function AdminLayout({
         <nav className="flex flex-col gap-3">
           <Link
             href="/admin"
-            className="rounded-lg bg-neutral-100 px-4 py-3 text-sm font-semibold text-neutral-900 transition-colors dark:bg-neutral-800 dark:text-white"
+            className="rounded-lg bg-neutral-100 px-4 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-200 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700"
           >
             Manajemen Tim
+          </Link>
+          <Link
+            href="/admin/tournaments"
+            className="rounded-lg bg-neutral-100 px-4 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:bg-neutral-200 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700"
+          >
+            Manajemen Turnamen
           </Link>
           <button
             disabled

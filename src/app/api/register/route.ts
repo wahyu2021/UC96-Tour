@@ -17,6 +17,28 @@ export async function POST(request: Request) {
 
     const data = result.data;
 
+    // 1.5 Cek kuota dan ketersediaan Turnamen
+    const tournament = await prisma.tournament.findUnique({
+      where: { id: data.tournamentId },
+      include: {
+        _count: { select: { teams: true } },
+      },
+    });
+
+    if (!tournament) {
+      return NextResponse.json({ error: 'Turnamen tidak ditemukan' }, { status: 404 });
+    }
+
+    // Hitung status dinamis
+    const now = new Date();
+    if (tournament.status === 'COMPLETED' || now > tournament.endDate) {
+      return NextResponse.json({ error: 'Pendaftaran turnamen ini sudah ditutup' }, { status: 400 });
+    }
+
+    if (tournament._count.teams >= tournament.maxSlots) {
+      return NextResponse.json({ error: 'Kuota tim untuk turnamen ini sudah penuh' }, { status: 400 });
+    }
+
     // 2. Cek apakah Nama Tim atau Tag sudah dipakai
     const existingTeam = await prisma.team.findFirst({
       where: {
@@ -65,6 +87,7 @@ export async function POST(request: Request) {
         tag: data.tag,
         logoUrl: data.logoUrl,
         status: 'PENDING',
+        tournamentId: data.tournamentId,
         players: {
           create: playersData,
         },

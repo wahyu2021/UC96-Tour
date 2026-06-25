@@ -13,6 +13,7 @@ export default async function AdminDashboardPage() {
   const teams = await prisma.team.findMany({
     include: {
       players: true,
+      tournament: true,
     },
     orderBy: {
       createdAt: 'desc',

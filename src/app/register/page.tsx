@@ -5,7 +5,28 @@ export const metadata = {
   description: 'Daftarkan tim PUBG e-sports Anda ke turnamen UC96.',
 };
 
-export default function RegisterPage() {
+import { prisma } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
+
+export default async function RegisterPage() {
+  const now = new Date();
+  const availableTournaments = await prisma.tournament.findMany({
+    where: {
+      endDate: { gte: now },
+      status: { not: 'COMPLETED' },
+    },
+    select: {
+      id: true,
+      name: true,
+      _count: { select: { teams: true } },
+      maxSlots: true,
+    },
+    orderBy: { startDate: 'asc' },
+  });
+
+  const activeTournaments = availableTournaments.filter(t => t._count.teams < t.maxSlots);
+
   return (
     <div className="flex min-h-[calc(100vh-8rem)] w-full flex-col items-center justify-center bg-neutral-50 px-4 py-16 sm:px-6 lg:px-8 dark:bg-[#0a0a0a]">
       <div className="mb-10 max-w-2xl text-center">
@@ -18,7 +39,7 @@ export default function RegisterPage() {
           klasemen.
         </p>
       </div>
-      <RegistrationForm />
+      <RegistrationForm availableTournaments={activeTournaments} />
     </div>
   );
 }

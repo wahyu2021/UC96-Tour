@@ -32,5 +32,5 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 ---
 
-- [ ] **Track: Refactor UI Components (Dropdown Custom, Input, Button, Modal, Badge)**
+- [x] **Track: Refactor UI Components (Dropdown Custom, Input, Button, Modal, Badge)**
       _Link: [./006-ui-components-refactor/](./006-ui-components-refactor/)_

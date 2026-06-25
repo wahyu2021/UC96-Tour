@@ -1,15 +1,20 @@
 'use client';
 
 import * as React from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   teamRegistrationSchema,
   type TeamRegistrationInput,
 } from '@/lib/validations/team';
 import { toast } from 'sonner';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+import { Select } from '@/components/ui/Select';
 
-export function RegistrationForm() {
+type TournamentOption = { id: string; name: string };
+
+export function RegistrationForm({ availableTournaments }: { availableTournaments: TournamentOption[] }) {
   const [step, setStep] = React.useState<1 | 2>(1);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
@@ -24,6 +29,7 @@ export function RegistrationForm() {
   } = useForm<TeamRegistrationInput>({
     resolver: zodResolver(teamRegistrationSchema),
     defaultValues: {
+      tournamentId: '',
       name: '',
       tag: '',
       logoUrl: '',
@@ -43,7 +49,7 @@ export function RegistrationForm() {
 
   const handleNext = async () => {
     // Validasi Step 1 sebelum bisa lanjut
-    const isStep1Valid = await trigger(['name', 'tag', 'logoUrl']);
+    const isStep1Valid = await trigger(['name', 'tag', 'logoUrl', 'tournamentId']);
     if (isStep1Valid) {
       setStep(2);
     }
@@ -149,34 +155,44 @@ export function RegistrationForm() {
           <div className="space-y-5">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                Nama Tim Lengkap
+                Pilih Turnamen *
               </label>
-              <input
-                {...register('name')}
-                className="w-full rounded-md border border-neutral-300 px-4 py-3 text-sm transition-colors focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none dark:border-neutral-700 dark:bg-[#121212] dark:text-white"
-                placeholder="Contoh: Rex Regum Qeon"
+              <Controller
+                name="tournamentId"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    options={availableTournaments.map(t => ({ value: t.id, label: t.name }))}
+                    value={field.value}
+                    onChange={field.onChange}
+                    error={errors.tournamentId?.message}
+                    placeholder="-- Pilih Turnamen --"
+                  />
+                )}
               />
-              {errors.name && (
-                <p className="mt-1.5 text-xs font-medium text-red-500">
-                  {errors.name.message}
-                </p>
-              )}
+            </div>
+
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                Nama Tim Lengkap *
+              </label>
+              <Input
+                {...register('name')}
+                placeholder="Contoh: Rex Regum Qeon"
+                error={errors.name?.message}
+              />
             </div>
 
             <div>
               <label className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                 Tag Tim (Inisial)
               </label>
-              <input
+              <Input
                 {...register('tag')}
-                className="w-full rounded-md border border-neutral-300 px-4 py-3 text-sm uppercase transition-colors focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none dark:border-neutral-700 dark:bg-[#121212] dark:text-white"
+                className="uppercase"
                 placeholder="Contoh: RRQ"
+                error={errors.tag?.message}
               />
-              {errors.tag && (
-                <p className="mt-1.5 text-xs font-medium text-red-500">
-                  {errors.tag.message}
-                </p>
-              )}
             </div>
 
             <div>
@@ -216,13 +232,14 @@ export function RegistrationForm() {
           </div>
 
           <div className="mt-10 flex justify-end">
-            <button
+            <Button
               type="button"
               onClick={handleNext}
-              className="rounded-md bg-neutral-900 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+              variant="secondary"
+              className="px-8 py-3"
             >
               Lanjutkan ke Roster Pemain
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -256,31 +273,21 @@ export function RegistrationForm() {
                     <label className="mb-1.5 block text-xs font-medium text-neutral-500 dark:text-neutral-400">
                       In-Game Name (IGN)
                     </label>
-                    <input
+                    <Input
                       {...register(`players.${index}.ign` as const)}
-                      className="w-full rounded-md border border-neutral-300 px-4 py-2.5 text-sm transition-colors focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
                       placeholder="Contoh: UC96_Faker"
+                      error={errors.players?.[index]?.ign?.message}
                     />
-                    {errors.players?.[index]?.ign && (
-                      <p className="mt-1.5 text-xs font-medium text-red-500">
-                        {errors.players[index]?.ign?.message}
-                      </p>
-                    )}
                   </div>
                   <div>
                     <label className="mb-1.5 block text-xs font-medium text-neutral-500 dark:text-neutral-400">
                       In-Game ID (Angka)
                     </label>
-                    <input
+                    <Input
                       {...register(`players.${index}.inGameId` as const)}
-                      className="w-full rounded-md border border-neutral-300 px-4 py-2.5 text-sm transition-colors focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
                       placeholder="Contoh: 5123456789"
+                      error={errors.players?.[index]?.inGameId?.message}
                     />
-                    {errors.players?.[index]?.inGameId && (
-                      <p className="mt-1.5 text-xs font-medium text-red-500">
-                        {errors.players[index]?.inGameId?.message}
-                      </p>
-                    )}
                   </div>
                 </div>
               </div>
@@ -288,20 +295,21 @@ export function RegistrationForm() {
           </div>
 
           <div className="mt-10 flex items-center justify-between">
-            <button
+            <Button
               type="button"
               onClick={handlePrev}
-              className="rounded-md border border-neutral-300 px-8 py-3 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+              variant="outline"
+              className="px-8 py-3"
             >
               Kembali
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
-              disabled={isSubmitting}
-              className="flex items-center justify-center rounded-md bg-[var(--color-primary)] px-10 py-3 text-sm font-bold text-white transition-all hover:bg-[var(--color-primary-hover)] hover:shadow-[0_0_15px_rgba(211,47,47,0.4)] disabled:cursor-not-allowed disabled:opacity-70"
+              isLoading={isSubmitting}
+              className="px-10 py-3 text-sm font-bold shadow-[0_0_15px_rgba(211,47,47,0.4)]"
             >
               {isSubmitting ? 'Mendaftarkan Tim...' : 'Kirim Pendaftaran'}
-            </button>
+            </Button>
           </div>
         </div>
       </form>
