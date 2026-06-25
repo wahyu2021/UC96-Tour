@@ -1,0 +1,8 @@
+{
+  "track_id": "004-admin-dashboard",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-25T15:47:15Z",
+  "updated_at": "2026-06-25T15:47:15Z",
+  "description": "Fitur Admin Dashboard & Autentikasi (Sistem Login & Manajemen Tim)"
+}

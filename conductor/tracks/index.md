@@ -17,3 +17,9 @@
 ## [x] Track: Fitur Pendaftaran Tim & Pemain (Formulir Registrasi)
 
 [Folder Link](003-team-registration/)
+
+---
+
+## [ ] Track: Fitur Admin Dashboard & Autentikasi (Sistem Login & Manajemen Tim)
+
+[Folder Link](004-admin-dashboard/)
