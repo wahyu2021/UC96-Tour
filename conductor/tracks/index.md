@@ -64,3 +64,8 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 - [x] **Track: Score Input Page Refactor**
       _Link: [./012-score-input-page-refactor/](./012-score-input-page-refactor/)_
+
+---
+
+- [ ] **Track: Halaman Detail Tim Publik**
+      _Link: [./013-public-team-details/](./013-public-team-details/)_
