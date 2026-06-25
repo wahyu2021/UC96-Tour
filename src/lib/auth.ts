@@ -1,10 +1,7 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-
-// Idealnya diletakkan di global prisma file, tapi untuk NextAuth bisa diinisialisasi di sini
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/db';
 
 export const authOptions: NextAuthOptions = {
   session: {

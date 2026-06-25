@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { TeamTableClient } from '@/components/features/admin/TeamTableClient';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/db';
 
 export const metadata = {
   title: 'Manajemen Tim | Admin Panel',

@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/db';
 import { teamRegistrationSchema } from '@/lib/validations/team';
-
-// Instansiasi Prisma (bisa dipindah ke file db global nanti)
-const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
