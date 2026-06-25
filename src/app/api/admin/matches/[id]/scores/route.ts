@@ -36,7 +36,8 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
-  if (!session || session.user.role !== 'ADMIN') {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (!session || (session.user as any)?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -53,9 +54,15 @@ export async function POST(
       );
     }
 
+    const scoringRules = await prisma.scoringConfig.findMany();
+    const rulesToUse = scoringRules.length > 0 ? scoringRules : undefined;
+
     const savedScores = await prisma.$transaction(
       scores.map((score) => {
-        const placementPoints = getPlacementPoints(score.finishPosition);
+        const placementPoints = getPlacementPoints(
+          score.finishPosition,
+          rulesToUse
+        );
         const totalPoints = placementPoints + score.kills;
         const isWwcd = score.finishPosition === 1;
 
