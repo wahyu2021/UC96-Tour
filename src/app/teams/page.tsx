@@ -12,15 +12,13 @@ export const metadata: Metadata = {
 export default async function TeamsPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const q = typeof searchParams.q === 'string' ? searchParams.q : undefined;
+  const params = await searchParams;
+  const q = typeof params.q === 'string' ? params.q : undefined;
   const tournamentId =
-    typeof searchParams.tournament === 'string'
-      ? searchParams.tournament
-      : undefined;
-  const page =
-    typeof searchParams.page === 'string' ? parseInt(searchParams.page, 10) : 1;
+    typeof params.tournament === 'string' ? params.tournament : undefined;
+  const page = typeof params.page === 'string' ? parseInt(params.page, 10) : 1;
 
   // Fetch data
   const [teamsData, activeTournaments] = await Promise.all([

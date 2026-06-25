@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 export default async function SchedulePage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const dateParam =
-    typeof searchParams.date === 'string' ? searchParams.date : undefined;
+  const params = await searchParams;
+  const dateParam = typeof params.date === 'string' ? params.date : undefined;
 
   // Fetch unique dates for the filter
   const availableDates = await getMatchDates();
