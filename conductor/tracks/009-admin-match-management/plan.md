@@ -15,18 +15,18 @@
 - [x] Task: Buat API Endpoint `/api/admin/matches/[id]`
   - [x] Sub-task: Implementasi `PATCH` untuk _override_ status Match menjadi "Live" atau "Selesai" secara manual.
   - [x] Sub-task: Implementasi `DELETE` untuk membatalkan/menghapus jadwal Match.
-- [ ] Task: Conductor - User Manual Verification 'Backend' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Backend' (Protocol in workflow.md)
 
 ## Phase 3: Pengembangan UI / Frontend
 
-- [ ] Task: Buat Halaman Admin `/admin/matches`
-  - [ ] Sub-task: Buat struktur halaman dasar dan tambahkan _link_ di Sidebar admin.
-- [ ] Task: Buat Komponen Interaktif
-  - [ ] Sub-task: Buat `MatchTable` untuk menampilkan data jadwal yang rapi.
-  - [ ] Sub-task: Buat `MatchFormModal` (Dropdown turnamen cerdas, Input Tanggal, Jam, Map, Grup opsional).
-  - [ ] Sub-task: Buat tombol aksi di tabel untuk Update Status Cepat & Hapus.
-- [ ] Task: Integrasi API
-  - [ ] Sub-task: Hubungkan UI form & tabel dengan API backend.
+- [x] Task: Buat Halaman Admin `/admin/matches`
+  - [x] Sub-task: Buat struktur halaman dasar dan tambahkan _link_ di Sidebar admin.
+- [x] Task: Buat Komponen Interaktif
+  - [x] Sub-task: Buat `MatchTable` untuk menampilkan data jadwal yang rapi.
+  - [x] Sub-task: Buat `MatchFormModal` (Dropdown turnamen cerdas, Input Tanggal, Jam, Map, Grup opsional).
+  - [x] Sub-task: Buat tombol aksi di tabel untuk Update Status Cepat & Hapus.
+- [x] Task: Integrasi API
+  - [x] Sub-task: Hubungkan UI form & tabel dengan API backend.
 - [ ] Task: Conductor - User Manual Verification 'Frontend' (Protocol in workflow.md)
 
 ## Phase 4: Pengujian & Validasi
