@@ -23,3 +23,9 @@
 ## [x] Track: Fitur Admin Dashboard & Autentikasi (Sistem Login & Manajemen Tim)
 
 [Folder Link](004-admin-dashboard/)
+
+---
+
+## [ ] Track: Manajemen Turnamen (Admin Panel) & Relasi Tim
+
+_Link: [./005-tournament-management/](./005-tournament-management/)_
