@@ -26,6 +26,11 @@
 
 ---
 
-## [ ] Track: Manajemen Turnamen (Admin Panel) & Relasi Tim
+## [x] Track: Manajemen Turnamen (Admin Panel) & Relasi Tim
 
 _Link: [./005-tournament-management/](./005-tournament-management/)_
+
+---
+
+- [ ] **Track: Refactor UI Components (Dropdown Custom, Input, Button, Modal, Badge)**
+      _Link: [./006-ui-components-refactor/](./006-ui-components-refactor/)_
