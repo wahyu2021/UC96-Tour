@@ -9,17 +9,17 @@ Dokumen ini adalah panduan desain utama untuk memastikan konsistensi antarmuka p
 
 ## 1. Konsep Visual
 
-- **Tema Utama:** Premium e-sports, kompetitif, dan modern.
-- **Mode Warna:** Mendukung _Dark Mode_ (Gelap) sebagai default utama, dan _Light Mode_ (Terang) sebagai alternatif.
-- **Efek UI:** Menggunakan _Glassmorphism_ (latar transparan dengan efek _blur_) untuk panel klasemen, dan bayangan (_glow_) untuk tombol aksi utama agar terasa dinamis dan "hidup".
+- **Tema Utama:** Clean Minimalist, elegan, dan profesional.
+- **Mode Warna:** Monokrom (Hitam, Putih, Abu-abu) dengan dukungan _Dark Mode_ sebagai default utama.
+- **Efek UI:** Bersih dan rapi, memanfaatkan ruang lega (_white space_) dan _Glassmorphism_ yang halus (_subtle_).
 
 ## 2. Palet Warna (Color Palette)
 
 ### Dark Mode (Default)
 
-- **Background Utama:** `#121212` (Hitam pekat)
+- **Background Utama:** `#121212` (Hitam pekat / Monokrom)
 - **Background Panel/Card:** `#1E1E1E` (Abu-abu gelap transparan)
-- **Aksen Utama (Primary):** `#F2A900` (Kuning Emas / Oranye PUBG) - Digunakan untuk teks penting, tombol, dan garis sorotan.
+- **Aksen Utama (Primary):** `#D32F2F` (Merah / Crimson Red) - Digunakan untuk teks penting, tombol, dan garis sorotan agar menonjol di latar monokrom.
 - **Aksen Sekunder:** `#E0E0E0` (Putih keabu-abuan) - Untuk teks paragraf biasa.
 - **Status Positif (Win/Chicken Dinner):** `#4CAF50` (Hijau)
 - **Status Negatif (Gugur):** `#F44336` (Merah)
