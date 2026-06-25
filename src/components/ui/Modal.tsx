@@ -10,7 +10,13 @@ export interface ModalProps {
   className?: string;
 }
 
-export function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
+export function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  className,
+}: ModalProps) {
   // Cegah scroll pada body saat modal terbuka
   React.useEffect(() => {
     if (isOpen) {
@@ -28,17 +34,19 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div 
+      <div
         className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
-      
+
       {/* Modal Content */}
-      <div className={cn(
-        "animate-in fade-in zoom-in-95 relative z-50 w-full max-w-md overflow-hidden rounded-xl bg-white p-6 text-left shadow-2xl transition-all duration-200 dark:border dark:border-neutral-800 dark:bg-[#1e1e1e]",
-        className
-      )}>
-        <div className="flex items-center justify-between mb-5">
+      <div
+        className={cn(
+          'animate-in fade-in zoom-in-95 relative z-50 w-full max-w-md overflow-visible rounded-xl bg-white p-6 text-left shadow-2xl transition-all duration-200 dark:border dark:border-neutral-800 dark:bg-[#1e1e1e]',
+          className
+        )}
+      >
+        <div className="mb-5 flex items-center justify-between">
           <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
             {title}
           </h2>
