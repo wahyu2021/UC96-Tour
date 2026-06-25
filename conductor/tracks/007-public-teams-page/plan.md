@@ -28,3 +28,7 @@
 - [ ] Task: Validasi Tampilan & Fungsionalitas.
   - [ ] Sub-task: Uji coba responsivitas tampilan (Grid diubah jumlah kolomnya untuk layar _mobile_ dan _desktop_).
   - [ ] Sub-task: Pastikan filter URL berfungsi mulus dan status URL bisa di-_copy-paste_.
+
+## Phase 5: Review Fixes
+
+- [x] Task: Apply review suggestions `0b4f681`
