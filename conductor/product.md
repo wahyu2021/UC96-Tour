@@ -22,6 +22,7 @@ Platform ini dirancang untuk melayani seluruh ekosistem turnamen:
 
 - **Leaderboard Dinamis:** Sistem perhitungan klasemen otomatis berdasarkan Poin Kill dan Poin Placement standar e-sports PUBG.
 - **Admin Dashboard:** Panel manajemen _backend_ khusus yang diamankan dengan proses _login_ untuk panitia.
+- **Manajemen Jadwal Pertandingan:** Fitur lengkap pembuatan jadwal tanding (grup/map) dan pembaruan status _Live/Selesai_ yang terintegrasi langsung dengan halaman publik.
 - **Profil Tim & Pemain:** Halaman dedikasi yang memuat detail _roster_ pemain beserta identitas tim.
 
 ## 4. Tone & Branding
