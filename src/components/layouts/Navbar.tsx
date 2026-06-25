@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { cn } from '@/lib/utils';
 
 const NAV_LINKS = [
   { name: 'Beranda', href: '/' },
@@ -18,9 +18,15 @@ export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = React.useState(false);
 
-  if (pathname.startsWith('/admin')) return null;
+  if (pathname.startsWith('/admin') || pathname.startsWith('/login'))
+    return null;
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  const isActive = (path: string) => {
+    if (path === '/') return pathname === '/';
+    return pathname.startsWith(path);
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-neutral-200/50 bg-white/70 backdrop-blur-md dark:border-neutral-800/50 dark:bg-[#121212]/70">
@@ -40,19 +46,24 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-neutral-600 transition-colors hover:text-[var(--color-primary)] dark:text-neutral-300 dark:hover:text-[var(--color-primary)]"
+              className={cn(
+                'text-sm font-medium transition-colors hover:text-[var(--color-primary)]',
+                isActive(link.href)
+                  ? 'font-bold text-[var(--color-primary)] dark:text-[var(--color-primary)]'
+                  : 'text-neutral-600 dark:text-neutral-300 dark:hover:text-[var(--color-primary)]'
+              )}
             >
               {link.name}
             </Link>
           ))}
           <div className="ml-4 flex items-center border-l border-neutral-200 pl-4 dark:border-neutral-800">
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
           </div>
         </div>
 
         {/* Mobile menu button */}
         <div className="flex items-center gap-4 md:hidden">
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
           <button
             onClick={toggleMenu}
             className="inline-flex items-center justify-center rounded-md p-2 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-white"
@@ -72,7 +83,12 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="block rounded-md px-3 py-2 text-base font-medium text-neutral-600 hover:bg-neutral-100 hover:text-[var(--color-primary)] dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-[var(--color-primary)]"
+                className={cn(
+                  'block rounded-md px-3 py-2 text-base font-medium transition-colors hover:text-[var(--color-primary)]',
+                  isActive(link.href)
+                    ? 'bg-neutral-100 font-bold text-[var(--color-primary)] dark:bg-neutral-800 dark:text-[var(--color-primary)]'
+                    : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-[var(--color-primary)]'
+                )}
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}

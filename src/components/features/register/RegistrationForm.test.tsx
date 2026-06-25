@@ -13,13 +13,13 @@ vi.mock('sonner', () => ({
 
 describe('RegistrationForm', () => {
   it('renders step 1 initially', () => {
-    render(<RegistrationForm />);
+    render(<RegistrationForm availableTournaments={[]} />);
     expect(screen.getByText('Identitas Tim')).toBeInTheDocument();
     expect(screen.getByText(/Nama Tim Lengkap/i)).toBeInTheDocument();
   });
 
   it('prevents next step if step 1 is invalid', async () => {
-    render(<RegistrationForm />);
+    render(<RegistrationForm availableTournaments={[]} />);
     const nextBtn = screen.getByRole('button', {
       name: /Lanjutkan ke Roster/i,
     });

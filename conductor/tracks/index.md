@@ -37,5 +37,5 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 ---
 
-- [ ] **Track: Halaman Daftar Tim Publik (/teams)**
+- [x] **Track: Halaman Daftar Tim Publik (/teams)**
       _Link: [./007-public-teams-page/](./007-public-teams-page/)_
