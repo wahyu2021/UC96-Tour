@@ -35,3 +35,7 @@
 - [ ] Task: Fungsi Eksekusi Persetujuan Tim (Approval API).
   - [ ] Buat _backend_ API untuk mengeksekusi perubahan status (PENDING menjadi APPROVED).
 - [ ] Task: Conductor - User Manual Verification 'Pusat Kendali Admin'
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions 904020a
