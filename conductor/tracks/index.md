@@ -11,3 +11,9 @@
 ## [x] Track: Membangun Pondasi Visual (UI/UX Core & Layout)
 
 [Folder Link](002-ui-ux-foundation/)
+
+---
+
+## [ ] Track: Fitur Pendaftaran Tim & Pemain (Formulir Registrasi)
+
+[Folder Link](003-team-registration/)
