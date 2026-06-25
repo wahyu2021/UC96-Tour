@@ -27,8 +27,8 @@
 
 ## Phase 4: Automated Testing & Validasi
 
-- [ ] Task: Buat Test Suite (Testing Library & Vitest)
-  - [ ] Sub-task: Tulis API Test untuk kalkulasi poin otomatis.
-  - [ ] Sub-task: Tulis Component Test untuk UI Input Skor dan Leaderboard.
-  - [ ] Sub-task: Jalankan `npm run test`.
-- [ ] Task: Conductor - User Manual Verification 'Pengujian' (Protocol in workflow.md)
+- [x] Task: Buat Test Suite (Testing Library & Vitest)
+  - [x] Sub-task: Tulis API Test untuk kalkulasi poin otomatis.
+  - [x] Sub-task: Tulis Component Test untuk UI Input Skor dan Leaderboard.
+  - [x] Sub-task: Jalankan `npm run test`.
+- [x] Task: Conductor - User Manual Verification 'Pengujian' (Protocol in workflow.md)
