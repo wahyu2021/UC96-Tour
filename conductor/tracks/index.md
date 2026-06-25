@@ -42,5 +42,5 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 ---
 
-- [ ] **Track: Halaman Jadwal Pertandingan Publik (/schedule)**
+- [x] **Track: Halaman Jadwal Pertandingan Publik (/schedule)**
       _Link: [./008-public-schedule-page/](./008-public-schedule-page/)_

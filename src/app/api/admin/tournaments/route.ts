@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db';
 import { z } from 'zod';
 
 const tournamentSchema = z.object({
-  name: z.string().min(3, "Nama turnamen minimal 3 karakter"),
+  name: z.string().min(3, 'Nama turnamen minimal 3 karakter'),
   description: z.string().optional(),
   startDate: z.string(),
   endDate: z.string(),
@@ -16,6 +16,7 @@ const tournamentSchema = z.object({
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!session || (session.user as any)?.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -46,14 +47,18 @@ export async function GET() {
     });
 
     return NextResponse.json(processedTournaments);
-  } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  } catch (err) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!session || (session.user as any)?.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -73,8 +78,14 @@ export async function POST(request: Request) {
     return NextResponse.json(tournament, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: 'Data tidak valid', details: error.errors }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Data tidak valid', details: error.flatten().fieldErrors },
+        { status: 400 }
+      );
     }
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 }
