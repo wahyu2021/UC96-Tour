@@ -14,6 +14,6 @@
 
 ---
 
-## [ ] Track: Fitur Pendaftaran Tim & Pemain (Formulir Registrasi)
+## [x] Track: Fitur Pendaftaran Tim & Pemain (Formulir Registrasi)
 
 [Folder Link](003-team-registration/)

@@ -3,6 +3,7 @@ import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { MainLayout } from '@/components/layouts/MainLayout';
+import { Toaster } from 'sonner';
 
 const fontInter = Inter({
   variable: '--font-inter',
@@ -38,6 +39,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <MainLayout>{children}</MainLayout>
+          <Toaster position="bottom-right" richColors theme="system" />
         </ThemeProvider>
       </body>
     </html>
