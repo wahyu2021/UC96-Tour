@@ -126,22 +126,6 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
                 <span className="whitespace-nowrap">Jadwal & Status</span>
               )}
             </Link>
-
-            <button
-              disabled
-              title="Input Skor"
-              className={cn(
-                'flex cursor-not-allowed items-center gap-3 rounded-lg py-3 text-left text-sm font-semibold text-neutral-400 opacity-60 dark:text-neutral-600',
-                isCollapsed ? 'justify-center px-0' : 'px-4'
-              )}
-            >
-              <Gamepad2 className="h-5 w-5 shrink-0" />
-              {!isCollapsed && (
-                <span className="whitespace-nowrap">
-                  Input Skor (Segera Hadir)
-                </span>
-              )}
-            </button>
           </div>
 
           <div className="my-2 border-t border-neutral-200 dark:border-neutral-800"></div>
