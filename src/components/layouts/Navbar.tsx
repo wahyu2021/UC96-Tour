@@ -18,7 +18,11 @@ export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = React.useState(false);
 
-  if (pathname.startsWith('/admin') || pathname.startsWith('/login'))
+  if (
+    !pathname ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/login')
+  )
     return null;
 
   const toggleMenu = () => setIsOpen(!isOpen);
