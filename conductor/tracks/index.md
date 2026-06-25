@@ -8,6 +8,6 @@
 
 ---
 
-## [ ] Track: Membangun Pondasi Visual (UI/UX Core & Layout)
+## [x] Track: Membangun Pondasi Visual (UI/UX Core & Layout)
 
 [Folder Link](002-ui-ux-foundation/)
