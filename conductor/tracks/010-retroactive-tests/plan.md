@@ -17,14 +17,14 @@
 
 ## Phase 3: Pengujian UI / Frontend
 
-- [ ] Task: Buat Test Suite untuk Komponen & Halaman
-  - [ ] Sub-task: Tulis test untuk UI Publik: Form Registrasi Tim, Halaman Jadwal (`/schedule`), dan Daftar Tim (`/teams`).
-  - [ ] Sub-task: Tulis test untuk UI Admin: `MatchFormModal` dan `MatchTable` (simulasi klik tombol 'Live'/'Selesai').
-- [ ] Task: Conductor - User Manual Verification 'Frontend' (Protocol in workflow.md)
+- [x] Task: Buat Test Suite untuk Komponen & Halaman
+  - [x] Sub-task: Tulis test untuk UI Publik: Form Registrasi Tim, Halaman Jadwal (`/schedule`), dan Daftar Tim (`/teams`).
+  - [x] Sub-task: Tulis test untuk UI Admin: `MatchFormModal` dan `MatchTable` (simulasi klik tombol 'Live'/'Selesai').
+- [x] Task: Conductor - User Manual Verification 'Frontend' (Protocol in workflow.md)
 
 ## Phase 4: Automated Testing & Validasi
 
-- [ ] Task: Final Test Run & Refinements
-  - [ ] Sub-task: Jalankan keseluruhan paket tes untuk memastikan sistem tidak regresi.
-  - [ ] Sub-task: Pastikan semua _edge case_ tertangani tanpa memunculkan error atau peringatan _memory-leak_ di konsol.
-- [ ] Task: Conductor - User Manual Verification 'Pengujian' (Protocol in workflow.md)
+- [x] Task: Final Test Run & Refinements
+  - [x] Sub-task: Jalankan keseluruhan paket tes untuk memastikan sistem tidak regresi.
+  - [x] Sub-task: Pastikan semua _edge case_ tertangani tanpa memunculkan error atau peringatan _memory-leak_ di konsol.
+- [x] Task: Conductor - User Manual Verification 'Pengujian' (Protocol in workflow.md)
