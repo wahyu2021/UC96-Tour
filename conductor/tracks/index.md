@@ -54,3 +54,8 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 - [x] **Track: Retroactive Automated Tests**
       _Link: [./010-retroactive-tests/](./010-retroactive-tests/)_
+
+---
+
+- [ ] **Track: Sistem Scoring & Leaderboard Dinamis**
+      _Link: [./011-leaderboard-scoring/](./011-leaderboard-scoring/)_
