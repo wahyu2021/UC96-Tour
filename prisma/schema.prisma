@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TeamStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PlayerRole {
+  CAPTAIN
+  MEMBER
+  STANDBY
+}
+
+enum MatchStatus {
+  SCHEDULED
+  ONGOING
+  COMPLETED
+}
+
+model Team {
+  id           String       @id @default(cuid())
+  name         String       @unique
+  tag          String       @unique
+  logoUrl      String?
+  status       TeamStatus   @default(PENDING)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  players      Player[]
+  matchResults MatchResult[]
+}
+
+model Player {
+  id          String     @id @default(cuid())
+  ign         String
+  inGameId    String     @unique
+  steamId     String?    @unique
+  role        PlayerRole @default(MEMBER)
+  teamId      String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  team        Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+}
+
+model Match {
+  id          String      @id @default(cuid())
+  scheduledAt DateTime
+  group       String
+  map         String
+  status      MatchStatus @default(SCHEDULED)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  matchResults MatchResult[]
+}
+
+model MatchResult {
+  id             String   @id @default(cuid())
+  killPoints     Int      @default(0)
+  placementPoints Int     @default(0)
+  totalPoints    Int      @default(0)
+  finishPosition Int
+  isWwcd         Boolean  @default(false)
+  teamId         String
+  matchId        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  team           Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  match          Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, matchId])
+}
