@@ -30,8 +30,11 @@ export async function getPublicMatches(params: GetPublicMatchesParams = {}) {
     orderBy: {
       scheduledAt: 'asc',
     },
-    // Jika kita perlu data turnamen, asumsikan model Match punya relasi ke Tournament.
-    // Di schema saat ini, Match tidak memiliki relasi langsung ke Tournament, hanya Group & Map.
+    include: {
+      tournament: {
+        select: { name: true },
+      },
+    },
   });
 
   return matches;
