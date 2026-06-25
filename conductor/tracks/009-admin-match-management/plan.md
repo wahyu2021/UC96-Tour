@@ -9,12 +9,12 @@
 
 ## Phase 2: Pengembangan API / Backend
 
-- [ ] Task: Buat API Endpoint `/api/admin/matches`
-  - [ ] Sub-task: Implementasi `GET` untuk mengambil daftar Match beserta nama Turnamennya.
-  - [ ] Sub-task: Implementasi `POST` untuk membuat jadwal Match baru (termasuk validasi Zod).
-- [ ] Task: Buat API Endpoint `/api/admin/matches/[id]`
-  - [ ] Sub-task: Implementasi `PATCH` untuk _override_ status Match menjadi "Live" atau "Selesai" secara manual.
-  - [ ] Sub-task: Implementasi `DELETE` untuk membatalkan/menghapus jadwal Match.
+- [x] Task: Buat API Endpoint `/api/admin/matches`
+  - [x] Sub-task: Implementasi `GET` untuk mengambil daftar Match beserta nama Turnamennya.
+  - [x] Sub-task: Implementasi `POST` untuk membuat jadwal Match baru (termasuk validasi Zod).
+- [x] Task: Buat API Endpoint `/api/admin/matches/[id]`
+  - [x] Sub-task: Implementasi `PATCH` untuk _override_ status Match menjadi "Live" atau "Selesai" secara manual.
+  - [x] Sub-task: Implementasi `DELETE` untuk membatalkan/menghapus jadwal Match.
 - [ ] Task: Conductor - User Manual Verification 'Backend' (Protocol in workflow.md)
 
 ## Phase 3: Pengembangan UI / Frontend
