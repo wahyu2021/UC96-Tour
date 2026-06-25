@@ -23,13 +23,13 @@ export async function GET() {
       orderBy: { scheduledAt: 'desc' },
       include: {
         tournament: {
-          select: { name: true },
+          select: { id: true, name: true },
         },
       },
     });
 
     return NextResponse.json(matches);
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
       },
       include: {
         tournament: {
-          select: { name: true },
+          select: { id: true, name: true },
         },
       },
     });

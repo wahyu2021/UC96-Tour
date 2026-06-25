@@ -5,6 +5,7 @@ import { Plus, Trash2, Play, CheckCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { MatchFormModal } from './MatchFormModal';
+import { ScoreInputModal } from './ScoreInputModal';
 
 interface TournamentInfo {
   id: string;
@@ -17,7 +18,7 @@ interface MatchInfo {
   map: string;
   group?: string;
   status: string;
-  tournament?: { name: string };
+  tournament?: { id: string; name: string };
 }
 
 export function MatchTable({
@@ -28,6 +29,12 @@ export function MatchTable({
   const [matches, setMatches] = React.useState<MatchInfo[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [scoreModalMatchId, setScoreModalMatchId] = React.useState<
+    string | null
+  >(null);
+  const [scoreModalTournamentId, setScoreModalTournamentId] = React.useState<
+    string | null
+  >(null);
 
   const fetchMatches = React.useCallback(async () => {
     setIsLoading(true);
@@ -199,6 +206,22 @@ export function MatchTable({
                             <CheckCircle className="h-4 w-4" />
                           </Button>
                         )}
+                        {isCompleted && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="border-brand-200 text-brand-600 hover:bg-brand-50 hover:text-brand-700 dark:border-brand-900/50 dark:text-brand-400 dark:hover:bg-brand-900/20 h-8 px-2"
+                            onClick={() => {
+                              setScoreModalMatchId(match.id);
+                              setScoreModalTournamentId(
+                                match.tournament?.id || null
+                              );
+                            }}
+                            title="Input Skor"
+                          >
+                            Input Skor
+                          </Button>
+                        )}
                         <Button
                           variant="ghost"
                           size="sm"
@@ -222,6 +245,17 @@ export function MatchTable({
         onClose={() => setIsModalOpen(false)}
         onSuccess={fetchMatches}
         tournaments={activeTournaments}
+      />
+
+      <ScoreInputModal
+        isOpen={!!scoreModalMatchId}
+        onClose={() => {
+          setScoreModalMatchId(null);
+          setScoreModalTournamentId(null);
+        }}
+        matchId={scoreModalMatchId}
+        tournamentId={scoreModalTournamentId}
+        onSuccess={fetchMatches}
       />
     </div>
   );
