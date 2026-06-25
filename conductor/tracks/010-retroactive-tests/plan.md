@@ -10,10 +10,10 @@
 
 ## Phase 2: Pengujian API / Backend
 
-- [ ] Task: Buat Test Suite untuk Endpoint API
-  - [ ] Sub-task: Tulis test untuk `/api/admin/matches` (termasuk penanganan Zod, pengecekan otorisasi admin).
-  - [ ] Sub-task: Tulis test untuk API Tim dan Turnamen (termasuk _edge case_ data kosong).
-- [ ] Task: Conductor - User Manual Verification 'Backend' (Protocol in workflow.md)
+- [x] Task: Buat Test Suite untuk Endpoint API
+  - [x] Sub-task: Tulis test untuk `/api/admin/matches` (termasuk penanganan Zod, pengecekan otorisasi admin).
+  - [x] Sub-task: Tulis test untuk API Tim dan Turnamen (termasuk _edge case_ data kosong).
+- [x] Task: Conductor - User Manual Verification 'Backend' (Protocol in workflow.md)
 
 ## Phase 3: Pengujian UI / Frontend
 
