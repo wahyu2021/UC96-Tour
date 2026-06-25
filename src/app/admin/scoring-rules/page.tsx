@@ -177,8 +177,19 @@ export default function ScoringRulesPage() {
         ))}
       </div>
 
-      {rules.length < 24 && (
-        <div className="mt-4 flex justify-center">
+      <div className="mt-4 flex justify-center gap-3">
+        {rules.length > 1 && (
+          <Button
+            variant="outline"
+            className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-red-900/30 dark:text-red-400 dark:hover:bg-red-900/20"
+            onClick={() => {
+              setRules(rules.slice(0, -1));
+            }}
+          >
+            - Hapus Slot Terakhir
+          </Button>
+        )}
+        {rules.length < 24 && (
           <Button
             variant="outline"
             onClick={() => {
@@ -189,8 +200,8 @@ export default function ScoringRulesPage() {
           >
             + Tambah Slot Peringkat
           </Button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

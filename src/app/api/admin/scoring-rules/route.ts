@@ -36,16 +36,23 @@ export async function PUT(req: Request) {
       );
     }
 
-    // Upsert all rules within a transaction
-    await prisma.$transaction(
-      rules.map((rule) =>
+    // Delete ranks that are no longer in the payload
+    const ranksToKeep = rules.map((r: { rank: number }) => r.rank);
+
+    await prisma.$transaction([
+      prisma.scoringConfig.deleteMany({
+        where: {
+          rank: { notIn: ranksToKeep },
+        },
+      }),
+      ...rules.map((rule: { rank: number; placementPoints: number }) =>
         prisma.scoringConfig.upsert({
           where: { rank: rule.rank },
           update: { placementPoints: rule.placementPoints },
           create: { rank: rule.rank, placementPoints: rule.placementPoints },
         })
-      )
-    );
+      ),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (error) {

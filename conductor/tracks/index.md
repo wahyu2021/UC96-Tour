@@ -62,5 +62,5 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 ---
 
-- [ ] **Track: Score Input Page Refactor**
+- [x] **Track: Score Input Page Refactor**
       _Link: [./012-score-input-page-refactor/](./012-score-input-page-refactor/)_
