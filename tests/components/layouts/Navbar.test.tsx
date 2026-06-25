@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { Navbar } from './Navbar';
+import { Navbar } from '@/components/layouts/Navbar';
 
 // Mock ThemeToggle so it doesn't complain about next-themes in this test
 vi.mock('@/components/ui/ThemeToggle', () => ({

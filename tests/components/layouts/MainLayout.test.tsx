@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { MainLayout } from './MainLayout';
+import { MainLayout } from '@/components/layouts/MainLayout';
 
 // Mock child components to isolate layout testing
-vi.mock('./Navbar', () => ({
+vi.mock('@/components/layouts/Navbar', () => ({
   Navbar: () => <nav data-testid="mock-navbar">Navbar</nav>,
 }));
 
-vi.mock('./Footer', () => ({
+vi.mock('@/components/layouts/Footer', () => ({
   Footer: () => <footer data-testid="mock-footer">Footer</footer>,
 }));
 

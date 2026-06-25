@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { HeroSection } from './HeroSection';
+import { HeroSection } from '@/components/features/home/HeroSection';
 
 describe('HeroSection', () => {
   it('renders heading, description, and action buttons', () => {

@@ -2,11 +2,11 @@
 
 ## Phase 1: Setup & Folder Restructuring
 
-- [ ] Task: Konfigurasi Organisasi Folder
-  - [ ] Sub-task: Buat direktori utama `tests/` (terdiri dari sub-folder `api/`, `components/`, `app/`).
-  - [ ] Sub-task: Pindahkan file `*.test.tsx` yang sudah berserakan (seperti `Navbar`, `Button`, `ThemeToggle`) ke dalam folder `tests/` dan perbarui _import paths_-nya.
-  - [ ] Sub-task: Pastikan `npm run test` tetap berjalan sukses pasca-restrukturisasi.
-- [ ] Task: Conductor - User Manual Verification 'Setup' (Protocol in workflow.md)
+- [x] Task: Konfigurasi Organisasi Folder
+  - [x] Sub-task: Buat direktori utama `tests/` (terdiri dari sub-folder `api/`, `components/`, `app/`).
+  - [x] Sub-task: Pindahkan file `*.test.tsx` yang sudah berserakan (seperti `Navbar`, `Button`, `ThemeToggle`) ke dalam folder `tests/` dan perbarui _import paths_-nya.
+  - [x] Sub-task: Pastikan `npm run test` tetap berjalan sukses pasca-restrukturisasi.
+- [x] Task: Conductor - User Manual Verification 'Setup' (Protocol in workflow.md)
 
 ## Phase 2: Pengujian API / Backend
 

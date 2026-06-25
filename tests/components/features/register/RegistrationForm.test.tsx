@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { RegistrationForm } from './RegistrationForm';
+import { RegistrationForm } from '@/components/features/register/RegistrationForm';
 
 // Mock Sonner Toast
 vi.mock('sonner', () => ({
