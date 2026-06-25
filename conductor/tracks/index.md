@@ -20,6 +20,6 @@
 
 ---
 
-## [ ] Track: Fitur Admin Dashboard & Autentikasi (Sistem Login & Manajemen Tim)
+## [x] Track: Fitur Admin Dashboard & Autentikasi (Sistem Login & Manajemen Tim)
 
 [Folder Link](004-admin-dashboard/)

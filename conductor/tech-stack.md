@@ -9,11 +9,16 @@
 - **Next.js (App Router):** Framework _full-stack_ berbasis React. Dipilih karena menawarkan performa tinggi dengan fitur _Server-Side Rendering_ (SSR). Next.js akan di-_build_ dalam mode `standalone` agar ramah memori saat dijalankan di VPS Anda.
 - **Tailwind CSS & next-themes:** Untuk _styling_ UI dan pengelolaan _Dark/Light Mode_ secara efisien.
 
-## 3. Backend & ORM
+## 3. Backend
 
 - **Next.js API Routes:** Menangani logika _backend_ terintegrasi tanpa perlu server Node.js/Express terpisah.
-- **Prisma ORM:** Digunakan untuk menghubungkan aplikasi dengan _database_ secara aman (_Type-Safe_) dan mempermudah pengelolaan skema data yang kompleks (Pemain, Tim, Pertandingan, Poin).
 
-## 4. Database Engine
+## 4. Database & ORM
 
-- **MySQL / PostgreSQL:** _Database_ relasional standar industri. Dipilih karena sangat kuat untuk menangani tabel skor/klasemen yang saling berelasi, serta akan di-host menggunakan instalasi _database_ yang sudah tersedia di VPS Anda.
+- **MySQL:** Sistem basis data relasional (_relational database_) untuk menyimpan data entitas (tim, pemain, poin).
+- **Prisma ORM:** Digunakan untuk mempermudah operasi _database_ dengan pendekatan yang aman tipe (_type-safe_).
+
+## 5. Keamanan & Autentikasi
+
+- **NextAuth.js:** Menangani _session_ dan logika otentikasi panitia dengan aman.
+- **Bcryptjs:** Melakukan _hashing_ pada kata sandi admin agar data di _database_ tetap terlindungi.
