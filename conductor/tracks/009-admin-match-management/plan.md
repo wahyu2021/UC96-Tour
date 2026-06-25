@@ -2,10 +2,10 @@
 
 ## Phase 1: Setup & Database Schema
 
-- [ ] Task: Update Prisma Schema
-  - [ ] Sub-task: Tambahkan relasi `tournamentId` ke model `Match`.
-  - [ ] Sub-task: Jalankan `npx prisma db push` dan generate ulang client.
-- [ ] Task: Conductor - User Manual Verification 'Setup' (Protocol in workflow.md)
+- [x] Task: Update Prisma Schema
+  - [x] Sub-task: Tambahkan relasi `tournamentId` ke model `Match`.
+  - [x] Sub-task: Jalankan `npx prisma db push` dan generate ulang client.
+- [x] Task: Conductor - User Manual Verification 'Setup' (Protocol in workflow.md)
 
 ## Phase 2: Pengembangan API / Backend
 

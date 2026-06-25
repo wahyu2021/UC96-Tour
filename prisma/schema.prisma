@@ -26,6 +26,7 @@ model Tournament {
   updatedAt   DateTime         @updatedAt
 
   teams       Team[]
+  matches     Match[]
 }
 
 enum TeamStatus {
@@ -80,9 +81,11 @@ model Match {
   group       String
   map         String
   status      MatchStatus @default(SCHEDULED)
+  tournamentId String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
+  tournament   Tournament? @relation(fields: [tournamentId], references: [id])
   matchResults MatchResult[]
 }
 
