@@ -19,9 +19,8 @@ export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   if (
-    !pathname ||
-    pathname.startsWith('/admin') ||
-    pathname.startsWith('/login')
+    pathname &&
+    (pathname.startsWith('/admin') || pathname.startsWith('/login'))
   )
     return null;
 
