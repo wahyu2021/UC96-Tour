@@ -5,13 +5,14 @@ import { prisma } from '@/lib/db';
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     // Verifikasi keamanan ganda di level API
     const session = await getServerSession(authOptions);
 
-    if (!session || (session.user as { role?: string }).role !== 'ADMIN') {
+    if (!session || (session.user as { role?: string })?.role !== 'ADMIN') {
       return NextResponse.json(
         { error: 'Tidak berwenang mengubah data!' },
         { status: 401 }
@@ -28,7 +29,7 @@ export async function PATCH(
     }
 
     const updatedTeam = await prisma.team.update({
-      where: { id: params.id },
+      where: { id },
       data: { status },
     });
 
