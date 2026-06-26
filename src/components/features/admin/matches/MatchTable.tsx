@@ -29,6 +29,13 @@ export function MatchTable({
   const [matches, setMatches] = React.useState<MatchInfo[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [selectedTournamentId, setSelectedTournamentId] =
+    React.useState<string>('ALL');
+
+  const filteredMatches = React.useMemo(() => {
+    if (selectedTournamentId === 'ALL') return matches;
+    return matches.filter((m) => m.tournament?.id === selectedTournamentId);
+  }, [matches, selectedTournamentId]);
 
   const fetchMatches = React.useCallback(async () => {
     setIsLoading(true);
@@ -79,21 +86,35 @@ export function MatchTable({
         <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
           Daftar Pertandingan
         </h2>
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={fetchMatches}
-            title="Refresh"
+        <div className="flex items-center gap-3">
+          <select
+            value={selectedTournamentId}
+            onChange={(e) => setSelectedTournamentId(e.target.value)}
+            className="rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-sm font-medium text-neutral-900 shadow-sm focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none dark:border-neutral-700 dark:bg-[#1a1a1a] dark:text-white"
           >
-            <RefreshCw
-              className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
-            />
-          </Button>
-          <Button onClick={() => setIsModalOpen(true)} size="sm">
-            <Plus className="mr-2 h-4 w-4" />
-            Tambah Jadwal
-          </Button>
+            <option value="ALL">Semua Turnamen</option>
+            {activeTournaments.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.name}
+              </option>
+            ))}
+          </select>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={fetchMatches}
+              title="Refresh"
+            >
+              <RefreshCw
+                className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
+              />
+            </Button>
+            <Button onClick={() => setIsModalOpen(true)} size="sm">
+              <Plus className="mr-2 h-4 w-4" />
+              Tambah Jadwal
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -114,14 +135,14 @@ export function MatchTable({
                   Memuat data...
                 </td>
               </tr>
-            ) : matches.length === 0 ? (
+            ) : filteredMatches.length === 0 ? (
               <tr>
                 <td colSpan={4} className="px-4 py-8 text-center">
                   Belum ada jadwal pertandingan.
                 </td>
               </tr>
             ) : (
-              matches.map((match) => {
+              filteredMatches.map((match) => {
                 const isLive = match.status === 'ONGOING';
                 const isCompleted = match.status === 'COMPLETED';
                 const d = new Date(match.scheduledAt);
