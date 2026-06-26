@@ -27,11 +27,30 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
   return (
     <aside
       className={cn(
-        'relative shrink-0 border-r border-neutral-200 bg-white transition-all duration-300 md:sticky md:top-0 md:h-screen md:overflow-y-auto dark:border-neutral-800 dark:bg-[#121212]',
+        'relative shrink-0 border-r border-neutral-200 bg-white transition-all duration-300 md:sticky md:top-0 md:h-screen dark:border-neutral-800 dark:bg-[#121212]',
         isCollapsed ? 'w-20' : 'w-full md:w-72'
       )}
     >
-      <div className={cn('flex h-full flex-col', isCollapsed ? 'p-4' : 'p-6')}>
+      {/* Floating Ribbon Toggle (Desktop) */}
+      <button
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        title={isCollapsed ? 'Perluas Sidebar' : 'Perkecil Sidebar'}
+        className="absolute top-12 -right-5 z-50 hidden h-12 w-5 items-center justify-center rounded-r-xl border border-l-0 border-neutral-200 bg-white text-neutral-400 shadow-[4px_0_10px_-3px_rgba(0,0,0,0.1)] transition-all hover:-right-6 hover:w-6 hover:bg-neutral-50 hover:text-[var(--color-primary)] md:flex dark:border-neutral-800 dark:bg-[#121212] dark:shadow-none dark:hover:bg-neutral-900 dark:hover:text-[var(--color-primary)]"
+      >
+        <ChevronLeft
+          className={cn(
+            'h-4 w-4 transition-transform duration-300',
+            isCollapsed && 'rotate-180'
+          )}
+        />
+      </button>
+
+      <div
+        className={cn(
+          'custom-scrollbar flex h-full flex-col overflow-x-hidden md:overflow-y-auto',
+          isCollapsed ? 'p-4' : 'p-6'
+        )}
+      >
         {/* Header & Toggle */}
         <div className="mb-10 flex min-h-[40px] items-center justify-between">
           {!isCollapsed && (
@@ -50,7 +69,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
 
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="ml-auto flex-shrink-0 rounded-md p-2 text-neutral-500 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800"
+            className="ml-auto flex-shrink-0 rounded-md p-2 text-neutral-500 hover:bg-neutral-100 md:hidden dark:text-neutral-400 dark:hover:bg-neutral-800"
             title={isCollapsed ? 'Perluas Sidebar' : 'Perkecil Sidebar'}
           >
             {isCollapsed ? (
