@@ -83,13 +83,8 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
 
         {/* Navigation */}
         <nav className="flex flex-1 flex-col gap-6">
-          {/* Grup Manajemen */}
+          {/* Dashboard Utama */}
           <div className="flex flex-col gap-2">
-            {!isCollapsed && (
-              <span className="px-4 text-xs font-black tracking-widest whitespace-nowrap text-neutral-400 uppercase dark:text-neutral-500">
-                Manajemen
-              </span>
-            )}
             <Link
               href="/admin"
               title="Dashboard"
@@ -106,6 +101,15 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
                 <span className="whitespace-nowrap">Dashboard</span>
               )}
             </Link>
+          </div>
+
+          {/* Grup Manajemen */}
+          <div className="flex flex-col gap-2">
+            {!isCollapsed && (
+              <span className="px-4 text-xs font-black tracking-widest whitespace-nowrap text-neutral-400 uppercase dark:text-neutral-500">
+                Manajemen
+              </span>
+            )}
             <Link
               href="/admin/teams"
               title="Manajemen Tim"

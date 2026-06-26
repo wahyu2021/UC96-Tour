@@ -50,12 +50,12 @@ export default async function AdminDashboardPage() {
   return (
     <div className="mx-auto w-full max-w-7xl space-y-8">
       {/* Header Section */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-neutral-900 to-neutral-800 p-8 text-white shadow-lg dark:from-[#1a1a1a] dark:to-[#0a0a0a]">
+      <div className="rounded-2xl border border-neutral-200 bg-white p-8 shadow-sm dark:border-neutral-800 dark:bg-[#121212]">
         <div className="relative z-10">
-          <h1 className="font-heading text-3xl font-black tracking-tight sm:text-4xl">
+          <h1 className="font-heading text-3xl font-black tracking-tight text-neutral-900 sm:text-4xl dark:text-white">
             Selamat Datang di Pusat Komando
           </h1>
-          <p className="mt-2 max-w-2xl text-neutral-300">
+          <p className="mt-2 max-w-2xl text-neutral-600 dark:text-neutral-400">
             Pantau seluruh metrik, kelola turnamen, dan awasi pertandingan yang
             sedang berlangsung dalam satu layar dasbor yang komprehensif.
           </p>
@@ -69,16 +69,12 @@ export default async function AdminDashboardPage() {
             </Link>
             <Link
               href="/admin/matches"
-              className="inline-flex items-center rounded-lg bg-white/10 px-4 py-2 text-sm font-bold text-white backdrop-blur-md transition-all hover:bg-white/20"
+              className="inline-flex items-center rounded-lg border border-neutral-200 bg-transparent px-4 py-2 text-sm font-bold text-neutral-700 transition-all hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800"
             >
               <Gamepad2 className="mr-2 h-4 w-4" />
               Live Control
             </Link>
           </div>
-        </div>
-        {/* Dekorasi Background */}
-        <div className="absolute -top-24 -right-10 z-0 opacity-10">
-          <Trophy className="h-64 w-64" />
         </div>
       </div>
 
