@@ -69,3 +69,8 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 - [x] **Track: Halaman Detail Tim Publik**
       _Link: [./013-public-team-details/](./013-public-team-details/)_
+
+---
+
+- [ ] **Track: Halaman Daftar Turnamen Publik**
+      _Link: [./014-public-tournaments/](./014-public-tournaments/)_
