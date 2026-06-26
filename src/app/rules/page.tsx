@@ -74,53 +74,41 @@ export default async function RulesPage() {
             <CheckCircle2 className="h-6 w-6 text-[var(--color-primary)]" />
             Sistem Poin (Placement)
           </h2>
-          <div className="overflow-hidden rounded-2xl border border-neutral-800 bg-[#121212]">
-            <table className="w-full text-left">
-              <thead className="border-b border-neutral-800 bg-neutral-900">
-                <tr>
-                  <th className="px-6 py-4 text-sm font-bold text-neutral-400 uppercase">
-                    Peringkat Akhir (Rank)
-                  </th>
-                  <th className="px-6 py-4 text-right text-sm font-bold text-neutral-400 uppercase">
-                    Placement Points
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-neutral-800">
-                {scoring.length > 0 ? (
-                  scoring.map((score) => (
-                    <tr
-                      key={score.rank}
-                      className="transition-colors hover:bg-neutral-900/50"
-                    >
-                      <td className="px-6 py-3 font-bold text-white">
-                        #{score.rank}
-                      </td>
-                      <td className="px-6 py-3 text-right font-black text-[var(--color-primary)]">
-                        {score.placementPoints} Pts
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan={2}
-                      className="py-8 text-center text-neutral-500"
-                    >
-                      Sistem poin belum dikonfigurasi.
-                    </td>
-                  </tr>
-                )}
-                <tr className="bg-neutral-900/30">
-                  <td className="px-6 py-4 font-bold text-neutral-300">
-                    Setiap 1 Kill
-                  </td>
-                  <td className="px-6 py-4 text-right font-black text-white">
-                    1 Pts
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {scoring.length > 0 ? (
+              scoring.map((score) => (
+                <div
+                  key={score.rank}
+                  className="flex items-center justify-between rounded-xl border border-neutral-800 bg-[#121212] p-4 transition-colors hover:border-neutral-700 hover:bg-neutral-900"
+                >
+                  <span className="text-lg font-bold text-white">
+                    #{score.rank}
+                  </span>
+                  <span className="text-xl font-black text-[var(--color-primary)]">
+                    {score.placementPoints} Pts
+                  </span>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-full rounded-xl border border-neutral-800 bg-[#121212] py-8 text-center text-neutral-500">
+                Sistem poin belum dikonfigurasi.
+              </div>
+            )}
+
+            {/* Kill Point Card */}
+            <div className="col-span-full mt-2 flex items-center justify-between rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/10 p-5 shadow-[0_0_15px_rgba(255,0,0,0.1)]">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-primary)] text-white">
+                  <CheckCircle2 className="h-6 w-6" />
+                </div>
+                <span className="text-lg font-bold text-white">
+                  Setiap 1 Kill
+                </span>
+              </div>
+              <span className="text-2xl font-black text-[var(--color-primary)]">
+                1 Pts
+              </span>
+            </div>
           </div>
         </div>
       </div>
