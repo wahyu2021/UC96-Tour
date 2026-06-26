@@ -17,6 +17,8 @@ model Tournament {
   id          String           @id @default(cuid())
   name        String           @unique
   description String?          @db.Text
+  bannerUrl   String?          @db.Text
+  backgroundUrl String?        @db.Text
   startDate   DateTime
   endDate     DateTime
   maxSlots    Int              @default(32)
@@ -122,4 +124,13 @@ model ScoringConfig {
   placementPoints Int
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model AppSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

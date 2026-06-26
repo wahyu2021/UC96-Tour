@@ -3,18 +3,50 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, Trophy, Shield, CalendarDays, BarChart3, Edit3 } from 'lucide-react';
+import {
+  Menu,
+  X,
+  ChevronDown,
+  Trophy,
+  Shield,
+  CalendarDays,
+  BarChart3,
+  Edit3,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const MAIN_LINKS = [
   { name: 'Beranda', href: '/' },
+  { name: 'Tentang', href: '/about' },
+  { name: 'Aturan', href: '/rules' },
+  { name: 'Kontak', href: '/contact' },
 ];
 
 const DROPDOWN_LINKS = [
-  { name: 'Daftar Turnamen', href: '/tournaments', icon: Trophy, desc: 'Jelajahi turnamen dan detail' },
-  { name: 'Daftar Tim', href: '/teams', icon: Shield, desc: 'Lihat profil dan roster pemain' },
-  { name: 'Jadwal Pertandingan', href: '/schedule', icon: CalendarDays, desc: 'Pantau jadwal laga terbaru' },
-  { name: 'Papan Peringkat', href: '/leaderboard', icon: BarChart3, desc: 'Klasemen dan statistik tim' },
+  {
+    name: 'Daftar Turnamen',
+    href: '/tournaments',
+    icon: Trophy,
+    desc: 'Jelajahi turnamen dan detail',
+  },
+  {
+    name: 'Daftar Tim',
+    href: '/teams',
+    icon: Shield,
+    desc: 'Lihat profil dan roster pemain',
+  },
+  {
+    name: 'Jadwal Pertandingan',
+    href: '/schedule',
+    icon: CalendarDays,
+    desc: 'Pantau jadwal laga terbaru',
+  },
+  {
+    name: 'Papan Peringkat',
+    href: '/leaderboard',
+    icon: BarChart3,
+    desc: 'Klasemen dan statistik tim',
+  },
 ];
 
 export function Navbar() {
@@ -84,10 +116,10 @@ export function Navbar() {
               <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:-rotate-180" />
             </button>
 
-            <div className="absolute left-1/2 top-[calc(100%-8px)] hidden w-[580px] -translate-x-1/2 pt-2 group-hover:block">
+            <div className="absolute top-[calc(100%-8px)] left-1/2 hidden w-[580px] -translate-x-1/2 pt-2 group-hover:block">
               {/* Invisible bridge for hover continuity */}
               <div className="absolute -top-4 left-0 h-4 w-full bg-transparent" />
-              
+
               <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white p-3 shadow-2xl dark:border-neutral-800 dark:bg-[#1a1a1a]">
                 <div className="grid grid-cols-2 gap-2">
                   {DROPDOWN_LINKS.map((link) => (
@@ -100,10 +132,14 @@ export function Navbar() {
                         <link.icon className="h-5 w-5" />
                       </div>
                       <div>
-                        <div className={cn(
-                          'text-sm font-bold',
-                          isActive(link.href) ? 'text-[var(--color-primary)]' : 'text-neutral-900 dark:text-white'
-                        )}>
+                        <div
+                          className={cn(
+                            'text-sm font-bold',
+                            isActive(link.href)
+                              ? 'text-[var(--color-primary)]'
+                              : 'text-neutral-900 dark:text-white'
+                          )}
+                        >
                           {link.name}
                         </div>
                         <div className="text-xs text-neutral-500 dark:text-neutral-400">
@@ -145,7 +181,7 @@ export function Navbar() {
       {/* Mobile Navigation */}
       {isOpen && (
         <div className="border-t border-neutral-200 bg-white md:hidden dark:border-neutral-800 dark:bg-[#121212]">
-          <div className="space-y-2 px-4 pb-6 pt-4">
+          <div className="space-y-2 px-4 pt-4 pb-6">
             {MAIN_LINKS.map((link) => (
               <Link
                 key={link.name}
@@ -169,9 +205,14 @@ export function Navbar() {
                 className="flex w-full items-center justify-between rounded-lg px-4 py-3 text-base font-bold text-neutral-900 dark:text-white"
               >
                 Kompetisi
-                <ChevronDown className={cn("h-5 w-5 transition-transform", isMobileDropdownOpen ? "rotate-180" : "")} />
+                <ChevronDown
+                  className={cn(
+                    'h-5 w-5 transition-transform',
+                    isMobileDropdownOpen ? 'rotate-180' : ''
+                  )}
+                />
               </button>
-              
+
               {isMobileDropdownOpen && (
                 <div className="mt-2 grid grid-cols-1 gap-2 pl-4">
                   {DROPDOWN_LINKS.map((link) => (
@@ -186,8 +227,21 @@ export function Navbar() {
                       )}
                       onClick={() => setIsOpen(false)}
                     >
-                      <link.icon className={cn("h-5 w-5", isActive(link.href) ? "text-[var(--color-primary)]" : "")} />
-                      <span className={isActive(link.href) ? "font-bold" : "font-medium"}>{link.name}</span>
+                      <link.icon
+                        className={cn(
+                          'h-5 w-5',
+                          isActive(link.href)
+                            ? 'text-[var(--color-primary)]'
+                            : ''
+                        )}
+                      />
+                      <span
+                        className={
+                          isActive(link.href) ? 'font-bold' : 'font-medium'
+                        }
+                      >
+                        {link.name}
+                      </span>
                     </Link>
                   ))}
                 </div>

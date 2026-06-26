@@ -11,6 +11,7 @@ import {
   Menu,
   CalendarDays,
   Settings2,
+  Globe,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LogoutButton } from '@/components/features/auth/LogoutButton';
@@ -141,6 +142,23 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
               <Settings2 className="h-5 w-5 shrink-0" />
               {!isCollapsed && (
                 <span className="whitespace-nowrap">Pengaturan Poin</span>
+              )}
+            </Link>
+
+            <Link
+              href="/admin/settings"
+              title="Pengaturan Halaman Publik"
+              className={cn(
+                'flex items-center gap-3 rounded-lg py-3 text-sm font-semibold transition-colors',
+                isCollapsed ? 'justify-center px-0' : 'px-4',
+                pathname === '/admin/settings'
+                  ? 'bg-[var(--color-primary)] text-white shadow-md shadow-red-500/20'
+                  : 'bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800/50 dark:hover:text-white'
+              )}
+            >
+              <Globe className="h-5 w-5 shrink-0" />
+              {!isCollapsed && (
+                <span className="whitespace-nowrap">Halaman Publik</span>
               )}
             </Link>
           </div>
