@@ -5,14 +5,16 @@ import {
   Users,
   CalendarDays,
   ArrowRight,
-  Eye,
-  TrendingUp,
   Activity,
   Clock,
   Plus,
   Gamepad2,
   ChevronRight,
+  Eye,
+  TrendingUp,
 } from 'lucide-react';
+import { VisitorChart } from '@/components/features/admin/VisitorChart';
+import { RegistrationChart } from '@/components/features/admin/RegistrationChart';
 
 export const metadata = {
   title: 'Dashboard | Admin Panel',
@@ -43,9 +45,61 @@ export default async function AdminDashboardPage() {
     }),
   ]);
 
-  // Simulasi data analitik (karena belum ada tabel tracker pengunjung)
-  const totalVisitors = 12458;
-  const visitorGrowth = '+14.5%';
+  // Siapkan data untuk Chart Pendaftaran (7 Hari Terakhir)
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+  sevenDaysAgo.setHours(0, 0, 0, 0);
+
+  const recentRegistrations = await prisma.team.findMany({
+    where: {
+      createdAt: {
+        gte: sevenDaysAgo,
+      },
+    },
+    select: {
+      createdAt: true,
+    },
+  });
+
+  const regChartData = Array.from({ length: 7 }).map((_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    return {
+      date: d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }),
+      count: 0,
+      fullDate: d.toDateString(),
+    };
+  });
+
+  recentRegistrations.forEach((reg) => {
+    const dateStr = reg.createdAt.toDateString();
+    const day = regChartData.find((d) => d.fullDate === dateStr);
+    if (day) {
+      day.count += 1;
+    }
+  });
+
+  // Simulasi data analitik pengunjung selama 7 hari terakhir (statis agar memenuhi aturan React purity)
+  const simulatedCounts = [350, 420, 290, 580, 610, 490, 720];
+  const visitorChartData = Array.from({ length: 7 }).map((_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+
+    return {
+      date: d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }),
+      count: simulatedCounts[i] || 300,
+    };
+  });
+
+  // Total pengunjung hari ini adalah data hari terakhir di chart pengunjung
+  const todayVisitors = visitorChartData[visitorChartData.length - 1].count;
+  const yesterdayVisitors = visitorChartData[visitorChartData.length - 2].count;
+
+  // Hitung persentase kenaikan/penurunan simulasi
+  const growth =
+    ((todayVisitors - yesterdayVisitors) / yesterdayVisitors) * 100;
+  const isPositiveGrowth = growth >= 0;
+  const formattedGrowth = `${isPositiveGrowth ? '+' : ''}${growth.toFixed(1)}%`;
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-8">
@@ -86,17 +140,25 @@ export default async function AdminDashboardPage() {
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100 text-orange-600 transition-transform group-hover:scale-110 dark:bg-orange-500/10 dark:text-orange-400">
               <Eye className="h-6 w-6" />
             </div>
-            <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-bold text-green-700 dark:bg-green-500/10 dark:text-green-400">
-              <TrendingUp className="mr-1 h-3 w-3" />
-              {visitorGrowth}
+            <span
+              className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-bold ${
+                isPositiveGrowth
+                  ? 'bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400'
+                  : 'bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400'
+              }`}
+            >
+              <TrendingUp
+                className={`mr-1 h-3 w-3 ${!isPositiveGrowth && 'rotate-180'}`}
+              />
+              {formattedGrowth}
             </span>
           </div>
           <div className="mt-4">
             <h3 className="font-heading text-3xl font-black text-neutral-900 dark:text-white">
-              {totalVisitors.toLocaleString('id-ID')}
+              {todayVisitors.toLocaleString('id-ID')}
             </h3>
             <p className="mt-1 text-sm font-medium text-neutral-500 dark:text-neutral-400">
-              Total Pengunjung
+              Pengunjung Hari Ini
             </p>
           </div>
         </div>
@@ -183,6 +245,40 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
+      {/* Analytics Charts Section */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {/* Grafik Pengunjung (Simulated) */}
+        <div className="flex flex-col rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-[#121212]">
+          <div className="border-b border-neutral-100 p-6 dark:border-neutral-800">
+            <h2 className="font-heading text-lg font-bold text-neutral-900 dark:text-white">
+              Tren Kunjungan Platform
+            </h2>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              Visualisasi jumlah pengunjung harian selama 7 hari terakhir
+            </p>
+          </div>
+          <div className="p-6">
+            <VisitorChart data={visitorChartData} />
+          </div>
+        </div>
+
+        {/* Grafik Pendaftaran (Real Database Data) */}
+        <div className="flex flex-col rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-[#121212]">
+          <div className="border-b border-neutral-100 p-6 dark:border-neutral-800">
+            <h2 className="font-heading text-lg font-bold text-neutral-900 dark:text-white">
+              Tren Pendaftaran Tim Baru
+            </h2>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              Tim esports baru yang mendaftar selama 7 hari terakhir
+            </p>
+          </div>
+          <div className="p-6">
+            <RegistrationChart data={regChartData} />
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Section: Recent Activity & Quick Actions */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Aktivitas Pendaftaran Tim */}
         <div className="col-span-1 flex flex-col rounded-2xl border border-neutral-200 bg-white shadow-sm lg:col-span-2 dark:border-neutral-800 dark:bg-[#121212]">
@@ -270,7 +366,7 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Quick Links / Panduan Singkat */}
+        {/* Quick Links / Panduan Singkat (Takes up 1 column) */}
         <div className="col-span-1 flex flex-col rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-[#121212]">
           <h2 className="font-heading text-lg font-bold text-neutral-900 dark:text-white">
             Aksi Cepat
