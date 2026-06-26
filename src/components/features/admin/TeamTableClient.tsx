@@ -182,7 +182,7 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
                           <Link
                             href={`/teams/${team.id}`}
                             target="_blank"
-                            className="inline-flex h-8 items-center justify-center rounded-md border border-neutral-300 bg-transparent px-3 text-xs font-medium transition-colors hover:bg-neutral-50 focus-visible:ring-1 focus-visible:ring-[var(--color-primary)] focus-visible:outline-none dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                            className="inline-flex h-10 items-center justify-center rounded-md border border-neutral-300 bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-neutral-50 focus-visible:ring-1 focus-visible:ring-[var(--color-primary)] focus-visible:outline-none dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
                           >
                             Lihat Detail
                           </Link>
