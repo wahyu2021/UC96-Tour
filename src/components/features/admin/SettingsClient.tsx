@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { toast } from 'sonner';
-import { Save, AlertCircle } from 'lucide-react';
+import { Save, Trash2, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 interface Props {
@@ -72,8 +72,8 @@ export function SettingsClient({ initialSettings }: Props) {
         { key: 'contact_instagram', label: 'Link Instagram', type: 'text' },
         {
           key: 'contact_faq',
-          label: 'Data FAQ (Harus format Array JSON valid)',
-          type: 'textarea',
+          label: 'Daftar Pertanyaan Umum (FAQ)',
+          type: 'faq',
         },
       ],
     },
@@ -81,23 +81,6 @@ export function SettingsClient({ initialSettings }: Props) {
 
   return (
     <div className="space-y-8">
-      {/* Alert Warning for JSON */}
-      <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/30 dark:bg-amber-900/10">
-        <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600 dark:text-amber-500" />
-        <div>
-          <h3 className="text-sm font-semibold text-amber-800 dark:text-amber-400">
-            Perhatian saat mengedit Data FAQ
-          </h3>
-          <p className="mt-1 text-sm text-amber-700 dark:text-amber-500">
-            Pastikan Data FAQ menggunakan format JSON yang valid, contoh: <br />
-            <code>
-              [{'{'}&quot;q&quot;:&quot;Pertanyaan?&quot;,
-              &quot;a&quot;:&quot;Jawaban&quot;{'}'}]
-            </code>
-          </p>
-        </div>
-      </div>
-
       <div className="space-y-6">
         {sections.map((section) => (
           <div
@@ -120,6 +103,90 @@ export function SettingsClient({ initialSettings }: Props) {
                       onChange={(e) => handleChange(item.key, e.target.value)}
                       className="w-full rounded-md border border-neutral-300 bg-transparent px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none dark:border-neutral-700 dark:text-white"
                     />
+                  ) : item.type === 'faq' ? (
+                    (() => {
+                      const faqString = settings[item.key] || '[]';
+                      let faqs: { q: string; a: string }[] = [];
+                      try {
+                        faqs = JSON.parse(faqString);
+                        if (!Array.isArray(faqs)) faqs = [];
+                      } catch {
+                        faqs = [];
+                      }
+
+                      const updateFaq = (
+                        index: number,
+                        field: 'q' | 'a',
+                        value: string
+                      ) => {
+                        const newFaqs = [...faqs];
+                        newFaqs[index][field] = value;
+                        handleChange(item.key, JSON.stringify(newFaqs));
+                      };
+
+                      const addFaq = () => {
+                        const newFaqs = [...faqs, { q: '', a: '' }];
+                        handleChange(item.key, JSON.stringify(newFaqs));
+                      };
+
+                      const removeFaq = (index: number) => {
+                        const newFaqs = faqs.filter((_, i) => i !== index);
+                        handleChange(item.key, JSON.stringify(newFaqs));
+                      };
+
+                      return (
+                        <div className="space-y-4 rounded-xl border border-neutral-200 bg-neutral-50/50 p-4 dark:border-neutral-800 dark:bg-black/20">
+                          {faqs.map((faq, index) => (
+                            <div
+                              key={index}
+                              className="relative flex items-start gap-4 rounded-lg border border-neutral-200 bg-white p-4 shadow-sm transition-all dark:border-neutral-800 dark:bg-[#1a1a1a]"
+                            >
+                              <div className="flex-1 space-y-3">
+                                <input
+                                  type="text"
+                                  value={faq.q}
+                                  onChange={(e) =>
+                                    updateFaq(index, 'q', e.target.value)
+                                  }
+                                  placeholder="Tulis pertanyaan..."
+                                  className="w-full rounded-md border border-neutral-300 bg-transparent px-3 py-2 text-sm font-bold text-neutral-900 placeholder:text-neutral-400 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none dark:border-neutral-700 dark:text-white"
+                                />
+                                <textarea
+                                  rows={2}
+                                  value={faq.a}
+                                  onChange={(e) =>
+                                    updateFaq(index, 'a', e.target.value)
+                                  }
+                                  placeholder="Tulis jawaban..."
+                                  className="w-full rounded-md border border-neutral-300 bg-transparent px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none dark:border-neutral-700 dark:text-white"
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => removeFaq(index)}
+                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-500/10"
+                                title="Hapus Pertanyaan"
+                              >
+                                <Trash2 className="h-5 w-5" />
+                              </button>
+                            </div>
+                          ))}
+                          {faqs.length === 0 && (
+                            <p className="py-4 text-center text-sm text-neutral-500 italic">
+                              Belum ada pertanyaan FAQ ditambahkan.
+                            </p>
+                          )}
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={addFaq}
+                            className="w-full border-dashed"
+                          >
+                            <Plus className="mr-2 h-4 w-4" /> Tambah Pertanyaan
+                          </Button>
+                        </div>
+                      );
+                    })()
                   ) : (
                     <input
                       type="text"
