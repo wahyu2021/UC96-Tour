@@ -40,11 +40,29 @@ export function MatchTable({
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [selectedTournamentId, setSelectedTournamentId] =
     React.useState<string>('ALL');
+  const [selectedStatus, setSelectedStatus] = React.useState<string>('ALL');
+  const [selectedGroup, setSelectedGroup] = React.useState<string>('ALL');
+
+  const uniqueGroups = React.useMemo(() => {
+    const groups = new Set<string>();
+    matches.forEach((m) => {
+      if (m.group) groups.add(m.group);
+    });
+    return Array.from(groups).sort();
+  }, [matches]);
 
   const filteredMatches = React.useMemo(() => {
-    if (selectedTournamentId === 'ALL') return matches;
-    return matches.filter((m) => m.tournament?.id === selectedTournamentId);
-  }, [matches, selectedTournamentId]);
+    return matches.filter((m) => {
+      const matchTournament =
+        selectedTournamentId === 'ALL' ||
+        m.tournament?.id === selectedTournamentId;
+      const matchStatus =
+        selectedStatus === 'ALL' || m.status === selectedStatus;
+      const matchGroup =
+        selectedGroup === 'ALL' || (m.group || '') === selectedGroup;
+      return matchTournament && matchStatus && matchGroup;
+    });
+  }, [matches, selectedTournamentId, selectedStatus, selectedGroup]);
 
   const fetchMatches = React.useCallback(async () => {
     setIsLoading(true);
@@ -95,21 +113,50 @@ export function MatchTable({
         <h2 className="text-xl font-bold text-neutral-900 dark:text-white">
           Daftar Pertandingan
         </h2>
-        <div className="flex items-center gap-3">
-          <div className="w-48">
-            <Select
-              value={selectedTournamentId}
-              onChange={setSelectedTournamentId}
-              options={[
-                { value: 'ALL', label: 'Semua Turnamen' },
-                ...activeTournaments.map((t) => ({
-                  value: t.id,
-                  label: t.name,
-                })),
-              ]}
-            />
+        <div className="flex flex-col items-center gap-3 sm:flex-row">
+          <div className="flex w-full gap-2 sm:w-auto">
+            <div className="w-full sm:w-48">
+              <Select
+                value={selectedTournamentId}
+                onChange={setSelectedTournamentId}
+                options={[
+                  { value: 'ALL', label: 'Semua Turnamen' },
+                  ...activeTournaments.map((t) => ({
+                    value: t.id,
+                    label: t.name,
+                  })),
+                ]}
+              />
+            </div>
+            <div className="w-full sm:w-40">
+              <Select
+                value={selectedStatus}
+                onChange={setSelectedStatus}
+                options={[
+                  { value: 'ALL', label: 'Semua Status' },
+                  { value: 'SCHEDULED', label: 'Akan Datang' },
+                  { value: 'ONGOING', label: 'LIVE' },
+                  { value: 'COMPLETED', label: 'Selesai' },
+                ]}
+              />
+            </div>
+            {uniqueGroups.length > 0 && (
+              <div className="w-full sm:w-36">
+                <Select
+                  value={selectedGroup}
+                  onChange={setSelectedGroup}
+                  options={[
+                    { value: 'ALL', label: 'Semua Grup' },
+                    ...uniqueGroups.map((g) => ({
+                      value: g,
+                      label: `Grup ${g}`,
+                    })),
+                  ]}
+                />
+              </div>
+            )}
           </div>
-          <div className="flex gap-2">
+          <div className="flex w-full justify-end gap-2 sm:w-auto">
             <Button
               variant="outline"
               size="sm"
