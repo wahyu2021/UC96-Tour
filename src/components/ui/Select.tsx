@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -124,7 +125,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className={cn(
-            'flex w-full items-center justify-between rounded-md border px-4 py-2.5 text-sm transition-colors',
+            'flex h-10 w-full items-center justify-between rounded-md border px-3 py-2 text-sm transition-colors',
             'border-neutral-300 bg-white text-neutral-900',
             'dark:border-neutral-700 dark:bg-[#121212] dark:text-white',
             'focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none',
@@ -151,7 +152,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
         </button>
 
         {isOpen && typeof document !== 'undefined'
-          ? require('react-dom').createPortal(dropdownContent, document.body)
+          ? createPortal(dropdownContent, document.body)
           : null}
 
         {error && (

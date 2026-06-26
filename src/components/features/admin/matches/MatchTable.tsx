@@ -157,17 +157,12 @@ export function MatchTable({
             )}
           </div>
           <div className="flex w-full justify-end gap-2 sm:w-auto">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={fetchMatches}
-              title="Refresh"
-            >
+            <Button variant="outline" onClick={fetchMatches} title="Refresh">
               <RefreshCw
                 className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
               />
             </Button>
-            <Button onClick={() => setIsModalOpen(true)} size="sm">
+            <Button onClick={() => setIsModalOpen(true)}>
               <Plus className="mr-2 h-4 w-4" />
               Tambah Jadwal
             </Button>
