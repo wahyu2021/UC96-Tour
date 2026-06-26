@@ -45,7 +45,7 @@ const defaultSettings = [
   {
     key: 'contact_faq',
     value:
-      '[{"q":"Kapan turnamen berikutnya diadakan?","a":"Pendaftaran biasanya dibuka setiap pertengahan bulan. Pantau terus Instagram kami!"},{"q":"Apakah boleh menggunakan emulator?","a":"Tidak. Turnamen ini khusus untuk pengguna Mobile (HP/Tablet)."}]',
+      '[{"q":"Kapan turnamen berikutnya diadakan?","a":"Pendaftaran biasanya dibuka setiap pertengahan bulan. Pantau terus Instagram kami!"},{"q":"Apakah boleh menggunakan emulator?","a":"Ini adalah turnamen khusus PUBG PC (Steam). Pemain mobile tidak dapat berpartisipasi."}]',
     description: 'FAQ (Format JSON String)',
   },
 ];
