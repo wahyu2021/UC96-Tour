@@ -72,5 +72,10 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 ---
 
-- [ ] **Track: Halaman Daftar Turnamen Publik**
+- [x] **Track: Halaman Daftar Turnamen Publik**
       _Link: [./014-public-tournaments/](./014-public-tournaments/)_
+
+---
+
+- [ ] **Track: Homepage Upgrade Plan**
+      _Link: [./015-homepage-upgrade-plan/](./015-homepage-upgrade-plan/)_
