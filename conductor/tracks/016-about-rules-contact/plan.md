@@ -20,3 +20,7 @@
 - [ ] Task: Membuat halaman publik `/rules/page.tsx` (menampilkan tabel & teks aturan dengan desain UI Accordion ber-kontras tinggi).
 - [ ] Task: Membuat halaman publik `/contact/page.tsx` (menampilkan ikon Sosial Media dan FAQ dari Database).
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Public UI Implementation' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions c9649aa
