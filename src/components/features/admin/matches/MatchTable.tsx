@@ -1,9 +1,18 @@
 'use client';
 
 import * as React from 'react';
-import { Plus, Trash2, Play, CheckCircle, RefreshCw } from 'lucide-react';
+import {
+  Plus,
+  Trash2,
+  Play,
+  CheckCircle,
+  RefreshCw,
+  CalendarDays,
+} from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
+import { Select } from '@/components/ui/Select';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { MatchFormModal } from './MatchFormModal';
 import Link from 'next/link';
 
@@ -87,18 +96,19 @@ export function MatchTable({
           Daftar Pertandingan
         </h2>
         <div className="flex items-center gap-3">
-          <select
-            value={selectedTournamentId}
-            onChange={(e) => setSelectedTournamentId(e.target.value)}
-            className="rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-sm font-medium text-neutral-900 shadow-sm focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] focus:outline-none dark:border-neutral-700 dark:bg-[#1a1a1a] dark:text-white"
-          >
-            <option value="ALL">Semua Turnamen</option>
-            {activeTournaments.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.name}
-              </option>
-            ))}
-          </select>
+          <div className="w-48">
+            <Select
+              value={selectedTournamentId}
+              onChange={setSelectedTournamentId}
+              options={[
+                { value: 'ALL', label: 'Semua Turnamen' },
+                ...activeTournaments.map((t) => ({
+                  value: t.id,
+                  label: t.name,
+                })),
+              ]}
+            />
+          </div>
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -137,8 +147,12 @@ export function MatchTable({
               </tr>
             ) : filteredMatches.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center">
-                  Belum ada jadwal pertandingan.
+                <td colSpan={4} className="p-8">
+                  <EmptyState
+                    icon={CalendarDays}
+                    title="Tidak ada jadwal"
+                    description="Belum ada jadwal pertandingan yang sesuai dengan filter."
+                  />
                 </td>
               </tr>
             ) : (
