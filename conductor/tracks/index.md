@@ -77,5 +77,5 @@ _Link: [./005-tournament-management/](./005-tournament-management/)_
 
 ---
 
-- [ ] **Track: Homepage Upgrade Plan**
+- [x] **Track: Homepage Upgrade Plan**
       _Link: [./015-homepage-upgrade-plan/](./015-homepage-upgrade-plan/)_
