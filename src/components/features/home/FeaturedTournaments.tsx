@@ -1,8 +1,9 @@
 import * as React from 'react';
 import Link from 'next/link';
-import { CalendarDays, Users, Trophy } from 'lucide-react';
+import { CalendarDays, Users, Trophy, FolderOpen } from 'lucide-react';
 import { formatRupiah } from '@/lib/utils';
 import { Badge } from '@/components/ui/Badge';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 interface Tournament {
   id: string;
@@ -21,7 +22,6 @@ interface Props {
 }
 
 export function FeaturedTournaments({ tournaments }: Props) {
-  if (!tournaments || tournaments.length === 0) return null;
 
   return (
     <section className="w-full bg-[#0a0a0a] py-24">
@@ -38,8 +38,16 @@ export function FeaturedTournaments({ tournaments }: Props) {
           </Link>
         </div>
 
-        <div className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto pb-8 pt-4">
-          {tournaments.map((tour) => (
+        {!tournaments || tournaments.length === 0 ? (
+          <EmptyState 
+            icon={FolderOpen} 
+            title="Belum Ada Turnamen" 
+            description="Saat ini belum ada turnamen yang sedang berlangsung atau membuka pendaftaran."
+            className="my-8 border-neutral-800 bg-neutral-900/50" 
+          />
+        ) : (
+          <div className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto pb-8 pt-4">
+            {tournaments.map((tour) => (
             <Link
               key={tour.id}
               href={`/tournaments/${tour.id}`}
@@ -105,6 +113,7 @@ export function FeaturedTournaments({ tournaments }: Props) {
             </Link>
           ))}
         </div>
+        )}
         
         <div className="mt-4 flex justify-center md:hidden">
           <Link href="/tournaments" className="rounded-full bg-neutral-800 px-6 py-2 text-sm font-bold text-white hover:bg-neutral-700">

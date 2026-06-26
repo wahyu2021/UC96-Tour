@@ -1,7 +1,8 @@
 import * as React from 'react';
 import Link from 'next/link';
-import { Trophy, ArrowRight, ShieldAlert } from 'lucide-react';
+import { Trophy, ArrowRight, ShieldAlert, BarChart3 } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 interface TeamLeaderboard {
   id: string;
@@ -24,7 +25,6 @@ interface Props {
 }
 
 export function MiniLeaderboard({ data }: Props) {
-  if (!data || data.leaderboard.length === 0) return null;
 
   return (
     <section className="w-full bg-[#121212] py-24 relative overflow-hidden">
@@ -41,7 +41,11 @@ export function MiniLeaderboard({ data }: Props) {
               Papan Peringkat <br/> <span className="text-[var(--color-primary)]">Teratas</span>
             </h2>
             <p className="text-neutral-400 mb-6 text-lg">
-              Persaingan ketat di turnamen <strong>{data.tournament.name}</strong>. Tim mana yang akan keluar sebagai juara bertahan?
+              {data && data.tournament ? (
+                <>Persaingan ketat di turnamen <strong>{data.tournament.name}</strong>. Tim mana yang akan keluar sebagai juara bertahan?</>
+              ) : (
+                <>Belum ada kompetisi yang berlangsung saat ini. Klasemen akan diperbarui saat pertandingan dimulai.</>
+              )}
             </p>
             <Link 
               href="/leaderboard" 
@@ -54,8 +58,16 @@ export function MiniLeaderboard({ data }: Props) {
 
           {/* Right Leaderboard Card */}
           <div className="lg:col-span-2">
-            <div className="rounded-2xl border border-neutral-800 bg-[#0a0a0a] shadow-2xl overflow-hidden">
-              <div className="bg-neutral-900/50 px-6 py-4 border-b border-neutral-800 flex items-center justify-between">
+            {!data || data.leaderboard.length === 0 ? (
+              <EmptyState 
+                icon={BarChart3} 
+                title="Klasemen Kosong" 
+                description="Belum ada data pertandingan atau skor yang dimasukkan ke dalam sistem."
+                className="border-neutral-800 bg-[#0a0a0a]" 
+              />
+            ) : (
+              <div className="rounded-2xl border border-neutral-800 bg-[#0a0a0a] shadow-2xl overflow-hidden">
+                <div className="bg-neutral-900/50 px-6 py-4 border-b border-neutral-800 flex items-center justify-between">
                 <span className="font-bold text-neutral-300 uppercase text-sm tracking-wider">Top 5 Teams</span>
                 <Trophy className="h-4 w-4 text-yellow-500" />
               </div>
@@ -103,6 +115,7 @@ export function MiniLeaderboard({ data }: Props) {
                 ))}
               </div>
             </div>
+            )}
           </div>
           
         </div>
