@@ -7,11 +7,15 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
+import { UploadCloud } from 'lucide-react';
+import { formatRupiah } from '@/lib/utils';
 
 type TournamentData = {
   id: string;
   name: string;
   description: string | null;
+  bannerUrl: string | null;
+  backgroundUrl: string | null;
   startDate: string | Date;
   endDate: string | Date;
   maxSlots: number;
@@ -36,6 +40,8 @@ export function TournamentTableClient({
     endDate: '',
     maxSlots: 32,
     prizePool: '',
+    bannerUrl: '',
+    backgroundUrl: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
@@ -48,6 +54,8 @@ export function TournamentTableClient({
       endDate: '',
       maxSlots: 32,
       prizePool: '',
+      bannerUrl: '',
+      backgroundUrl: '',
     });
     setIsModalOpen(true);
   };
@@ -149,7 +157,13 @@ export function TournamentTableClient({
                     {t._count?.teams || 0} / {t.maxSlots}
                   </td>
                   <td className="px-6 py-5 font-medium">
-                    {t.prizePool || '-'}
+                    {t.prizePool ? (
+                      <span className="font-bold text-yellow-600 dark:text-yellow-500">
+                        {formatRupiah(t.prizePool)}
+                      </span>
+                    ) : (
+                      <span className="text-neutral-400">-</span>
+                    )}
                   </td>
                   <td className="px-6 py-5 text-right">
                     <Badge
@@ -202,6 +216,7 @@ export function TournamentTableClient({
               placeholder="Ex: UC96 Summer Cup"
             />
           </div>
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
@@ -251,13 +266,85 @@ export function TournamentTableClient({
               </label>
               <Input
                 type="text"
-                placeholder="Rp 10.000.000"
                 value={formData.prizePool}
-                onChange={(e) =>
-                  setFormData({ ...formData, prizePool: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, prizePool: e.target.value })}
+                placeholder="Contoh: 10000000"
               />
+              {formData.prizePool && !isNaN(Number(formData.prizePool)) && (
+                <p className="mt-1 text-xs text-neutral-500">Preview: {formatRupiah(formData.prizePool)}</p>
+              )}
             </div>
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+              Upload Banner Image *
+            </label>
+            <div className="mt-2 flex justify-center rounded-xl border border-dashed border-neutral-300 px-6 py-8 transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-800/50">
+              <div className="text-center">
+                <UploadCloud className="mx-auto h-10 w-10 text-neutral-400" />
+                <div className="mt-4 flex text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+                  <label
+                    htmlFor="banner-upload"
+                    className="relative cursor-pointer rounded-md font-semibold text-[var(--color-primary)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--color-primary)] hover:text-brand-600 dark:hover:text-brand-400"
+                  >
+                    <span>Pilih file gambar</span>
+                    <input
+                      id="banner-upload"
+                      name="banner-upload"
+                      type="file"
+                      accept="image/*"
+                      className="sr-only"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setFormData({ ...formData, bannerUrl: reader.result as string });
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                  </label>
+                  <p className="pl-1">atau tarik ke sini</p>
+                </div>
+                <p className="text-xs leading-5 text-neutral-500">PNG, JPG, GIF hingga 5MB</p>
+              </div>
+            </div>
+            {formData.bannerUrl && (
+              <div className="mt-4 flex justify-center">
+                <div className="h-64 w-auto aspect-[9/16] overflow-hidden rounded-xl border border-neutral-200 shadow-sm dark:border-neutral-700">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={formData.bannerUrl} alt="Preview" className="h-full w-full object-cover" />
+                </div>
+              </div>
+            )}
+          </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+              Upload Landscape Background (Opsional 16:9)
+            </label>
+            <Input
+              type="file"
+              accept="image/*"
+              className="cursor-pointer file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-neutral-100 file:px-4 file:py-2 file:text-sm file:font-bold file:text-neutral-700 hover:file:bg-neutral-200 dark:file:bg-neutral-800 dark:file:text-neutral-300 dark:hover:file:bg-neutral-700"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setFormData({ ...formData, backgroundUrl: reader.result as string });
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+            />
+            {formData.backgroundUrl && (
+              <div className="mt-2 flex w-full justify-center overflow-hidden rounded-xl border border-neutral-200 shadow-sm dark:border-neutral-700">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={formData.backgroundUrl} alt="Preview BG" className="w-full aspect-[16/9] object-cover" />
+              </div>
+            )}
           </div>
           <div>
             <label className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300">

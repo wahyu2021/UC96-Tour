@@ -73,11 +73,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // 4. Atur Role: Pemain indeks ke-0 otomatis jadi KAPTEN, sisanya ANGGOTA
+    // 4. Atur Role: Pemain ke-1 Kapten, 2-4 Anggota, 5 Cadangan (STANDBY)
     const playersData = data.players.map((p, index) => ({
       ign: p.ign,
       inGameId: p.inGameId,
-      role: index === 0 ? ('CAPTAIN' as const) : ('MEMBER' as const),
+      role: index === 0 ? ('CAPTAIN' as const) : index === 4 ? ('STANDBY' as const) : ('MEMBER' as const),
     }));
 
     // 5. Simpan ke Database (Relasional Transaction)

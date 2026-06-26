@@ -3,12 +3,12 @@ import { z } from 'zod';
 export const playerSchema = z.object({
   ign: z
     .string()
-    .min(2, 'IGN minimal 2 karakter')
-    .max(30, 'IGN maksimal 30 karakter'),
+    .min(2, 'ID PUBG minimal 2 karakter')
+    .max(30, 'ID PUBG maksimal 30 karakter'),
   inGameId: z
     .string()
-    .min(5, 'In-Game ID minimal 5 karakter')
-    .max(20, 'In-Game ID maksimal 20 karakter'),
+    .min(2, 'ID Discord minimal 2 karakter')
+    .max(30, 'ID Discord maksimal 30 karakter'),
 });
 
 export const teamRegistrationSchema = z.object({
@@ -24,10 +24,8 @@ export const teamRegistrationSchema = z.object({
   logoUrl: z.string().url('URL logo tidak valid').optional().or(z.literal('')),
   players: z
     .array(playerSchema)
-    .length(
-      4,
-      'Sebuah tim harus mendaftarkan tepat 4 pemain (1 Kapten, 3 Anggota)'
-    ),
+    .min(4, 'Minimal 4 pemain inti (1 Kapten, 3 Anggota)')
+    .max(5, 'Maksimal 5 pemain (termasuk 1 Cadangan)'),
 });
 
 export type TeamRegistrationInput = z.infer<typeof teamRegistrationSchema>;

@@ -42,7 +42,7 @@ export function Modal({
       {/* Modal Content */}
       <div
         className={cn(
-          'animate-in fade-in zoom-in-95 relative z-50 w-full max-w-md overflow-visible rounded-xl bg-white p-6 text-left shadow-2xl transition-all duration-200 dark:border dark:border-neutral-800 dark:bg-[#1e1e1e]',
+          'animate-in fade-in zoom-in-95 relative z-50 w-full max-w-md max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 text-left shadow-2xl transition-all duration-200 dark:border dark:border-neutral-800 dark:bg-[#1e1e1e]',
           className
         )}
       >

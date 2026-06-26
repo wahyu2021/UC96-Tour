@@ -12,6 +12,8 @@ import {
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 export async function generateMetadata({
   params,
@@ -60,7 +62,11 @@ export default async function TeamDetailsPage({
     },
   });
 
-  if (!team || team.status !== 'APPROVED') {
+  const session = await getServerSession(authOptions);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const isAdmin = (session?.user as any)?.role === 'ADMIN';
+
+  if (!team || (team.status !== 'APPROVED' && !isAdmin)) {
     notFound();
   }
 

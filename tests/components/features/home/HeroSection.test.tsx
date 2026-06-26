@@ -6,17 +6,17 @@ describe('HeroSection', () => {
   it('renders heading, description, and action buttons', () => {
     render(<HeroSection />);
 
-    expect(screen.getByText(/Pertempuran Penentu di/i)).toBeInTheDocument();
+    expect(screen.getByText(/Medan Laga/i)).toBeInTheDocument();
     expect(screen.getByText(/Unit Combat 96/i)).toBeInTheDocument();
 
-    const registerLink = screen.getByRole('link', { name: /Daftar Sekarang/i });
+    const registerLink = screen.getByRole('link', { name: /Daftarkan Timmu/i });
     expect(registerLink).toBeInTheDocument();
     expect(registerLink).toHaveAttribute('href', '/register');
 
     const leaderboardLink = screen.getByRole('link', {
-      name: /Lihat Papan Peringkat/i,
+      name: /Lihat Turnamen Aktif/i,
     });
     expect(leaderboardLink).toBeInTheDocument();
-    expect(leaderboardLink).toHaveAttribute('href', '/leaderboard');
+    expect(leaderboardLink).toHaveAttribute('href', '/tournaments');
   });
 });

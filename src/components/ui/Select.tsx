@@ -30,8 +30,15 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
   ) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const [rect, setRect] = React.useState<DOMRect | null>(null);
 
     const selectedOption = options.find((opt) => opt.value === value);
+
+    const updateRect = React.useCallback(() => {
+      if (containerRef.current) {
+        setRect(containerRef.current.getBoundingClientRect());
+      }
+    }, []);
 
     // Click outside handler
     React.useEffect(() => {
@@ -40,6 +47,11 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
           containerRef.current &&
           !containerRef.current.contains(e.target as Node)
         ) {
+          // Check if click is inside the portal dropdown
+          const dropdown = document.getElementById('select-dropdown-portal');
+          if (dropdown && dropdown.contains(e.target as Node)) {
+            return;
+          }
           setIsOpen(false);
         }
       };
@@ -47,6 +59,55 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
       return () =>
         document.removeEventListener('mousedown', handleOutsideClick);
     }, []);
+
+    React.useEffect(() => {
+      if (isOpen) {
+        updateRect();
+        window.addEventListener('scroll', updateRect, true);
+        window.addEventListener('resize', updateRect);
+        return () => {
+          window.removeEventListener('scroll', updateRect, true);
+          window.removeEventListener('resize', updateRect);
+        };
+      }
+    }, [isOpen, updateRect]);
+
+    const dropdownContent = (
+      <div
+        id="select-dropdown-portal"
+        style={{
+          position: 'fixed',
+          top: rect ? rect.bottom + 4 : 0,
+          left: rect ? rect.left : 0,
+          width: rect ? rect.width : 'auto',
+        }}
+        className="animate-in fade-in slide-in-from-top-2 z-[9999] max-h-60 overflow-auto rounded-md border border-neutral-200 bg-white py-1.5 shadow-xl dark:border-neutral-800 dark:bg-[#1e1e1e]"
+      >
+        {options.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => {
+              onChange(option.value);
+              setIsOpen(false);
+            }}
+            className={cn(
+              'flex w-full items-center px-4 py-2.5 text-left text-sm transition-colors',
+              'text-neutral-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800',
+              option.value === value &&
+                'bg-neutral-50 font-bold text-[var(--color-primary)] dark:bg-neutral-800/50 dark:text-[var(--color-primary)]'
+            )}
+          >
+            {option.label}
+          </button>
+        ))}
+        {options.length === 0 && (
+          <div className="px-4 py-3 text-center text-sm text-neutral-500 dark:text-neutral-400">
+            Tidak ada opsi tersedia
+          </div>
+        )}
+      </div>
+    );
 
     return (
       <div
@@ -89,33 +150,9 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
           />
         </button>
 
-        {isOpen && (
-          <div className="animate-in fade-in slide-in-from-top-2 absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-md border border-neutral-200 bg-white py-1.5 shadow-xl dark:border-neutral-800 dark:bg-[#1e1e1e]">
-            {options.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => {
-                  onChange(option.value);
-                  setIsOpen(false);
-                }}
-                className={cn(
-                  'flex w-full items-center px-4 py-2.5 text-left text-sm transition-colors',
-                  'text-neutral-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800',
-                  option.value === value &&
-                    'bg-neutral-50 font-bold text-[var(--color-primary)] dark:bg-neutral-800/50 dark:text-[var(--color-primary)]'
-                )}
-              >
-                {option.label}
-              </button>
-            ))}
-            {options.length === 0 && (
-              <div className="px-4 py-3 text-center text-sm text-neutral-500 dark:text-neutral-400">
-                Tidak ada opsi tersedia
-              </div>
-            )}
-          </div>
-        )}
+        {isOpen && typeof document !== 'undefined'
+          ? require('react-dom').createPortal(dropdownContent, document.body)
+          : null}
 
         {error && (
           <p className="mt-1.5 text-xs font-medium text-red-500">{error}</p>

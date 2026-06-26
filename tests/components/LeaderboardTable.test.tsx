@@ -15,7 +15,7 @@ describe('LeaderboardTable Component', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global.fetch as any).mockImplementationOnce(() => new Promise(() => {}));
     render(<LeaderboardTable />);
-    expect(screen.getByText(/Memuat klasemen/i)).toBeInTheDocument();
+    expect(screen.getByText(/Menganalisis data pertandingan/i)).toBeInTheDocument();
   });
 
   it('renders leaderboard data', async () => {

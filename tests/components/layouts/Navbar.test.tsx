@@ -12,7 +12,7 @@ describe('Navbar', () => {
     render(<Navbar />);
     expect(screen.getByText('UC96')).toBeInTheDocument();
     expect(screen.getByText('Beranda')).toBeInTheDocument();
-    expect(screen.getByText('Pendaftaran')).toBeInTheDocument();
+    expect(screen.getAllByText('Daftar Tim')[0]).toBeInTheDocument();
   });
 
   it('toggles mobile menu', () => {

@@ -42,7 +42,7 @@ export function RegistrationForm({ availableTournaments }: { availableTournament
     },
   });
 
-  const { fields } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: 'players',
   });
@@ -257,21 +257,31 @@ export function RegistrationForm({ availableTournaments }: { availableTournament
                 key={field.id}
                 className="relative overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50/50 p-5 dark:border-neutral-800 dark:bg-[#121212]/50"
               >
-                {/* Pita Indikator Kapten */}
+                {/* Pita Indikator Role */}
                 {index === 0 && (
                   <div className="absolute top-0 right-0 rounded-bl-lg bg-[var(--color-primary)] px-3 py-1 text-[10px] font-bold tracking-wider text-white">
                     KAPTEN TIM
                   </div>
                 )}
+                {index === 4 && (
+                  <div className="absolute top-0 right-0 rounded-bl-lg bg-neutral-600 px-3 py-1 text-[10px] font-bold tracking-wider text-white">
+                    CADANGAN (OPSIONAL)
+                  </div>
+                )}
 
-                <h3 className="font-heading mb-4 font-semibold text-neutral-900 dark:text-white">
-                  {index === 0 ? 'Data Kapten' : `Anggota Tim ${index}`}
-                </h3>
+                <div className="mb-4 flex items-center justify-between">
+                  <h3 className="font-heading font-semibold text-neutral-900 dark:text-white">
+                    {index === 0 ? 'Data Kapten' : index === 4 ? 'Pemain Cadangan' : `Anggota Tim ${index}`}
+                  </h3>
+                  {index === 4 && (
+                    <button type="button" onClick={() => remove(4)} className="text-xs text-red-500 hover:underline">Hapus</button>
+                  )}
+                </div>
 
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <div>
                     <label className="mb-1.5 block text-xs font-medium text-neutral-500 dark:text-neutral-400">
-                      In-Game Name (IGN)
+                      ID PUBG (Nickname)
                     </label>
                     <Input
                       {...register(`players.${index}.ign` as const)}
@@ -281,17 +291,28 @@ export function RegistrationForm({ availableTournaments }: { availableTournament
                   </div>
                   <div>
                     <label className="mb-1.5 block text-xs font-medium text-neutral-500 dark:text-neutral-400">
-                      In-Game ID (Angka)
+                      ID Discord
                     </label>
                     <Input
                       {...register(`players.${index}.inGameId` as const)}
-                      placeholder="Contoh: 5123456789"
+                      placeholder="Contoh: faker#1234 / faker_uc"
                       error={errors.players?.[index]?.inGameId?.message}
                     />
                   </div>
                 </div>
               </div>
             ))}
+            
+            {fields.length < 5 && (
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full border-dashed border-neutral-300 py-6 text-neutral-500 dark:border-neutral-700 dark:text-neutral-400"
+                onClick={() => append({ ign: '', inGameId: '' })}
+              >
+                + Tambah Pemain Cadangan (Maksimal 1)
+              </Button>
+            )}
           </div>
 
           <div className="mt-10 flex items-center justify-between">

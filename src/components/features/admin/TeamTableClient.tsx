@@ -5,6 +5,8 @@ import { toast } from 'sonner';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
 
 type Player = {
   id: string;
@@ -176,17 +178,24 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
                         </Badge>
                       </td>
                       <td className="px-6 py-5 text-right">
-                        <select
-                          value={team.status}
-                          onChange={(e) =>
-                            handleStatusChange(team.id, e.target.value)
-                          }
-                          className="cursor-pointer rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-xs font-bold text-neutral-700 shadow-sm transition-colors hover:border-neutral-400 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:border-neutral-600"
-                        >
-                          <option value="PENDING">PENDING</option>
-                          <option value="APPROVED">APPROVE</option>
-                          <option value="REJECTED">REJECT</option>
-                        </select>
+                        <div className="flex items-center justify-end gap-3">
+                          <Button variant="outline" size="sm" asChild>
+                            <Link href={`/teams/${team.id}`} target="_blank">
+                              Lihat Detail
+                            </Link>
+                          </Button>
+                          <div className="w-[130px]">
+                            <Select
+                              value={team.status}
+                              onChange={(val) => handleStatusChange(team.id, val)}
+                              options={[
+                                { value: 'PENDING', label: 'PENDING' },
+                                { value: 'APPROVED', label: 'APPROVE' },
+                                { value: 'REJECTED', label: 'REJECT' },
+                              ]}
+                            />
+                          </div>
+                        </div>
                       </td>
                     </tr>
                   );

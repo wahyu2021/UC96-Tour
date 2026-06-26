@@ -77,6 +77,7 @@ describe('Tournaments API (/api/tournaments)', () => {
         startDate: '2026-01-01',
         endDate: '2026-01-10',
         status: 'DRAFT',
+        bannerUrl: '/path/to/banner.jpg',
       };
       vi.mocked(prisma.tournament.create).mockResolvedValueOnce({
         id: 't1',

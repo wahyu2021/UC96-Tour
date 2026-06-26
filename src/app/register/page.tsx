@@ -28,18 +28,31 @@ export default async function RegisterPage() {
   const activeTournaments = availableTournaments.filter(t => t._count.teams < t.maxSlots);
 
   return (
-    <div className="flex min-h-[calc(100vh-8rem)] w-full flex-col items-center justify-center bg-neutral-50 px-4 py-16 sm:px-6 lg:px-8 dark:bg-[#0a0a0a]">
-      <div className="mb-10 max-w-2xl text-center">
-        <h1 className="font-heading text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl md:text-5xl dark:text-white">
+    <div className="relative flex min-h-[calc(100vh-8rem)] w-full flex-col items-center justify-center overflow-hidden bg-[#0a0a0a] px-4 py-16 sm:px-6 lg:px-8">
+      {/* Background Image */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img 
+        src="/images/default-bg.webp" 
+        alt="Background"
+        className="absolute inset-0 h-full w-full object-cover opacity-30"
+      />
+      {/* Gradients to blend with page */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-[#0a0a0a]/80"></div>
+      
+      <div className="relative z-10 mb-10 max-w-2xl text-center">
+        <h1 className="font-heading text-3xl font-extrabold tracking-tight text-white sm:text-4xl md:text-5xl drop-shadow-md">
           Pendaftaran Turnamen
         </h1>
-        <p className="mt-4 text-base text-neutral-600 sm:text-lg dark:text-neutral-400">
+        <p className="mt-4 text-base text-neutral-300 sm:text-lg">
           Lengkapi data identitas tim dan susunan pemain dengan benar. Tim yang
           terdaftar akan diverifikasi oleh panitia sebelum dimasukkan ke dalam
           klasemen.
         </p>
       </div>
-      <RegistrationForm availableTournaments={activeTournaments} />
+      
+      <div className="relative z-10 w-full max-w-3xl">
+        <RegistrationForm availableTournaments={activeTournaments} />
+      </div>
     </div>
   );
 }
