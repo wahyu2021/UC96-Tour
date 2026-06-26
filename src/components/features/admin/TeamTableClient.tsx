@@ -68,7 +68,7 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
   return (
     <div className="space-y-6">
       {/* Bilah Filter & Pencarian */}
-      <div className="flex flex-col gap-4 sm:flex-row z-10 relative">
+      <div className="relative z-10 flex flex-col gap-4 sm:flex-row">
         <div className="w-full sm:max-w-xs">
           <Input
             type="text"
@@ -179,15 +179,19 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
                       </td>
                       <td className="px-6 py-5 text-right">
                         <div className="flex items-center justify-end gap-3">
-                          <Button variant="outline" size="sm" asChild>
-                            <Link href={`/teams/${team.id}`} target="_blank">
-                              Lihat Detail
-                            </Link>
-                          </Button>
+                          <Link
+                            href={`/teams/${team.id}`}
+                            target="_blank"
+                            className="inline-flex h-8 items-center justify-center rounded-md border border-neutral-300 bg-transparent px-3 text-xs font-medium transition-colors hover:bg-neutral-50 focus-visible:ring-1 focus-visible:ring-[var(--color-primary)] focus-visible:outline-none dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                          >
+                            Lihat Detail
+                          </Link>
                           <div className="w-[130px]">
                             <Select
                               value={team.status}
-                              onChange={(val) => handleStatusChange(team.id, val)}
+                              onChange={(val) =>
+                                handleStatusChange(team.id, val)
+                              }
                               options={[
                                 { value: 'PENDING', label: 'PENDING' },
                                 { value: 'APPROVED', label: 'APPROVE' },

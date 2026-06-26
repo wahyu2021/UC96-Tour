@@ -24,7 +24,7 @@ export async function GET(req: Request) {
         : undefined,
       include: {
         team: {
-          select: { id: true, name: true, logoUrl: true },
+          select: { id: true, name: true, tag: true, logoUrl: true },
         },
       },
     });
@@ -37,6 +37,7 @@ export async function GET(req: Request) {
         leaderboardMap.set(tId, {
           teamId: tId,
           teamName: result.team.name,
+          tag: result.team.tag,
           logoUrl: result.team.logoUrl,
           matchesPlayed: 0,
           totalKills: 0,

@@ -65,9 +65,7 @@ export function ScoreInputClient({
     setScores((prev) => ({
       ...prev,
       [teamId]: {
-        rank: '',
-        kills: '',
-        ...prev[teamId],
+        ...(prev[teamId] || { rank: '', kills: '' }),
         [field]: value,
       },
     }));
