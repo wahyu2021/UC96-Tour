@@ -27,7 +27,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
   return (
     <aside
       className={cn(
-        'relative shrink-0 border-r border-neutral-200 bg-white transition-all duration-300 dark:border-neutral-800 dark:bg-[#121212]',
+        'relative shrink-0 border-r border-neutral-200 bg-white transition-all duration-300 md:sticky md:top-0 md:h-screen md:overflow-y-auto dark:border-neutral-800 dark:bg-[#121212]',
         isCollapsed ? 'w-20' : 'w-full md:w-72'
       )}
     >
