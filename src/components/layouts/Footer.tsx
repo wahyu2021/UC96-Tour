@@ -8,7 +8,9 @@ export function Footer() {
   const pathname = usePathname();
   if (
     pathname &&
-    (pathname.startsWith('/admin') || pathname.startsWith('/login'))
+    (pathname.startsWith('/admin') ||
+      pathname.startsWith('/login') ||
+      pathname.startsWith('/signup'))
   )
     return null;
 

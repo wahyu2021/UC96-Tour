@@ -63,7 +63,9 @@ export function Navbar({
 
   if (
     pathname &&
-    (pathname.startsWith('/admin') || pathname.startsWith('/login'))
+    (pathname.startsWith('/admin') ||
+      pathname.startsWith('/login') ||
+      pathname.startsWith('/signup'))
   )
     return null;
 
