@@ -8,6 +8,8 @@
 
 - **Next.js (App Router):** Framework _full-stack_ berbasis React. Dipilih karena menawarkan performa tinggi dengan fitur _Server-Side Rendering_ (SSR). Next.js akan di-_build_ dalam mode `standalone` agar ramah memori saat dijalankan di VPS Anda.
 - **Tailwind CSS & next-themes:** Untuk _styling_ UI dan pengelolaan _Dark/Light Mode_ secara efisien.
+- **React Query (TanStack Query):** Untuk _state management_ data _fetching_ sisi klien yang optimal dan _caching_.
+- **Zustand:** Untuk manajemen _state global_ antarmuka pengguna (_client UI state_).
 
 ## 3. Backend
 
