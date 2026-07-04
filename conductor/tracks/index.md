@@ -19,8 +19,3 @@
 
 - [x] **Track: 022-confirm-modal-custom**
       _Link: [./022-confirm-modal-custom/](./022-confirm-modal-custom/)_
-
----
-
-- [x] **Track: 023-global-refactor**
-      _Link: [./023-global-refactor/](./023-global-refactor/)_
