@@ -17,6 +17,9 @@ vi.mock('@/lib/db', () => ({
       update: vi.fn(),
       delete: vi.fn(),
     },
+    tournament: {
+      findUnique: vi.fn(),
+    },
   },
 }));
 
@@ -97,6 +100,12 @@ describe('Admin Matches API', () => {
         id: 'm1',
         ...mockData,
         status: 'SCHEDULED',
+      } as any);
+
+      vi.mocked(prisma.tournament.findUnique).mockResolvedValueOnce({
+        id: 't1',
+        startDate: new Date('2026-10-09T00:00:00Z'),
+        endDate: new Date('2026-10-11T23:59:59Z'),
       } as any);
 
       const req = new Request('http://localhost', {
