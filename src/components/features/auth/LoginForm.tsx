@@ -3,10 +3,7 @@
 import * as React from 'react';
 import { signIn } from 'next-auth/react';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-
 export function LoginForm() {
-  const router = useRouter();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);

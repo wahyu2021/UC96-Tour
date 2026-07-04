@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Clock, MapPin, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
-import { MatchStatus } from '@prisma/client';
 import { cn } from '@/lib/utils';
-import { Match, MatchCardProps } from '@/types';
+import { MatchCardProps } from '@/types';
 
 export function MatchCard({ match }: MatchCardProps) {
   const isOngoing = match.status === 'ONGOING';

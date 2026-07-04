@@ -5,7 +5,7 @@ import { CalendarDays, Users, Trophy, FolderOpen } from 'lucide-react';
 import { formatRupiah } from '@/lib/utils';
 import { Badge } from '@/components/ui/Badge';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { Tournament, FeaturedTournamentsProps } from '@/types';
+import { FeaturedTournamentsProps } from '@/types';
 
 export function FeaturedTournaments({ tournaments }: FeaturedTournamentsProps) {
   return (

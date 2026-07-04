@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PATCH } from '@/app/api/admin/teams/[id]/route';
-import { getServerSession } from 'next-auth';
+
 import { requireAdmin } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { describe, it, expect, vi, beforeEach } from 'vitest';

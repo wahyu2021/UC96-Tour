@@ -55,7 +55,7 @@ export async function GET(
       dynamicStatus,
       teams: tournament.registrations.map(r => r.team).sort((a, b) => a.name.localeCompare(b.name)),
     };
-    // @ts-ignore
+    // @ts-expect-error remove registrations for smaller payload
     delete responseData.registrations;
     return NextResponse.json(responseData);
   } catch (error) {

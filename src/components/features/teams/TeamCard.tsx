@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Users, Crown } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Player, TeamCardProps } from '@/types';
+import { TeamCardProps } from '@/types';
 
 export function TeamCard({ team }: TeamCardProps) {
   // Ambil inisial tim untuk avatar fallback

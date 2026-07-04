@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import {
   getPlacementPoints,
   calculateTotalPoints,
-  DEFAULT_RULES,
 } from '@/lib/scoring';
 
 describe('Scoring Logic', () => {

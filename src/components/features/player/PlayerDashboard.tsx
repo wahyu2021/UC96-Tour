@@ -61,7 +61,7 @@ export function PlayerDashboard({ initialTeam }: PlayerDashboardProps) {
 
       setLogoUrl(data.url);
       toast.success('Logo tim berhasil diunggah!', { id: toastId });
-    } catch (error) {
+    } catch {
       toast.error('Gagal mengunggah logo', { id: toastId });
     }
   };

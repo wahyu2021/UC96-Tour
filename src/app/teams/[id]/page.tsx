@@ -96,7 +96,6 @@ export default async function TeamDetailsPage({
   }
 
   // Calculate aggregates
-  const totalMatches = team.matchResults.length;
   const totalKills = team.matchResults.reduce(
     (acc, curr) => acc + curr.killPoints,
     0

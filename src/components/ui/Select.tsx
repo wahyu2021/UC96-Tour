@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { SelectOption, SelectProps } from '@/types';
+import { SelectProps } from '@/types';
 
 export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
   (

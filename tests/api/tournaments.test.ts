@@ -32,7 +32,7 @@ describe('Tournaments API (/api/tournaments)', () => {
         mockTournaments as any
       );
 
-      const req = new Request('http://localhost/api/tournaments');
+
       const response = await GET();
 
       expect(response.status).toBe(200);

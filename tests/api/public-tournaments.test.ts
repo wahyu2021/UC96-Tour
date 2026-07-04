@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { GET as getTournaments } from '@/app/api/tournaments/route';
 import { GET as getTournamentDetail } from '@/app/api/tournaments/[id]/route';
 import { prisma } from '@/lib/db';
-import { NextResponse } from 'next/server';
+
 
 // Mock Prisma
 vi.mock('@/lib/db', () => ({

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Trophy, ArrowRight, ShieldAlert, BarChart3 } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { TeamLeaderboard, MiniLeaderboardProps } from '@/types';
+import { MiniLeaderboardProps } from '@/types';
 
 export function MiniLeaderboard({ data }: MiniLeaderboardProps) {
   return (

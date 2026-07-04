@@ -7,12 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { toast } from 'sonner';
 import { getPlacementPoints, DEFAULT_RULES } from '@/lib/scoring';
-import {
-  Team,
-  ExistingScore,
-  ScoreInputClientProps,
-  ScoringRule,
-} from '@/types';
+import { ScoreInputClientProps } from '@/types';
 
 export function ScoreInputClient({
   match,
