@@ -12,8 +12,8 @@ const playerSchema = z.object({
 
 const updateTeamSchema = z.object({
   name: z.string().min(3, 'Nama tim minimal 3 karakter'),
-  tag: z.string().min(2, 'Tag minimal 2 karakter').max(5),
-  logoUrl: z.string().optional().or(z.literal('')),
+  tag: z.string().min(1, 'Tag wajib diisi'),
+  logoUrl: z.string().url('Logo harus berupa URL yang valid'),
   players: z
     .array(playerSchema)
     .min(4, 'Minimal 4 pemain')
