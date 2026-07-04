@@ -22,7 +22,7 @@ export default async function RulesPage() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <h1 className="font-heading mb-4 text-4xl font-black uppercase italic md:text-5xl">
-            Kitab <span className="text-(--color-primary)">Undang-Undang</span>
+            Aturan <span className="text-(--color-primary)">Permainan</span>
           </h1>
           <p className="text-neutral-400">
             Aturan resmi turnamen UC96. Wajib dibaca dan dipatuhi oleh seluruh
