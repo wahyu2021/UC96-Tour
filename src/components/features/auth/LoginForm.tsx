@@ -3,8 +3,10 @@
 import * as React from 'react';
 import { signIn } from 'next-auth/react';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export function LoginForm() {
+  const router = useRouter();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
@@ -26,8 +28,7 @@ export function LoginForm() {
       }
 
       toast.success('Selamat Datang!', { id: toastId });
-      // Reload window so the server-side redirect in page.tsx takes over
-      window.location.href = '/login';
+      window.location.reload();
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message, { id: toastId });
@@ -82,7 +83,7 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="mt-8 flex w-full items-center justify-center rounded-lg bg-[var(--color-primary)] px-4 py-3.5 text-sm font-bold tracking-wide text-white transition-all hover:bg-[var(--color-primary-hover)] hover:shadow-[0_0_15px_rgba(211,47,47,0.4)] disabled:cursor-not-allowed disabled:opacity-70"
+          className="mt-8 flex w-full items-center justify-center rounded-lg bg-[var(--color-primary)] px-4 py-3.5 text-sm font-bold tracking-wide text-white transition-all hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-70"
         >
           {isLoading ? 'Mengautentikasi...' : 'Masuk'}
         </button>
