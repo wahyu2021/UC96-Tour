@@ -72,10 +72,10 @@ export const PUT = withAuthRoute(async (req, context, session) => {
     });
 
     return NextResponse.json(updatedTeam, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Update master team error:', error);
     
-    if (error.code === 'P2002') {
+    if (typeof error === 'object' && error !== null && (error as { code?: string }).code === 'P2002') {
       return NextResponse.json(
         { error: 'Salah satu ID PUBG (In-Game ID) yang dimasukkan sudah terdaftar di tim lain!' },
         { status: 409 }
