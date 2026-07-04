@@ -27,5 +27,5 @@
 
 ---
 
-- [ ] **Track: 026-image-optimization**
+- [x] **Track: 026-image-optimization**
       _Link: [./026-image-optimization/](./026-image-optimization/)_
