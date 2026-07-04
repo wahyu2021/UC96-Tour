@@ -25,16 +25,14 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboardPage() {
   const [
-    totalTournaments,
-    activeTournaments,
+    allTournaments,
     totalTeams,
     approvedTeams,
     totalMatches,
     liveMatches,
     recentTeams,
   ] = await Promise.all([
-    prisma.tournament.count(),
-    prisma.tournament.count({ where: { status: 'ONGOING' } }),
+    prisma.tournament.findMany({ select: { id: true, status: true, startDate: true, endDate: true } }),
     prisma.team.count(),
     prisma.team.count({ where: { registrations: { some: { status: 'APPROVED' } } } }),
     prisma.match.count(),
@@ -45,6 +43,22 @@ export default async function AdminDashboardPage() {
       include: { registrations: { include: { tournament: true } } },
     }),
   ]);
+
+  const nowTime = new Date();
+  const totalTournaments = allTournaments.length;
+  const activeTournaments = allTournaments.filter((tour) => {
+    let dynamicStatus = tour.status;
+    if (tour.status !== 'COMPLETED') {
+      if (nowTime < tour.startDate) {
+        dynamicStatus = 'DRAFT';
+      } else if (nowTime >= tour.startDate && nowTime <= tour.endDate) {
+        dynamicStatus = 'ONGOING';
+      } else if (nowTime > tour.endDate) {
+        dynamicStatus = 'COMPLETED';
+      }
+    }
+    return dynamicStatus === 'ONGOING';
+  }).length;
 
   // Siapkan data untuk Chart Pendaftaran (7 Hari Terakhir)
   const sevenDaysAgo = new Date();

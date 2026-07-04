@@ -12,6 +12,21 @@ export default async function TournamentsPage() {
       _count: { select: { registrations: { where: { status: 'APPROVED' } } } },
     },
   });
+  const now = new Date();
+  
+  const formattedTournaments = tournaments.map((tour) => {
+    let dynamicStatus = tour.status;
+    if (tour.status !== 'COMPLETED') {
+      if (now < tour.startDate) {
+        dynamicStatus = 'DRAFT';
+      } else if (now >= tour.startDate && now <= tour.endDate) {
+        dynamicStatus = 'ONGOING';
+      } else if (now > tour.endDate) {
+        dynamicStatus = 'COMPLETED';
+      }
+    }
+    return { ...tour, status: dynamicStatus };
+  });
 
   return (
     <div className="mx-auto w-full max-w-7xl">
@@ -27,7 +42,7 @@ export default async function TournamentsPage() {
         </div>
       </div>
 
-      <TournamentTableClient initialTournaments={tournaments} />
+      <TournamentTableClient initialTournaments={formattedTournaments} />
     </div>
   );
 }
