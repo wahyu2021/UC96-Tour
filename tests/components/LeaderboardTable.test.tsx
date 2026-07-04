@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { LeaderboardTable } from '@/components/features/public/LeaderboardTable';
 import React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Mock fetch
 global.fetch = vi.fn();
@@ -14,7 +15,12 @@ describe('LeaderboardTable Component', () => {
   it('renders loading state initially', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global.fetch as any).mockImplementationOnce(() => new Promise(() => {}));
-    render(<LeaderboardTable />);
+    const queryClient = new QueryClient();
+    render(
+      <QueryClientProvider client={queryClient}>
+        <LeaderboardTable />
+      </QueryClientProvider>
+    );
     expect(screen.getByText(/Menganalisis data pertandingan/i)).toBeInTheDocument();
   });
 
@@ -50,7 +56,12 @@ describe('LeaderboardTable Component', () => {
       json: async () => mockData,
     });
 
-    render(<LeaderboardTable />);
+    const queryClient = new QueryClient();
+    render(
+      <QueryClientProvider client={queryClient}>
+        <LeaderboardTable />
+      </QueryClientProvider>
+    );
 
     await waitFor(() => {
       expect(screen.getByText('Team Alpha')).toBeInTheDocument();

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+
+import { requireAdmin } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 
 export async function PATCH(
@@ -10,7 +10,8 @@ export async function PATCH(
   try {
     const { id } = await params;
     // Verifikasi keamanan ganda di level API
-    const session = await getServerSession(authOptions);
+    const session = await requireAdmin();
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     if (!session || (session.user as { role?: string })?.role !== 'ADMIN') {
       return NextResponse.json(

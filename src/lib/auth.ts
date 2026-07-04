@@ -74,3 +74,14 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
+
+import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
+
+export async function requireAdmin() {
+  const session = await getServerSession(authOptions);
+  if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'SUPERADMIN')) {
+    return null;
+  }
+  return session;
+}

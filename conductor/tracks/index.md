@@ -22,5 +22,5 @@
 
 ---
 
-- [ ] **Track: 024-perbaikan-hasil-audit**
+- [x] **Track: 024-perbaikan-hasil-audit**
       _Link: [./024-perbaikan-hasil-audit/](./024-perbaikan-hasil-audit/)_

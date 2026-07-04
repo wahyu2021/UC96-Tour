@@ -17,6 +17,7 @@ import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { MatchFormModal } from './MatchFormModal';
 import Link from 'next/link';
 import { MatchInfo } from '@/types';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface TournamentInfo {
   id: string;
@@ -28,8 +29,7 @@ export function MatchTable({
 }: {
   activeTournaments: TournamentInfo[];
 }) {
-  const [matches, setMatches] = React.useState<MatchInfo[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [selectedTournamentId, setSelectedTournamentId] =
     React.useState<string>('ALL');
@@ -39,6 +39,15 @@ export function MatchTable({
     null
   );
   const [isDeleting, setIsDeleting] = React.useState(false);
+
+  const { data: matches = [], isLoading, refetch } = useQuery<MatchInfo[]>({
+    queryKey: ['admin', 'matches'],
+    queryFn: async () => {
+      const res = await fetch('/api/admin/matches');
+      if (!res.ok) throw new Error('Failed to fetch matches');
+      return res.json();
+    },
+  });
 
   const uniqueGroups = React.useMemo(() => {
     const groups = new Set<string>();
@@ -61,42 +70,27 @@ export function MatchTable({
     });
   }, [matches, selectedTournamentId, selectedStatus, selectedGroup]);
 
-  const fetchMatches = React.useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const res = await fetch('/api/admin/matches');
-      if (res.ok) {
-        const data = await res.json();
-        setMatches(data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch matches', error);
-    } finally {
-      setIsLoading(false);
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`/api/admin/matches/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error('Failed to delete match');
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'matches'] });
+      setConfirmDeleteId(null);
+    },
+    onSettled: () => {
+      setIsDeleting(false);
     }
-  }, []);
-
-  React.useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchMatches();
-  }, [fetchMatches]);
+  });
 
   const handleDelete = async () => {
     if (!confirmDeleteId) return;
     setIsDeleting(true);
-    try {
-      const res = await fetch(`/api/admin/matches/${confirmDeleteId}`, {
-        method: 'DELETE',
-      });
-      if (res.ok) {
-        setConfirmDeleteId(null);
-        fetchMatches();
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsDeleting(false);
-    }
+    deleteMutation.mutate(confirmDeleteId);
   };
 
   const handleUpdateStatus = async (id: string, status: string) => {
@@ -106,7 +100,7 @@ export function MatchTable({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status }),
       });
-      if (res.ok) fetchMatches();
+      if (res.ok) refetch();
     } catch (error) {
       console.error(error);
     }
@@ -162,7 +156,7 @@ export function MatchTable({
             )}
           </div>
           <div className="flex w-full justify-end gap-2 sm:w-auto">
-            <Button variant="outline" onClick={fetchMatches} title="Refresh">
+            <Button onClick={() => refetch()} variant="outline" title="Refresh">
               <RefreshCw
                 className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
               />
@@ -312,7 +306,10 @@ export function MatchTable({
       <MatchFormModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSuccess={fetchMatches}
+        onSuccess={() => {
+          setIsModalOpen(false);
+          refetch();
+        }}
         tournaments={activeTournaments}
       />
 

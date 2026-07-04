@@ -13,30 +13,18 @@ import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { LeaderboardTeam } from '@/types';
+import { useQuery } from '@tanstack/react-query';
 
 export function LeaderboardTable() {
-  const [data, setData] = React.useState<LeaderboardTeam[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  const fetchLeaderboard = React.useCallback(async () => {
-    setIsLoading(true);
-    try {
+  const { data = [], isLoading, refetch, isRefetching } = useQuery<LeaderboardTeam[]>({
+    queryKey: ['leaderboard'],
+    queryFn: async () => {
       const res = await fetch('/api/leaderboard');
-      if (res.ok) {
-        const json = await res.json();
-        setData(json.leaderboard || []);
-      }
-    } catch (error) {
-      console.error('Failed to fetch leaderboard', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  React.useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchLeaderboard();
-  }, [fetchLeaderboard]);
+      if (!res.ok) throw new Error('Failed to fetch leaderboard');
+      const json = await res.json();
+      return json.leaderboard || [];
+    },
+  });
 
   const top3 = data.slice(0, 3);
   const restOfTeams = data.slice(3);
@@ -164,18 +152,9 @@ export function LeaderboardTable() {
             akhir.
           </p>
         </div>
-        <Button
-          variant="outline"
-          onClick={fetchLeaderboard}
-          className="rounded-full shadow-sm"
-        >
-          <RefreshCw
-            className={cn(
-              'text-brand-500 mr-2 h-4 w-4',
-              isLoading && 'animate-spin'
-            )}
-          />
-          {isLoading ? 'Memperbarui...' : 'Perbarui Peringkat'}
+        <Button onClick={() => refetch()} variant="outline" size="sm">
+          <RefreshCw className={`mr-2 h-4 w-4 ${isRefetching || isLoading ? 'animate-spin' : ''}`} />
+          Perbarui Papan Peringkat
         </Button>
       </div>
 

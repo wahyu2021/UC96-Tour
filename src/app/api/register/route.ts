@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { teamRegistrationSchema } from '@/lib/validations/team';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get('x-forwarded-for') || '127.0.0.1';
+    if (!rateLimit(ip, 3, 60000)) { // Max 3 per minute
+      return NextResponse.json({ error: 'Terlalu banyak percobaan. Silakan tunggu beberapa saat.' }, { status: 429 });
+    }
+
     const body = await request.json();
 
     // 1. Validasi Zod

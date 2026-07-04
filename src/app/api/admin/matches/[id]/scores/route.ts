@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { requireAdmin } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { getPlacementPoints } from '@/lib/scoring';
 import { UpdateMatchScoresRequest } from '@/types';
@@ -13,7 +12,8 @@ export async function GET(
   const matchId = resolvedParams.id;
 
   try {
-    const scores = await prisma.matchResult.findMany({
+    const session = await requireAdmin();
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });const scores = await prisma.matchResult.findMany({
       where: { matchId },
       include: {
         team: {
@@ -36,7 +36,8 @@ export async function POST(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await getServerSession(authOptions);
+  const session = await requireAdmin();
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   if (!session || session.user?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
