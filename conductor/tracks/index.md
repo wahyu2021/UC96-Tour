@@ -25,8 +25,5 @@
 - [x] **Track: Implement one click tournament join for captains**
       _Link: [./025-one-click-tournament-join/](./025-one-click-tournament-join/)_
 
----
 
-- [x] **Track: 028-seo-optimization**
-      _Link: [./028-seo-optimization/](./028-seo-optimization/)_
 
