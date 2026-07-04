@@ -25,3 +25,8 @@
 - [x] **Track: Implement one click tournament join for captains**
       _Link: [./025-one-click-tournament-join/](./025-one-click-tournament-join/)_
 
+---
+
+- [ ] **Track: 027-refactor-auth-helper**
+      _Link: [./027-refactor-auth-helper/](./027-refactor-auth-helper/)_
+
