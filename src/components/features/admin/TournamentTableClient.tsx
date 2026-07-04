@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/Badge';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { UploadCloud } from 'lucide-react';
 import { formatRupiah } from '@/lib/utils';
+import { toast } from 'sonner';
 
 type TournamentData = {
   id: string;
@@ -86,11 +87,11 @@ export function TournamentTableClient({
         setIsModalOpen(false);
         router.refresh();
       } else {
-        alert('Gagal menyimpan turnamen. Pastikan nama belum dipakai.');
+        toast.error('Gagal menyimpan turnamen. Pastikan nama belum dipakai.');
       }
     } catch (err) {
       console.error(err);
-      alert('Terjadi kesalahan pada server');
+      toast.error('Terjadi kesalahan pada server');
     } finally {
       setIsSubmitting(false);
     }
@@ -105,16 +106,16 @@ export function TournamentTableClient({
       const data = await res.json();
       if (res.ok) {
         setIsConfirmModalOpen(false);
-        alert(data.message);
+        toast.success(data.message);
         router.refresh();
         window.location.reload();
       } else {
-        alert(data.error || 'Gagal generate turnamen.');
+        toast.error(data.error || 'Gagal generate turnamen.');
         setIsConfirmModalOpen(false);
       }
     } catch (err) {
       console.error(err);
-      alert('Terjadi kesalahan pada server');
+      toast.error('Terjadi kesalahan pada server');
       setIsConfirmModalOpen(false);
     } finally {
       setIsSubmitting(false);

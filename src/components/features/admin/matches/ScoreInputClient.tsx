@@ -4,6 +4,8 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Save, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { Modal } from '@/components/ui/Modal';
+import { toast } from 'sonner';
 import { getPlacementPoints, DEFAULT_RULES } from '@/lib/scoring';
 import {
   Team,
@@ -36,6 +38,8 @@ export function ScoreInputClient({
   });
 
   const [isSaving, setIsSaving] = React.useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
+  const [emptyTeamsCount, setEmptyTeamsCount] = React.useState(0);
 
   const handleInputChange = (
     teamId: string,
@@ -59,11 +63,16 @@ export function ScoreInputClient({
     });
 
     if (emptyTeams.length > 0) {
-      const confirmSave = confirm(
-        `Terdapat ${emptyTeams.length} tim yang belum diinput skornya. Mereka tidak akan disimpan. Lanjutkan?`
-      );
-      if (!confirmSave) return;
+      setEmptyTeamsCount(emptyTeams.length);
+      setIsConfirmModalOpen(true);
+      return;
     }
+
+    executeSave();
+  };
+
+  const executeSave = async () => {
+    setIsConfirmModalOpen(false);
 
     const payload = teams
       .map((team) => {
@@ -78,7 +87,7 @@ export function ScoreInputClient({
       .filter(Boolean);
 
     if (payload.length === 0) {
-      alert('Tidak ada skor valid untuk disimpan.');
+      toast.error('Tidak ada skor valid untuk disimpan.');
       return;
     }
 
@@ -91,15 +100,15 @@ export function ScoreInputClient({
       });
 
       if (res.ok) {
-        alert('Skor berhasil disimpan!');
+        toast.success('Skor berhasil disimpan!');
         router.push('/admin');
       } else {
         const data = await res.json();
-        alert(data.error || 'Gagal menyimpan skor');
+        toast.error(data.error || 'Gagal menyimpan skor');
       }
     } catch (error) {
       console.error(error);
-      alert('Terjadi kesalahan sistem.');
+      toast.error('Terjadi kesalahan sistem.');
     } finally {
       setIsSaving(false);
     }
@@ -252,6 +261,32 @@ export function ScoreInputClient({
           </tbody>
         </table>
       </div>
+
+      <Modal
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
+        title="Konfirmasi Simpan"
+      >
+        <p className="text-neutral-600 dark:text-neutral-400">
+          Terdapat {emptyTeamsCount} tim yang belum diinput skornya. Mereka
+          tidak akan disimpan. Lanjutkan?
+        </p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button
+            variant="outline"
+            onClick={() => setIsConfirmModalOpen(false)}
+          >
+            Batal
+          </Button>
+          <Button
+            className="bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)]"
+            onClick={executeSave}
+            disabled={isSaving}
+          >
+            Ya, Lanjutkan
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

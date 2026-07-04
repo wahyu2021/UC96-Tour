@@ -14,6 +14,7 @@ import {
   Edit3,
   LayoutDashboard,
   LogOut,
+  Swords,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { signOut } from 'next-auth/react';
@@ -109,22 +110,6 @@ export function Navbar({
             </Link>
           ))}
 
-          {/* Admin Dashboard Link (Desktop) */}
-          {isAdmin && (
-            <Link
-              href="/admin/dashboard"
-              className={cn(
-                'flex items-center gap-2 text-sm font-medium transition-colors hover:text-[var(--color-primary)]',
-                isActive('/admin')
-                  ? 'font-bold text-[var(--color-primary)]'
-                  : 'text-neutral-600 dark:text-neutral-300'
-              )}
-            >
-              <LayoutDashboard className="h-4 w-4" />
-              Dashboard
-            </Link>
-          )}
-
           {/* Dropdown Menu (Desktop) */}
           <div className="group relative">
             <button
@@ -199,12 +184,26 @@ export function Navbar({
           ) : isAdmin ? (
             <>
               <Link
+                href="/player"
+                className="flex items-center gap-2 rounded-full border border-neutral-200 bg-transparent px-5 py-2 text-sm font-bold text-neutral-700 transition-colors hover:bg-neutral-50 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-white"
+              >
+                <Swords className="h-4 w-4" />
+                Dasbor Kapten
+              </Link>
+              <Link
                 href="/admin/dashboard"
                 className="flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-bold text-white transition-transform hover:scale-105 hover:bg-[var(--color-primary-hover)] hover:shadow-lg"
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Panel Admin
               </Link>
+              <button
+                onClick={() => signOut({ callbackUrl: '/login' })}
+                className="flex items-center gap-2 rounded-full border border-red-200 bg-transparent px-5 py-2 text-sm font-bold text-red-600 transition-colors hover:bg-red-50 hover:text-red-700 dark:border-red-900/50 dark:text-red-500 dark:hover:bg-red-900/20"
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </button>
             </>
           ) : (
             <>
@@ -257,23 +256,6 @@ export function Navbar({
                 {link.name}
               </Link>
             ))}
-
-            {/* Admin Dashboard Link (Mobile) */}
-            {isAdmin && (
-              <Link
-                href="/admin/dashboard"
-                className={cn(
-                  'flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-colors hover:text-[var(--color-primary)]',
-                  isActive('/admin')
-                    ? 'bg-neutral-50 font-bold text-[var(--color-primary)] dark:bg-neutral-900 dark:text-[var(--color-primary)]'
-                    : 'text-neutral-600 hover:bg-neutral-50 dark:text-neutral-300 dark:hover:bg-neutral-900 dark:hover:text-[var(--color-primary)]'
-                )}
-                onClick={() => setIsOpen(false)}
-              >
-                <LayoutDashboard className="h-5 w-5" />
-                Dashboard Admin
-              </Link>
-            )}
 
             {/* Mobile Dropdown Group */}
             <div className="mt-4">
@@ -348,14 +330,34 @@ export function Navbar({
                   </button>
                 </>
               ) : isAdmin ? (
-                <Link
-                  href="/admin/dashboard"
-                  onClick={() => setIsOpen(false)}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-base font-bold text-white transition-opacity hover:opacity-90"
-                >
-                  <LayoutDashboard className="h-5 w-5" />
-                  Panel Admin
-                </Link>
+                <>
+                  <Link
+                    href="/player"
+                    onClick={() => setIsOpen(false)}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-transparent px-4 py-3 text-base font-bold text-neutral-700 transition-colors hover:bg-neutral-50 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-white"
+                  >
+                    <Swords className="h-5 w-5" />
+                    Dasbor Kapten
+                  </Link>
+                  <Link
+                    href="/admin/dashboard"
+                    onClick={() => setIsOpen(false)}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-base font-bold text-white transition-opacity hover:opacity-90"
+                  >
+                    <LayoutDashboard className="h-5 w-5" />
+                    Panel Admin
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      signOut({ callbackUrl: '/login' });
+                    }}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-transparent px-4 py-3 text-base font-bold text-red-600 transition-colors hover:bg-red-50 dark:border-red-900/50 dark:text-red-500 dark:hover:bg-red-900/20"
+                  >
+                    <LogOut className="h-5 w-5" />
+                    Logout
+                  </button>
+                </>
               ) : (
                 <>
                   <Link

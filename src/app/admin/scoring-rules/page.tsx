@@ -3,12 +3,15 @@
 import * as React from 'react';
 import { Save, RefreshCcw, Info } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { Modal } from '@/components/ui/Modal';
 import { ScoringRule } from '@/types';
+import { toast } from 'sonner';
 
 export default function ScoringRulesPage() {
   const [rules, setRules] = React.useState<ScoringRule[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isSaving, setIsSaving] = React.useState(false);
+  const [isResetModalOpen, setIsResetModalOpen] = React.useState(false);
 
   const fetchRules = React.useCallback(async () => {
     try {
@@ -60,42 +63,36 @@ export default function ScoringRulesPage() {
         body: JSON.stringify({ rules }),
       });
       if (res.ok) {
-        alert('Aturan Poin berhasil disimpan!');
+        toast.success('Aturan Poin berhasil disimpan!');
         fetchRules();
       } else {
         const data = await res.json();
-        alert(data.error || 'Gagal menyimpan aturan.');
+        toast.error(data.error || 'Gagal menyimpan aturan.');
       }
     } catch (error) {
       console.error(error);
-      alert('Terjadi kesalahan sistem.');
+      toast.error('Terjadi kesalahan sistem.');
     } finally {
       setIsSaving(false);
     }
   };
 
-  const handleReset = async () => {
-    if (
-      !confirm(
-        'Anda yakin ingin mengembalikan semua poin ke Aturan Standar Global PUBG? Data sebelumnya akan tertimpa.'
-      )
-    )
-      return;
-
+  const handleConfirmReset = async () => {
+    setIsResetModalOpen(false);
     setIsSaving(true);
     try {
       const res = await fetch('/api/admin/scoring-rules/reset', {
         method: 'POST',
       });
       if (res.ok) {
-        alert('Aturan berhasil dikembalikan ke standar PUBG.');
+        toast.success('Aturan berhasil dikembalikan ke standar PUBG.');
         fetchRules();
       } else {
-        alert('Gagal mereset aturan.');
+        toast.error('Gagal mereset aturan.');
       }
     } catch (error) {
       console.error(error);
-      alert('Terjadi kesalahan sistem.');
+      toast.error('Terjadi kesalahan sistem.');
     } finally {
       setIsSaving(false);
     }
@@ -124,8 +121,8 @@ export default function ScoringRulesPage() {
         <div className="flex items-center gap-3">
           <Button
             variant="outline"
-            className="border-neutral-300 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
-            onClick={handleReset}
+            className="flex items-center gap-2 border-red-500 text-red-500 hover:bg-red-50 hover:text-red-600"
+            onClick={() => setIsResetModalOpen(true)}
             disabled={isSaving}
           >
             <RefreshCcw className="mr-2 h-4 w-4" />
@@ -202,6 +199,28 @@ export default function ScoringRulesPage() {
           </Button>
         )}
       </div>
+
+      <Modal
+        isOpen={isResetModalOpen}
+        onClose={() => setIsResetModalOpen(false)}
+        title="Konfirmasi Reset"
+      >
+        <p className="text-neutral-600 dark:text-neutral-400">
+          Anda yakin ingin mengembalikan semua poin ke Aturan Standar Global
+          PUBG? Data sebelumnya akan tertimpa dan tidak dapat dikembalikan.
+        </p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="outline" onClick={() => setIsResetModalOpen(false)}>
+            Batal
+          </Button>
+          <Button
+            className="bg-red-600 text-white hover:bg-red-700"
+            onClick={handleConfirmReset}
+          >
+            Ya, Reset Sekarang
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }
