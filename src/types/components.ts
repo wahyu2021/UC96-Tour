@@ -242,6 +242,7 @@ export interface MatchFormModalProps {
   onClose: () => void;
   onSuccess: () => void;
   tournaments: TournamentInfo[];
+  editingMatch?: MatchInfo | null;
 }
 
 export interface MatchInfo {

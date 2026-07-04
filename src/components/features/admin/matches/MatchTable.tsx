@@ -8,6 +8,7 @@ import {
   CheckCircle,
   RefreshCw,
   CalendarDays,
+  Pencil,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -31,6 +32,9 @@ export function MatchTable({
 }) {
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [editingMatch, setEditingMatch] = React.useState<MatchInfo | null>(
+    null
+  );
   const [selectedTournamentId, setSelectedTournamentId] =
     React.useState<string>('ALL');
   const [selectedStatus, setSelectedStatus] = React.useState<string>('ALL');
@@ -40,7 +44,11 @@ export function MatchTable({
   );
   const [isDeleting, setIsDeleting] = React.useState(false);
 
-  const { data: matches = [], isLoading, refetch } = useQuery<MatchInfo[]>({
+  const {
+    data: matches = [],
+    isLoading,
+    refetch,
+  } = useQuery<MatchInfo[]>({
     queryKey: ['admin', 'matches'],
     queryFn: async () => {
       const res = await fetch('/api/admin/matches');
@@ -84,7 +92,7 @@ export function MatchTable({
     },
     onSettled: () => {
       setIsDeleting(false);
-    }
+    },
   });
 
   const handleDelete = async () => {
@@ -104,6 +112,15 @@ export function MatchTable({
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleOpenModal = (match?: MatchInfo) => {
+    if (match) {
+      setEditingMatch(match);
+    } else {
+      setEditingMatch(null);
+    }
+    setIsModalOpen(true);
   };
 
   return (
@@ -161,7 +178,7 @@ export function MatchTable({
                 className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
               />
             </Button>
-            <Button onClick={() => setIsModalOpen(true)}>
+            <Button onClick={() => handleOpenModal()}>
               <Plus className="mr-2 h-4 w-4" />
               Tambah Jadwal
             </Button>
@@ -288,6 +305,15 @@ export function MatchTable({
                         <Button
                           variant="ghost"
                           size="sm"
+                          className="hover:text-brand-600 dark:hover:text-brand-400 h-8 px-2 text-neutral-400"
+                          onClick={() => handleOpenModal(match)}
+                          title="Edit Jadwal"
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           className="h-8 px-2 text-neutral-400 hover:text-red-600"
                           onClick={() => setConfirmDeleteId(match.id)}
                         >
@@ -304,13 +330,19 @@ export function MatchTable({
       </div>
 
       <MatchFormModal
+        key={editingMatch?.id || 'new_match'}
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingMatch(null);
+        }}
         onSuccess={() => {
           setIsModalOpen(false);
+          setEditingMatch(null);
           refetch();
         }}
         tournaments={activeTournaments}
+        editingMatch={editingMatch}
       />
 
       <ConfirmModal

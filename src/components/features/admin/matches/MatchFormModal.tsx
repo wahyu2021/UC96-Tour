@@ -6,23 +6,33 @@ import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
-import { TournamentInfo, MatchFormModalProps } from '@/types';
+import { MatchFormModalProps } from '@/types';
 
 export function MatchFormModal({
   isOpen,
   onClose,
   onSuccess,
   tournaments,
+  editingMatch,
 }: MatchFormModalProps) {
   const defaultTournamentId = tournaments.length === 1 ? tournaments[0].id : '';
-  const [tournamentId, setTournamentId] = React.useState(defaultTournamentId);
-  const [date, setDate] = React.useState('');
-  const [time, setTime] = React.useState('');
-  const [mapName, setMapName] = React.useState('Erangel');
-  const [group, setGroup] = React.useState('');
+
+  const initialDate = editingMatch
+    ? new Date(editingMatch.scheduledAt).toISOString().split('T')[0]
+    : '';
+  const initialTime = editingMatch
+    ? new Date(editingMatch.scheduledAt).toTimeString().substring(0, 5)
+    : '';
+
+  const [tournamentId, setTournamentId] = React.useState(
+    editingMatch?.tournament?.id || defaultTournamentId
+  );
+  const [date, setDate] = React.useState(initialDate);
+  const [time, setTime] = React.useState(initialTime);
+  const [mapName, setMapName] = React.useState(editingMatch?.map || 'Erangel');
+  const [group, setGroup] = React.useState(editingMatch?.group || '');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [error, setError] = React.useState('');
-
   const mapOptions = [
     { value: 'Erangel', label: 'Erangel' },
     { value: 'Miramar', label: 'Miramar' },
@@ -55,8 +65,13 @@ export function MatchFormModal({
     try {
       const scheduledAt = new Date(`${date}T${time}:00`).toISOString();
 
-      const res = await fetch('/api/admin/matches', {
-        method: 'POST',
+      const url = editingMatch
+        ? `/api/admin/matches/${editingMatch.id}`
+        : '/api/admin/matches';
+      const method = editingMatch ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           tournamentId,
@@ -87,7 +102,11 @@ export function MatchFormModal({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Tambah Jadwal Baru">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={editingMatch ? 'Edit Jadwal' : 'Tambah Jadwal Baru'}
+    >
       {error && (
         <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/30 dark:text-red-400">
           {error}
