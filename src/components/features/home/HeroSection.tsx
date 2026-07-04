@@ -49,20 +49,13 @@ export function HeroSection({
         </p>
 
         <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          {hasActiveRegistration ? (
-            <Link
-              href="/register"
-              className="group flex w-full items-center justify-center gap-3 rounded-md bg-[var(--color-primary)] px-8 py-4 text-lg font-bold text-white transition-all hover:bg-[var(--color-primary-hover)] hover:shadow-[0_0_20px_rgba(211,47,47,0.5)] sm:w-auto"
-            >
-              <Swords className="h-5 w-5 transition-transform group-hover:scale-125" />
-              Daftarkan Timmu
-            </Link>
-          ) : (
-            <div className="flex w-full cursor-not-allowed items-center justify-center gap-3 rounded-md bg-neutral-200/50 px-8 py-4 text-lg font-bold text-neutral-500 sm:w-auto dark:bg-neutral-800/50">
-              <Swords className="h-5 w-5" />
-              Pendaftaran Ditutup
-            </div>
-          )}
+          <Link
+            href="/player"
+            className="group flex w-full items-center justify-center gap-3 rounded-md bg-[var(--color-primary)] px-8 py-4 text-lg font-bold text-white transition-all hover:bg-[var(--color-primary-hover)] hover:shadow-[0_0_20px_rgba(211,47,47,0.5)] sm:w-auto"
+          >
+            <Swords className="h-5 w-5 transition-transform group-hover:scale-125" />
+            Dasbor Kapten
+          </Link>
           <Link
             href="/tournaments"
             className="flex w-full items-center justify-center gap-3 rounded-md border-2 border-neutral-300 bg-transparent px-8 py-4 text-lg font-bold text-neutral-900 backdrop-blur-sm transition-all hover:border-neutral-400 hover:bg-neutral-100 sm:w-auto dark:border-neutral-700 dark:text-white dark:hover:border-neutral-500 dark:hover:bg-neutral-800/50"

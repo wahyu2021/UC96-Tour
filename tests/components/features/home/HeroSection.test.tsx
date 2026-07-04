@@ -10,9 +10,9 @@ describe('HeroSection', () => {
 
     expect(screen.getByText(/Unit Combat 96/i)).toBeInTheDocument();
 
-    const registerLink = screen.getByRole('link', { name: /Daftarkan Timmu/i });
-    expect(registerLink).toBeInTheDocument();
-    expect(registerLink).toHaveAttribute('href', '/register');
+    const dashboardLink = screen.getByRole('link', { name: /Dasbor Kapten/i });
+    expect(dashboardLink).toBeInTheDocument();
+    expect(dashboardLink).toHaveAttribute('href', '/player');
 
     const leaderboardLink = screen.getByRole('link', {
       name: /Lihat Turnamen/i,
