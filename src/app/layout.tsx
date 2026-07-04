@@ -18,7 +18,7 @@ const fontOutfit = Outfit({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    process.env.NEXT_PUBLIC_APP_URL || 'https://uc96.deployyuu.my.id'
   ),
   title: 'UC96 Tournament',
   description:
@@ -26,11 +26,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'UC96 Tournament',
     description: 'Sistem Manajemen Turnamen PUBG Resmi untuk Unit Combat 96.',
-    url: 'https://uc96tour.com',
+    url: 'https://uc96.deployyuu.my.id',
     siteName: 'UC96 Tournament',
     images: [
       {
-        url: '/images/default-bg.webp',
+        url: '/images/default-bg.png',
         width: 1200,
         height: 630,
         alt: 'UC96 Tournament Banner',

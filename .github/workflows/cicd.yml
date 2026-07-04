@@ -39,7 +39,7 @@ jobs:
         run: npm run build
         env:
           # Pastikan NEXT_PUBLIC variables di-set jika dibutuhkan saat build
-          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+          NEXT_PUBLIC_APP_URL: "https://uc96.deployyuu.my.id"
           DATABASE_URL: "mysql://localhost:3306/dummy" # Hanya untuk lolos validasi build
 
   deploy:
