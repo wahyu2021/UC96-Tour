@@ -6,8 +6,8 @@ import { z } from 'zod';
 
 // Skema validasi untuk master team
 const playerSchema = z.object({
-  ign: z.string().min(2, 'IGN minimal 2 karakter'),
-  inGameId: z.string().min(5, 'In-Game ID minimal 5 karakter'),
+  ign: z.string().min(2, 'ID PUBG minimal 2 karakter'),
+  inGameId: z.string().min(2, 'ID Discord minimal 2 karakter'),
 });
 
 const masterTeamSchema = z.object({

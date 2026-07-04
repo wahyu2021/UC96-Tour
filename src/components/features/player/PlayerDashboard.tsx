@@ -189,7 +189,7 @@ export function PlayerDashboard({ initialTeam }: PlayerDashboardProps) {
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-                  ID: {p.inGameId}
+                  Discord: {p.inGameId}
                 </p>
               </div>
             ))}
@@ -298,7 +298,7 @@ export function PlayerDashboard({ initialTeam }: PlayerDashboardProps) {
               </div>
               <div className="flex-1">
                 <label className="mb-1 block text-xs font-medium text-neutral-600 dark:text-neutral-400">
-                  In-Game Name (IGN)
+                  ID PUBG (IGN)
                 </label>
                 <input
                   type="text"
@@ -311,7 +311,7 @@ export function PlayerDashboard({ initialTeam }: PlayerDashboardProps) {
               </div>
               <div className="flex-1">
                 <label className="mb-1 block text-xs font-medium text-neutral-600 dark:text-neutral-400">
-                  In-Game ID (Angka)
+                  ID Discord
                 </label>
                 <input
                   type="text"
@@ -321,7 +321,7 @@ export function PlayerDashboard({ initialTeam }: PlayerDashboardProps) {
                     handlePlayerChange(i, 'inGameId', e.target.value)
                   }
                   className="w-full rounded-lg border border-neutral-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-[var(--color-primary)] dark:border-neutral-700"
-                  placeholder="Contoh: 5123456789"
+                  placeholder="Contoh: discorduser"
                 />
               </div>
             </div>
