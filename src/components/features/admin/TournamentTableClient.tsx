@@ -212,6 +212,7 @@ export function TournamentTableClient({
                 <th className="px-6 py-5">Nama Turnamen</th>
                 <th className="px-6 py-5">Tanggal</th>
                 <th className="px-6 py-5">Slot Terisi</th>
+                <th className="px-6 py-5">Prize Pool</th>
                 <th className="px-6 py-5 text-center">Status</th>
                 <th className="px-6 py-5 text-right">Aksi</th>
               </tr>
@@ -273,7 +274,7 @@ export function TournamentTableClient({
               {filteredTournaments.length === 0 && (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={6}
                     className="px-6 py-12 text-center text-neutral-500"
                   >
                     Belum ada turnamen aktif.
