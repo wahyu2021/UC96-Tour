@@ -4,6 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { MainLayout } from '@/components/layouts/MainLayout';
 import { Toaster } from 'sonner';
+import QueryProvider from '@/lib/providers/QueryProvider';
 
 const fontInter = Inter({
   variable: '--font-inter',
@@ -55,15 +56,17 @@ export default function RootLayout({
       className={`${fontInter.variable} ${fontOutfit.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <MainLayout>{children}</MainLayout>
-          <Toaster position="bottom-right" richColors theme="system" />
-        </ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <MainLayout>{children}</MainLayout>
+            <Toaster position="bottom-right" richColors theme="system" />
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );

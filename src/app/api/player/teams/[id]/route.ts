@@ -4,21 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { z } from 'zod';
 
-const playerSchema = z.object({
-  id: z.string().optional(),
-  ign: z.string().min(2, 'ID PUBG minimal 2 karakter'),
-  inGameId: z.string().min(2, 'ID Discord minimal 2 karakter'),
-});
-
-const updateTeamSchema = z.object({
-  name: z.string().min(3, 'Nama tim minimal 3 karakter'),
-  tag: z.string().min(1, 'Tag wajib diisi'),
-  logoUrl: z.string().url('Logo harus berupa URL yang valid'),
-  players: z
-    .array(playerSchema)
-    .min(4, 'Minimal 4 pemain')
-    .max(5, 'Maksimal 5 pemain'),
-});
+import { updateTeamSchema } from '@/lib/validations/team';
 
 export async function PUT(
   req: Request,

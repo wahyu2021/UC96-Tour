@@ -4,17 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { z } from 'zod';
 
-const updateSchema = z.object({
-  name: z.string().min(3).optional(),
-  description: z.string().optional(),
-  bannerUrl: z.string().min(1).optional(),
-  backgroundUrl: z.string().optional(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-  maxSlots: z.number().int().min(2).optional(),
-  prizePool: z.string().optional(),
-  status: z.enum(['DRAFT', 'ONGOING', 'COMPLETED']).optional(),
-});
+import { updateTournamentSchema } from '@/lib/validations/tournament';
 
 export async function PATCH(
   request: Request,
@@ -28,7 +18,7 @@ export async function PATCH(
     }
 
     const body = await request.json();
-    const validatedData = updateSchema.parse(body);
+    const validatedData = updateTournamentSchema.parse(body);
 
     const dataToUpdate: Record<string, unknown> = { ...validatedData };
     if (validatedData.startDate)

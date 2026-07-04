@@ -69,7 +69,7 @@ export async function getMiniLeaderboard() {
     let killPoints = 0;
     let placementPoints = 0;
     let wwcdCount = 0;
-    let matchesPlayed = team.matchResults.length;
+    const matchesPlayed = team.matchResults.length;
 
     for (const result of team.matchResults) {
       totalScore += result.totalPoints;

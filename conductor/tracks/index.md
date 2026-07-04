@@ -22,5 +22,5 @@
 
 ---
 
-- [ ] **Track: 023-global-refactor**
+- [x] **Track: 023-global-refactor**
       _Link: [./023-global-refactor/](./023-global-refactor/)_

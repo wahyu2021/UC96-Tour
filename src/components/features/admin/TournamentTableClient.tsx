@@ -2,11 +2,17 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/Button';
+const Modal = dynamic(
+  () => import('@/components/ui/Modal').then((mod) => mod.Modal),
+  {
+    ssr: false,
+  }
+);
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Badge } from '@/components/ui/Badge';
-import { Modal } from '@/components/ui/Modal';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { UploadCloud } from 'lucide-react';
 import { formatRupiah } from '@/lib/utils';

@@ -4,21 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { z } from 'zod';
 
-// Skema validasi untuk master team
-const playerSchema = z.object({
-  ign: z.string().min(2, 'ID PUBG minimal 2 karakter'),
-  inGameId: z.string().min(2, 'ID Discord minimal 2 karakter'),
-});
-
-const masterTeamSchema = z.object({
-  name: z.string().min(3, 'Nama tim minimal 3 karakter'),
-  tag: z.string().min(1, 'Tag wajib diisi'),
-  logoUrl: z.string().url('Logo harus berupa URL yang valid'),
-  players: z
-    .array(playerSchema)
-    .min(4, 'Minimal 4 pemain')
-    .max(5, 'Maksimal 5 pemain'),
-});
+import { masterTeamSchema } from '@/lib/validations/team';
 
 export async function GET() {
   try {

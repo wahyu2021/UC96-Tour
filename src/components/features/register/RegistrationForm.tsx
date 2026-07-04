@@ -20,8 +20,9 @@ interface RegistrationFormProps {
     id: string;
     name: string;
     tag: string;
+    logoUrl?: string | null;
     players: { ign: string; inGameId: string; role: string }[];
-  };
+  } | null;
 }
 
 export function RegistrationForm({
