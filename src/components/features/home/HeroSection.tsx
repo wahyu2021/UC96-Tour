@@ -2,7 +2,11 @@ import * as React from 'react';
 import Link from 'next/link';
 import { Swords, Trophy } from 'lucide-react';
 
-export function HeroSection() {
+export function HeroSection({
+  hasActiveRegistration = true,
+}: {
+  hasActiveRegistration?: boolean;
+}) {
   return (
     <section className="relative flex min-h-[85vh] w-full flex-col items-center justify-center overflow-hidden bg-white dark:bg-[#0a0a0a]">
       {/* Background Image */}
@@ -18,9 +22,15 @@ export function HeroSection() {
 
       <div className="relative z-10 mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 lg:px-8">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/10 px-4 py-1.5 backdrop-blur-sm">
-          <span className="flex h-2 w-2 animate-pulse rounded-full bg-[var(--color-primary)]"></span>
-          <span className="text-sm font-bold tracking-wider text-[var(--color-primary)] uppercase">
-            Musim Turnamen Terbuka
+          <span
+            className={`flex h-2 w-2 rounded-full ${hasActiveRegistration ? 'animate-pulse bg-[var(--color-primary)]' : 'bg-neutral-500'}`}
+          ></span>
+          <span
+            className={`text-sm font-bold tracking-wider uppercase ${hasActiveRegistration ? 'text-[var(--color-primary)]' : 'text-neutral-500'}`}
+          >
+            {hasActiveRegistration
+              ? 'Musim Turnamen Terbuka'
+              : 'Pendaftaran Ditutup'}
           </span>
         </div>
 
@@ -39,19 +49,26 @@ export function HeroSection() {
         </p>
 
         <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link
-            href="/register"
-            className="group flex w-full items-center justify-center gap-3 rounded-md bg-[var(--color-primary)] px-8 py-4 text-lg font-bold text-white transition-all hover:bg-[var(--color-primary-hover)] hover:shadow-[0_0_20px_rgba(211,47,47,0.5)] sm:w-auto"
-          >
-            <Swords className="h-5 w-5 transition-transform group-hover:scale-125" />
-            Daftarkan Timmu
-          </Link>
+          {hasActiveRegistration ? (
+            <Link
+              href="/register"
+              className="group flex w-full items-center justify-center gap-3 rounded-md bg-[var(--color-primary)] px-8 py-4 text-lg font-bold text-white transition-all hover:bg-[var(--color-primary-hover)] hover:shadow-[0_0_20px_rgba(211,47,47,0.5)] sm:w-auto"
+            >
+              <Swords className="h-5 w-5 transition-transform group-hover:scale-125" />
+              Daftarkan Timmu
+            </Link>
+          ) : (
+            <div className="flex w-full cursor-not-allowed items-center justify-center gap-3 rounded-md bg-neutral-200/50 px-8 py-4 text-lg font-bold text-neutral-500 sm:w-auto dark:bg-neutral-800/50">
+              <Swords className="h-5 w-5" />
+              Pendaftaran Ditutup
+            </div>
+          )}
           <Link
             href="/tournaments"
             className="flex w-full items-center justify-center gap-3 rounded-md border-2 border-neutral-300 bg-transparent px-8 py-4 text-lg font-bold text-neutral-900 backdrop-blur-sm transition-all hover:border-neutral-400 hover:bg-neutral-100 sm:w-auto dark:border-neutral-700 dark:text-white dark:hover:border-neutral-500 dark:hover:bg-neutral-800/50"
           >
             <Trophy className="h-5 w-5" />
-            Lihat Turnamen Aktif
+            Lihat Turnamen
           </Link>
         </div>
       </div>

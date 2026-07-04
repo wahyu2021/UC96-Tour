@@ -7,10 +7,27 @@ export async function getGlobalStatistics() {
     prisma.player.count(),
   ]);
 
+  const now = new Date();
+  const availableTournaments = await prisma.tournament.findMany({
+    where: {
+      endDate: { gte: now },
+      status: { not: 'COMPLETED' },
+    },
+    select: {
+      _count: { select: { teams: { where: { status: 'APPROVED' } } } },
+      maxSlots: true,
+    },
+  });
+
+  const hasActiveRegistration = availableTournaments.some(
+    (t) => t._count.teams < t.maxSlots
+  );
+
   return {
     tournamentsCount,
     teamsCount,
     playersCount,
+    hasActiveRegistration,
   };
 }
 
