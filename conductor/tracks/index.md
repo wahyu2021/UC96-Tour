@@ -27,6 +27,6 @@
 
 ---
 
-- [ ] **Track: 028-seo-optimization**
+- [x] **Track: 028-seo-optimization**
       _Link: [./028-seo-optimization/](./028-seo-optimization/)_
 
