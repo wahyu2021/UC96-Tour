@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Trophy,
   Users,
@@ -308,10 +309,11 @@ export default async function AdminDashboardPage() {
                   >
                     <div className="flex items-center gap-4">
                       {team.logoUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
+                        <Image
                           src={team.logoUrl}
                           alt={team.name}
+                          width={40}
+                          height={40}
                           className="h-10 w-10 rounded-full border border-neutral-200 object-cover dark:border-neutral-700"
                         />
                       ) : (

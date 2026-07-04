@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Badge } from '@/components/ui/Badge';
 import { Users, Crown } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Player, TeamCardProps } from '@/types';
 
 export function TeamCard({ team }: TeamCardProps) {
@@ -15,10 +16,11 @@ export function TeamCard({ team }: TeamCardProps) {
         <div className="flex items-start gap-4 p-5">
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-xl font-black text-neutral-400 dark:bg-neutral-800 dark:text-neutral-500">
             {team.logo ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={team.logo}
                 alt={`Logo ${team.name}`}
+                width={64}
+                height={64}
                 className="h-full w-full rounded-xl object-cover"
               />
             ) : (

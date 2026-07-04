@@ -7,6 +7,7 @@ import { Select } from '@/components/ui/Select';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type Player = {
   id: string;
@@ -126,10 +127,11 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
                       <td className="px-6 py-5">
                         <div className="flex items-center gap-4">
                           {team.logoUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
+                            <Image
                               src={team.logoUrl}
                               alt={team.name}
+                              width={48}
+                              height={48}
                               className="h-12 w-12 rounded-full border border-neutral-200 object-cover dark:border-neutral-700"
                             />
                           ) : (

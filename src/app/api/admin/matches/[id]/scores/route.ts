@@ -1,19 +1,15 @@
 import { NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth';
+import { withAdminRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 import { getPlacementPoints } from '@/lib/scoring';
 import { UpdateMatchScoresRequest } from '@/types';
 
-export async function GET(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const resolvedParams = await params;
+export const GET = withAdminRoute(async (req, context) => {
+  const resolvedParams = await context.params;
   const matchId = resolvedParams.id;
 
   try {
-    const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });const scores = await prisma.matchResult.findMany({
+    const scores = await prisma.matchResult.findMany({
       where: { matchId },
       include: {
         team: {
@@ -30,19 +26,10 @@ export async function GET(
       { status: 500 }
     );
   }
-}
+});
 
-export async function POST(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  if (!session || session.user?.role !== 'ADMIN') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  const resolvedParams = await params;
+export const POST = withAdminRoute(async (req, context) => {
+  const resolvedParams = await context.params;
   const matchId = resolvedParams.id;
 
   try {
@@ -106,4 +93,4 @@ export async function POST(
       { status: 500 }
     );
   }
-}
+});

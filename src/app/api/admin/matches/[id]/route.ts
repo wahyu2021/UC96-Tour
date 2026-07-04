@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth';
+import { withAdminRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 import { z } from 'zod';
 
@@ -7,19 +7,9 @@ const updateStatusSchema = z.object({
   status: z.enum(['SCHEDULED', 'ONGOING', 'COMPLETED']),
 });
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export const PATCH = withAdminRoute(async (request, context) => {
   try {
-    const session = await requireAdmin();
-    if (!session)
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (!session || session.user?.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { id } = await params;
+    const { id } = await context.params;
     const body = await request.json();
     const { status } = updateStatusSchema.parse(body);
 
@@ -46,21 +36,11 @@ export async function PATCH(
       { status: 500 }
     );
   }
-}
+});
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export const DELETE = withAdminRoute(async (request, context) => {
   try {
-    const session = await requireAdmin();
-    if (!session)
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (!session || session.user?.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { id } = await params;
+    const { id } = await context.params;
 
     await prisma.match.delete({
       where: { id },
@@ -73,4 +53,4 @@ export async function DELETE(
       { status: 500 }
     );
   }
-}
+});

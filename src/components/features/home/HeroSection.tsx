@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Swords, Trophy } from 'lucide-react';
 
 export function HeroSection({
@@ -10,11 +11,12 @@ export function HeroSection({
   return (
     <section className="relative flex min-h-[85vh] w-full flex-col items-center justify-center overflow-hidden bg-white dark:bg-[#0a0a0a]">
       {/* Background Image */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src="/images/default-bg.webp"
         alt="Hero Background"
-        className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-luminosity"
+        fill
+        sizes="100vw"
+        className="object-cover opacity-40 mix-blend-luminosity"
       />
       {/* Gradients */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-white dark:from-[#0a0a0a]/80 dark:to-[#0a0a0a]"></div>

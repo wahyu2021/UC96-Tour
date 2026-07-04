@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { requireAdmin } from '@/lib/auth';
+import { withAdminRoute } from '@/lib/api-middleware';
 
 const DEFAULT_PUBG_RULES = [
   { rank: 1, placementPoints: 10 },
@@ -13,13 +13,7 @@ const DEFAULT_PUBG_RULES = [
   { rank: 8, placementPoints: 1 },
 ];
 
-export async function POST() {
-  const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  if (!session || session.user?.role !== 'ADMIN') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+export const POST = withAdminRoute(async () => {
   try {
     // Generate rules for rank 1 to 20
     const rules = Array.from({ length: 20 }, (_, i) => {
@@ -50,4 +44,4 @@ export async function POST() {
       { status: 500 }
     );
   }
-}
+});

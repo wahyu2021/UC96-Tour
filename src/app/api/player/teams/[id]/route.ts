@@ -1,21 +1,12 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { withAuthRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 
 import { updateTeamSchema } from '@/lib/validations/team';
 
-export async function PUT(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export const PUT = withAuthRoute(async (req, context, session) => {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const resolvedParams = await params;
+    const resolvedParams = await context.params;
     const teamId = resolvedParams.id;
     const body = await req.json();
     const result = updateTeamSchema.safeParse(body);
@@ -88,19 +79,11 @@ export async function PUT(
       { status: 500 }
     );
   }
-}
+});
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export const DELETE = withAuthRoute(async (req, context, session) => {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const resolvedParams = await params;
+    const resolvedParams = await context.params;
     const teamId = resolvedParams.id;
 
     const team = await prisma.team.findFirst({
@@ -132,4 +115,4 @@ export async function DELETE(
       { status: 500 }
     );
   }
-}
+});

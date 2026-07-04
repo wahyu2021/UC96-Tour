@@ -1,17 +1,11 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { withAuthRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 
 import { masterTeamSchema } from '@/lib/validations/team';
 
-export async function GET() {
+export const GET = withAuthRoute(async (req, context, session) => {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     // Ambil tim Master milik user ini (tournamentId = null)
     const teams = await prisma.team.findMany({
       where: {
@@ -31,15 +25,10 @@ export async function GET() {
       { status: 500 }
     );
   }
-}
+});
 
-export async function POST(req: Request) {
+export const POST = withAuthRoute(async (req, context, session) => {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const body = await req.json();
     const result = masterTeamSchema.safeParse(body);
 
@@ -102,4 +91,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
+});

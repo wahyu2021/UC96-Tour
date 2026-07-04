@@ -1,24 +1,11 @@
 import { NextResponse } from 'next/server';
 
-import { requireAdmin } from '@/lib/auth';
+import { withAdminRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export const PATCH = withAdminRoute(async (request, context) => {
   try {
-    const { id } = await params;
-    // Verifikasi keamanan ganda di level API
-    const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-    if (!session || (session.user as { role?: string })?.role !== 'ADMIN') {
-      return NextResponse.json(
-        { error: 'Tidak berwenang mengubah data!' },
-        { status: 401 }
-      );
-    }
+    const { id } = await context.params;
 
     const { status } = await request.json();
 
@@ -45,4 +32,4 @@ export async function PATCH(
       { status: 500 }
     );
   }
-}
+});

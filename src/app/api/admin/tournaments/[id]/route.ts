@@ -1,21 +1,12 @@
 import { NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth';
+import { withAdminRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 
 import { updateTournamentSchema } from '@/lib/validations/tournament';
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export const PATCH = withAdminRoute(async (request, context) => {
   try {
-    const { id } = await params;
-    const session = await requireAdmin();
-    if (!session)
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (!session || session.user?.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const { id } = await context.params;
 
     const body = await request.json();
     const validatedData = updateTournamentSchema.parse(body);
@@ -35,24 +26,15 @@ export async function PATCH(
   } catch {
     return NextResponse.json({ error: 'Failed to update' }, { status: 500 });
   }
-}
+});
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export const DELETE = withAdminRoute(async (request, context) => {
   try {
-    const { id } = await params;
-    const session = await requireAdmin();
-    if (!session)
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (!session || session.user?.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const { id } = await context.params;
 
     await prisma.tournament.delete({ where: { id } });
     return NextResponse.json({ message: 'Deleted successfully' });
   } catch {
     return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
   }
-}
+});

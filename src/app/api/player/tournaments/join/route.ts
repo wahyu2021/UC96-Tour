@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { withAuthRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 import { z } from 'zod';
 
@@ -8,13 +7,8 @@ const joinSchema = z.object({
   tournamentId: z.string(),
 });
 
-export async function POST(request: Request) {
+export const POST = withAuthRoute(async (request, context, session) => {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const body = await request.json();
     const validatedData = joinSchema.safeParse(body);
     if (!validatedData.success) {
@@ -123,4 +117,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-}
+});

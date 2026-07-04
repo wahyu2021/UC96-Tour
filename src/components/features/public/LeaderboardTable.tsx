@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import {
   Trophy,
   RefreshCw,
@@ -219,10 +220,11 @@ export function LeaderboardTable() {
                     <div className="col-span-5 flex w-full items-center gap-3">
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-neutral-200 font-bold text-neutral-500 dark:bg-neutral-800">
                         {team.logoUrl ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
+                          <Image
                             src={team.logoUrl}
                             alt={team.teamName}
+                            width={40}
+                            height={40}
                             className="h-full w-full rounded-lg object-cover"
                           />
                         ) : (

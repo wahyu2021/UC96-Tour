@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 const Modal = dynamic(
   () => import('@/components/ui/Modal').then((mod) => mod.Modal),
@@ -470,10 +471,11 @@ export function TournamentTableClient({
             {formData.bannerUrl && (
               <div className="mt-4 flex justify-center">
                 <div className="aspect-[9/16] h-64 w-auto overflow-hidden rounded-xl border border-neutral-200 shadow-sm dark:border-neutral-700">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={formData.bannerUrl}
                     alt="Preview"
+                    width={400}
+                    height={711}
                     className="h-full w-full object-cover"
                   />
                 </div>
@@ -504,10 +506,11 @@ export function TournamentTableClient({
             />
             {formData.backgroundUrl && (
               <div className="mt-2 flex w-full justify-center overflow-hidden rounded-xl border border-neutral-200 shadow-sm dark:border-neutral-700">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={formData.backgroundUrl}
                   alt="Preview BG"
+                  width={800}
+                  height={450}
                   className="aspect-[16/9] w-full object-cover"
                 />
               </div>

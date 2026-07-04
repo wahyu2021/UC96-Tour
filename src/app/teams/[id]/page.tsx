@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { prisma } from '@/lib/db';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import {
   Users,
@@ -21,14 +22,35 @@ export async function generateMetadata({
   const p = await params;
   const team = await prisma.team.findUnique({
     where: { id: p.id },
-    select: { name: true },
+    select: { name: true, logoUrl: true },
   });
 
-  if (!team) return { title: 'Tim Tidak Ditemukan - UC96 Tournament' };
+  if (!team) return { title: 'Tim Tidak Ditemukan - UC96 TOUR' };
+  
+  const ogImage = team.logoUrl || '/images/default-bg.png';
+  const desc = `Profil dan riwayat pertandingan tim ${team.name} di turnamen UC96.`;
 
   return {
-    title: `${team.name} - UC96 Tournament`,
-    description: `Profil dan riwayat pertandingan tim ${team.name} di turnamen UC96.`,
+    title: `${team.name}`,
+    description: desc,
+    openGraph: {
+      title: `${team.name} | UC96 TOUR`,
+      description: desc,
+      images: [
+        {
+          url: ogImage,
+          width: 800,
+          height: 800,
+          alt: `Logo Tim ${team.name}`,
+        }
+      ]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${team.name} | UC96 TOUR`,
+      description: desc,
+      images: [ogImage],
+    }
   };
 }
 
@@ -103,10 +125,11 @@ export default async function TeamDetailsPage({
           <div className="-mt-16 mb-6 flex items-end justify-between sm:-mt-24">
             <div className="flex h-32 w-32 items-center justify-center rounded-2xl border-4 border-white bg-neutral-100 text-4xl font-black text-neutral-400 shadow-md sm:h-48 sm:w-48 sm:text-6xl dark:border-[#121212] dark:bg-neutral-800 dark:text-neutral-500">
               {team.logoUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={team.logoUrl}
                   alt={team.name}
+                  width={192}
+                  height={192}
                   className="h-full w-full rounded-xl object-cover"
                 />
               ) : (

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Trophy, ArrowRight, ShieldAlert, BarChart3 } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -76,10 +77,11 @@ export function MiniLeaderboard({ data }: MiniLeaderboardProps) {
 
                       <div className="mx-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-neutral-700 bg-neutral-800">
                         {team.logoUrl ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
+                          <Image
                             src={team.logoUrl}
                             alt={team.tag}
+                            width={48}
+                            height={48}
                             className="h-full w-full rounded-full object-cover"
                           />
                         ) : (

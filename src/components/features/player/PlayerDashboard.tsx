@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 type PlayerRole = 'CAPTAIN' | 'MEMBER' | 'STANDBY';
 
@@ -248,8 +249,7 @@ export function PlayerDashboard({ initialTeam }: PlayerDashboardProps) {
         </label>
         <div className="flex items-center gap-5 rounded-md border border-dashed border-neutral-300 p-4 dark:border-neutral-700 dark:bg-[#121212]">
           {logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={
                 logoUrl.startsWith('http') ||
                 logoUrl.startsWith('/') ||
@@ -258,6 +258,8 @@ export function PlayerDashboard({ initialTeam }: PlayerDashboardProps) {
                   : `/uploads/${logoUrl}`
               }
               alt="Logo Preview"
+              width={80}
+              height={80}
               className="h-20 w-20 rounded-md border border-neutral-200 object-cover dark:border-neutral-700"
             />
           ) : (

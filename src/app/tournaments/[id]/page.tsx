@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db';
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import { Badge } from '@/components/ui/Badge';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -8,15 +9,43 @@ import { CalendarDays, Users, Trophy, Shield, Swords } from 'lucide-react';
 import Link from 'next/link';
 import { formatRupiah } from '@/lib/utils';
 
+import { Metadata } from 'next';
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ id: string }>;
-}) {
+}): Promise<Metadata> {
   const { id } = await params;
   const tour = await prisma.tournament.findUnique({ where: { id } });
+  
   if (!tour) return { title: 'Turnamen Tidak Ditemukan' };
-  return { title: `${tour.name} | UC96 Tournaments` };
+  
+  const ogImage = tour.bannerUrl || tour.backgroundUrl || '/images/default-bg.png';
+  const desc = tour.description ? tour.description.slice(0, 150) + '...' : `Ikuti turnamen ${tour.name} dan buktikan kemampuan tim Anda.`;
+  
+  return { 
+    title: tour.name,
+    description: desc,
+    openGraph: {
+      title: tour.name,
+      description: desc,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: tour.name,
+        }
+      ]
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: tour.name,
+      description: desc,
+      images: [ogImage],
+    }
+  };
 }
 
 export default async function TournamentDetailPage({
@@ -69,18 +98,20 @@ export default async function TournamentDetailPage({
       {/* Hero Banner Section */}
       <div className="relative min-h-[40vh] w-full overflow-hidden bg-neutral-900">
         {tour.backgroundUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={tour.backgroundUrl}
             alt="Landscape Background"
-            className="absolute inset-0 h-full w-full object-cover opacity-60"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover opacity-60"
           />
         ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src="/images/default-bg.webp"
             alt="Default Background"
-            className="absolute inset-0 h-full w-full object-cover opacity-50"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover opacity-50"
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/50 to-transparent"></div>
@@ -129,10 +160,11 @@ export default async function TournamentDetailPage({
           <div className="lg:col-span-1">
             {tour.bannerUrl ? (
               <div className="sticky top-24 overflow-hidden rounded-2xl border border-neutral-200 shadow-xl dark:border-neutral-800">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={tour.bannerUrl}
                   alt={tour.name}
+                  width={400}
+                  height={711}
                   className="aspect-[9/16] w-full object-cover"
                 />
               </div>
@@ -188,10 +220,11 @@ export default async function TournamentDetailPage({
                   >
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-neutral-100 font-bold text-neutral-500 dark:bg-neutral-800">
                       {team.logoUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
+                        <Image
                           src={team.logoUrl}
                           alt={team.name}
+                          width={48}
+                          height={48}
                           className="h-full w-full rounded-lg object-cover"
                         />
                       ) : (

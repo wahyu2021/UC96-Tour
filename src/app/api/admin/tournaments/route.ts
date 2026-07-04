@@ -1,18 +1,12 @@
 import { NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth';
+import { withAdminRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 import { z } from 'zod';
 
 import { tournamentSchema } from '@/lib/validations/tournament';
 
-export async function GET() {
+export const GET = withAdminRoute(async () => {
   try {
-    const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (!session || session.user?.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const tournaments = await prisma.tournament.findMany({
       orderBy: { createdAt: 'desc' },
       include: {
@@ -46,16 +40,10 @@ export async function GET() {
       { status: 500 }
     );
   }
-}
+});
 
-export async function POST(request: Request) {
+export const POST = withAdminRoute(async (request) => {
   try {
-    const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (!session || session.user?.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const body = await request.json();
     const validatedData = tournamentSchema.parse(body);
 
@@ -81,4 +69,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-}
+});

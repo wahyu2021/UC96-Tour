@@ -1,16 +1,9 @@
 import { NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth';
+import { withAdminRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 
-export async function POST(req: Request) {
+export const POST = withAdminRoute(async (req) => {
   try {
-    const session = await requireAdmin();
-    if (!session)
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (!session || session.user?.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     // Ambil input tanggal jika ada
     let targetDate = new Date();
     try {
@@ -50,6 +43,15 @@ export async function POST(req: Request) {
     const endDate = new Date(targetDate);
     endDate.setHours(23, 59, 59, 999);
 
+    // Waktu mulai default untuk match
+    const match1Time = new Date(startDate);
+    
+    const match2Time = new Date(startDate);
+    match2Time.setMinutes(match2Time.getMinutes() + 45); // +45 menit
+    
+    const match3Time = new Date(startDate);
+    match3Time.setMinutes(match3Time.getMinutes() + 90); // +90 menit
+
     // Buat Turnamen dan Matches dalam satu transaksi
     const newTournament = await prisma.tournament.create({
       data: {
@@ -61,6 +63,13 @@ export async function POST(req: Request) {
         startDate,
         endDate,
         status: 'ONGOING',
+        matches: {
+          create: [
+            { group: 'A', map: 'Erangel', scheduledAt: match1Time },
+            { group: 'A', map: 'Miramar', scheduledAt: match2Time },
+            { group: 'A', map: 'Sanhok', scheduledAt: match3Time },
+          ],
+        },
       },
       include: {
         matches: true,
@@ -78,4 +87,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
+});

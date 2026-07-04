@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { withAuthRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 import { z } from 'zod';
 
@@ -9,13 +8,8 @@ const oneClickRegisterSchema = z.object({
   masterTeamId: z.string(),
 });
 
-export async function POST(req: Request) {
+export const POST = withAuthRoute(async (req, context, session) => {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const body = await req.json();
     const result = oneClickRegisterSchema.safeParse(body);
 
@@ -139,4 +133,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
+});

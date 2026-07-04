@@ -20,20 +20,22 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL || 'https://uc96.deployyuu.my.id'
   ),
-  title: 'UC96 Tournament',
-  description:
-    'Sistem Manajemen Turnamen PUBG Resmi untuk Unit Combat 96. Daftarkan tim Anda dan buktikan kemampuan di arena e-sports terbaik.',
+  title: {
+    default: 'UC96 TOUR',
+    template: '%s | UC96 TOUR',
+  },
+  description: 'Platform Turnamen PUBG',
   openGraph: {
-    title: 'UC96 Tournament',
-    description: 'Sistem Manajemen Turnamen PUBG Resmi untuk Unit Combat 96.',
+    title: 'UC96 TOUR',
+    description: 'Platform Turnamen PUBG',
     url: 'https://uc96.deployyuu.my.id',
-    siteName: 'UC96 Tournament',
+    siteName: 'UC96 TOUR',
     images: [
       {
         url: '/images/default-bg.png',
         width: 1200,
         height: 630,
-        alt: 'UC96 Tournament Banner',
+        alt: 'UC96 TOUR Banner',
       },
     ],
     locale: 'id_ID',
@@ -41,8 +43,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'UC96 Tournament',
-    description: 'PUBG Tournament Management for UC96',
+    title: 'UC96 TOUR',
+    description: 'Platform Turnamen PUBG',
     images: ['/images/default-bg.webp'],
   },
 };

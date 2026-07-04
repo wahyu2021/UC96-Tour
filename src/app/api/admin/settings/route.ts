@@ -1,15 +1,9 @@
 import { NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth';
+import { withAdminRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 import { UpdateSettingsRequest } from '@/types';
 
-export async function GET() {
-  const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  if (!session || session.user?.role !== 'ADMIN') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+export const GET = withAdminRoute(async () => {
   try {
     const settings = await prisma.appSetting.findMany({
       orderBy: { key: 'asc' },
@@ -22,15 +16,9 @@ export async function GET() {
       { status: 500 }
     );
   }
-}
+});
 
-export async function PUT(req: Request) {
-  const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  if (!session || session.user?.role !== 'ADMIN') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+export const PUT = withAdminRoute(async (req) => {
   try {
     const body: UpdateSettingsRequest = await req.json();
     const { settings } = body;
@@ -68,4 +56,4 @@ export async function PUT(req: Request) {
       { status: 500 }
     );
   }
-}
+});

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { CalendarDays, Users, Trophy, FolderOpen } from 'lucide-react';
 import { formatRupiah } from '@/lib/utils';
 import { Badge } from '@/components/ui/Badge';
@@ -46,11 +47,12 @@ export function FeaturedTournaments({ tournaments }: FeaturedTournamentsProps) {
                 {/* Image Section */}
                 <div className="relative h-48 w-full bg-neutral-900">
                   {tour.bannerUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={tour.bannerUrl}
                       alt={tour.name}
-                      className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-500 group-hover:scale-110"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-110"
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center text-neutral-700">

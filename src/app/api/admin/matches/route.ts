@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdmin } from '@/lib/auth';
+import { withAdminRoute } from '@/lib/api-middleware';
 import { prisma } from '@/lib/db';
 import { z } from 'zod';
 
@@ -10,14 +10,8 @@ const matchSchema = z.object({
   map: z.string().min(1, 'Map harus dipilih'),
 });
 
-export async function GET() {
+export const GET = withAdminRoute(async () => {
   try {
-    const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (!session || session.user?.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const matches = await prisma.match.findMany({
       orderBy: { scheduledAt: 'desc' },
       include: {
@@ -34,16 +28,10 @@ export async function GET() {
       { status: 500 }
     );
   }
-}
+});
 
-export async function POST(request: Request) {
+export const POST = withAdminRoute(async (request) => {
   try {
-    const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    if (!session || session.user?.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
     const body = await request.json();
     const validatedData = matchSchema.parse(body);
 
@@ -75,4 +63,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-}
+});
