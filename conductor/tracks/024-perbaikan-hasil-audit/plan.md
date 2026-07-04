@@ -19,3 +19,7 @@
   - [x] Task: _Refactor_ komponen `LeaderboardTable` untuk mengganti _fetch_ manual `useEffect` dengan `useQuery`.
   - [x] Task: Jalankan pengecekan keamanan tipe data (`npx tsc --noEmit`) dan seluruh _unit test_ (`npm run test`) untuk memastikan tidak ada fitur yang patah pasca-_refactor_.
   - [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions 25dbc7f
