@@ -9,7 +9,7 @@ export const playerSchema = z.object({
 export const masterTeamSchema = z.object({
   name: z.string().min(3, 'Nama tim minimal 3 karakter'),
   tag: z.string().min(1, 'Tag wajib diisi'),
-  logoUrl: z.string().url('Logo harus berupa URL yang valid'),
+  logoUrl: z.string().min(1, 'Logo wajib diisi'),
   players: z
     .array(playerSchema)
     .min(4, 'Minimal 4 pemain')
@@ -29,7 +29,7 @@ export const teamRegistrationSchema = z.object({
     .min(2, 'Tag Tim minimal 2 karakter')
     .max(10, 'Tag Tim maksimal 10 karakter'),
   tournamentId: z.string().min(1, 'Turnamen harus dipilih'),
-  logoUrl: z.string().url('URL logo tidak valid').optional().or(z.literal('')),
+  logoUrl: z.string().optional().or(z.literal('')),
   players: z
     .array(playerSchema)
     .min(4, 'Minimal 4 pemain inti (1 Kapten, 3 Anggota)')
