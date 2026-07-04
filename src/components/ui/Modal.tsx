@@ -35,14 +35,14 @@ export function Modal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+        className="animate-fade-in fixed inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Modal Content */}
       <div
         className={cn(
-          'animate-in fade-in zoom-in-95 relative z-50 w-full max-w-md max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 text-left shadow-2xl transition-all duration-200 dark:border dark:border-neutral-800 dark:bg-[#1e1e1e]',
+          'animate-zoom-in relative z-50 max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl bg-white p-6 text-left shadow-2xl dark:border dark:border-neutral-800 dark:bg-[#1e1e1e]',
           className
         )}
       >

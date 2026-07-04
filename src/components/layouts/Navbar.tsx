@@ -12,6 +12,7 @@ import {
   CalendarDays,
   BarChart3,
   Edit3,
+  LayoutDashboard,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -49,7 +50,7 @@ const DROPDOWN_LINKS = [
   },
 ];
 
-export function Navbar() {
+export function Navbar({ isAdmin }: { isAdmin?: boolean }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = React.useState(true); // Terbuka secara default di mobile
@@ -101,6 +102,22 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
+
+          {/* Admin Dashboard Link (Desktop) */}
+          {isAdmin && (
+            <Link
+              href="/admin/dashboard"
+              className={cn(
+                'flex items-center gap-2 text-sm font-medium transition-colors hover:text-[var(--color-primary)]',
+                isActive('/admin')
+                  ? 'font-bold text-[var(--color-primary)]'
+                  : 'text-neutral-600 dark:text-neutral-300'
+              )}
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              Dashboard
+            </Link>
+          )}
 
           {/* Dropdown Menu (Desktop) */}
           <div className="group relative">
@@ -197,6 +214,23 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
+
+            {/* Admin Dashboard Link (Mobile) */}
+            {isAdmin && (
+              <Link
+                href="/admin/dashboard"
+                className={cn(
+                  'flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-colors hover:text-[var(--color-primary)]',
+                  isActive('/admin')
+                    ? 'bg-neutral-50 font-bold text-[var(--color-primary)] dark:bg-neutral-900 dark:text-[var(--color-primary)]'
+                    : 'text-neutral-600 hover:bg-neutral-50 dark:text-neutral-300 dark:hover:bg-neutral-900 dark:hover:text-[var(--color-primary)]'
+                )}
+                onClick={() => setIsOpen(false)}
+              >
+                <LayoutDashboard className="h-5 w-5" />
+                Dashboard Admin
+              </Link>
+            )}
 
             {/* Mobile Dropdown Group */}
             <div className="mt-4">
