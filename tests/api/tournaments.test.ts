@@ -33,7 +33,7 @@ describe('Tournaments API (/api/tournaments)', () => {
       );
 
       const req = new Request('http://localhost/api/tournaments');
-      const response = await GET(req);
+      const response = await GET();
 
       expect(response.status).toBe(200);
       const json = await response.json();
