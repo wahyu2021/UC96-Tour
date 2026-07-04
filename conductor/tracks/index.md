@@ -27,6 +27,6 @@
 
 ---
 
-- [ ] **Track: 027-refactor-auth-helper**
+- [x] **Track: 027-refactor-auth-helper**
       _Link: [./027-refactor-auth-helper/](./027-refactor-auth-helper/)_
 
