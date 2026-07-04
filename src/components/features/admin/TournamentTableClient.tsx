@@ -259,12 +259,13 @@ export function TournamentTableClient({
                   </td>
                   <td className="px-6 py-5 text-right">
                     <Button
-                      variant="outline"
+                      variant="ghost"
                       size="sm"
+                      className="hover:text-brand-600 dark:hover:text-brand-400 h-8 px-2 text-neutral-400"
                       onClick={() => handleOpenModal(t)}
+                      title="Edit Turnamen"
                     >
-                      <Pencil className="mr-2 h-4 w-4" />
-                      Edit
+                      <Pencil className="h-4 w-4" />
                     </Button>
                   </td>
                 </tr>
