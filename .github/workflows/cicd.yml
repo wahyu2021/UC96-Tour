@@ -60,7 +60,8 @@ jobs:
             cd /var/www/uc96
             
             echo "Pulling latest changes from GitHub..."
-            git pull origin main
+            git fetch --all
+            git reset --hard origin/main
             
             echo "Installing dependencies..."
             npm install
