@@ -250,7 +250,13 @@ export function PlayerDashboard({ initialTeam }: PlayerDashboardProps) {
           {logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={logoUrl}
+              src={
+                logoUrl.startsWith('http') ||
+                logoUrl.startsWith('/') ||
+                logoUrl.startsWith('data:')
+                  ? logoUrl
+                  : `/uploads/${logoUrl}`
+              }
               alt="Logo Preview"
               className="h-20 w-20 rounded-md border border-neutral-200 object-cover dark:border-neutral-700"
             />

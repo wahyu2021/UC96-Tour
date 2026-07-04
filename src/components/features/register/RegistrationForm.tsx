@@ -291,7 +291,13 @@ export function RegistrationForm({
                   {logoUrlWatcher ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={logoUrlWatcher}
+                      src={
+                        logoUrlWatcher.startsWith('http') ||
+                        logoUrlWatcher.startsWith('/') ||
+                        logoUrlWatcher.startsWith('data:')
+                          ? logoUrlWatcher
+                          : `/uploads/${logoUrlWatcher}`
+                      }
                       alt="Logo Preview"
                       className="h-20 w-20 rounded-md border border-neutral-200 object-cover dark:border-neutral-700"
                     />

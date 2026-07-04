@@ -191,7 +191,7 @@ export function Navbar({
                 Dasbor Kapten
               </Link>
               <Link
-                href="/admin/dashboard"
+                href="/admin"
                 className="flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-bold text-white transition-transform hover:scale-105 hover:bg-[var(--color-primary-hover)] hover:shadow-lg"
               >
                 <LayoutDashboard className="h-4 w-4" />
@@ -340,7 +340,7 @@ export function Navbar({
                     Dasbor Kapten
                   </Link>
                   <Link
-                    href="/admin/dashboard"
+                    href="/admin"
                     onClick={() => setIsOpen(false)}
                     className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-base font-bold text-white transition-opacity hover:opacity-90"
                   >
