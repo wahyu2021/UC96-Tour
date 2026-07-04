@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Badge } from '@/components/ui/Badge';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
-import { UploadCloud, Pencil } from 'lucide-react';
+import { UploadCloud, Pencil, Trash2 } from 'lucide-react';
 import { formatRupiah } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -55,6 +55,8 @@ export function TournamentTableClient({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
   const handleOpenModal = (t?: TournamentData) => {
@@ -95,7 +97,7 @@ export function TournamentTableClient({
       const url = editingId
         ? `/api/admin/tournaments/${editingId}`
         : '/api/admin/tournaments';
-      const method = editingId ? 'PUT' : 'POST';
+      const method = editingId ? 'PATCH' : 'POST';
 
       const res = await fetch(url, {
         method,
@@ -127,6 +129,30 @@ export function TournamentTableClient({
       toast.error('Terjadi kesalahan pada server');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/admin/tournaments/${deleteId}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        setTournaments(tournaments.filter((t) => t.id !== deleteId));
+        toast.success('Turnamen berhasil dihapus!');
+        router.refresh();
+      } else {
+        const err = await res.json();
+        toast.error(err.error || 'Gagal menghapus turnamen.');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Terjadi kesalahan pada server');
+    } finally {
+      setIsDeleting(false);
+      setDeleteId(null);
     }
   };
 
@@ -259,15 +285,26 @@ export function TournamentTableClient({
                     </Badge>
                   </td>
                   <td className="px-6 py-5 text-right">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="hover:text-brand-600 dark:hover:text-brand-400 h-8 px-2 text-neutral-400"
-                      onClick={() => handleOpenModal(t)}
-                      title="Edit Turnamen"
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
+                    <div className="flex items-center justify-end gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="hover:text-brand-600 dark:hover:text-brand-400 h-8 px-2 text-neutral-400"
+                        onClick={() => handleOpenModal(t)}
+                        title="Edit Turnamen"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 px-2 text-neutral-400 hover:text-red-600 dark:hover:text-red-500"
+                        onClick={() => setDeleteId(t.id)}
+                        title="Hapus Turnamen"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -514,6 +551,17 @@ export function TournamentTableClient({
         confirmText="Generate Sekarang"
         variant="default"
         isLoading={isSubmitting}
+      />
+
+      <ConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleDelete}
+        title="Hapus Turnamen"
+        description="Apakah Anda yakin ingin menghapus turnamen ini? Semua data terkait turnamen ini akan ikut terhapus. Tindakan ini tidak dapat dibatalkan."
+        confirmText="Hapus Turnamen"
+        variant="danger"
+        isLoading={isDeleting}
       />
     </div>
   );
