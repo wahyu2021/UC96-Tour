@@ -34,7 +34,6 @@ export async function PUT(
       where: {
         id: teamId,
         ownerId: session.user.id,
-        tournamentId: null,
       },
       include: { players: true },
     });
@@ -108,7 +107,6 @@ export async function DELETE(
       where: {
         id: teamId,
         ownerId: session.user.id,
-        tournamentId: null,
       },
     });
 

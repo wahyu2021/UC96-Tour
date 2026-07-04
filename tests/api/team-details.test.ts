@@ -42,7 +42,7 @@ describe('Team Details API (/api/teams/[id]/details)', () => {
     it('returns 404 if team is not APPROVED', async () => {
       vi.mocked(prisma.team.findUnique).mockResolvedValueOnce({
         id: 't1',
-        status: 'PENDING',
+        registrations: [{ status: 'PENDING' }],
       } as any);
 
       const req = new Request('http://localhost/api/teams/t1/details');
@@ -59,7 +59,7 @@ describe('Team Details API (/api/teams/[id]/details)', () => {
       const mockTeam = {
         id: 't1',
         name: 'UC96 Team',
-        status: 'APPROVED',
+        registrations: [{ status: 'APPROVED' }],
         players: [],
         matchResults: [],
       };

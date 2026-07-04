@@ -5,7 +5,11 @@ export async function getPublicTeams(params: GetPublicTeamsParams = {}) {
   const { search, tournamentId, page = 1, limit = 12 } = params;
   const skip = (page - 1) * limit;
   const whereClause: import('@prisma/client').Prisma.TeamWhereInput = {
-    status: 'APPROVED',
+    registrations: {
+      some: {
+        status: 'APPROVED',
+      },
+    },
   };
 
   if (search) {
@@ -16,7 +20,12 @@ export async function getPublicTeams(params: GetPublicTeamsParams = {}) {
   }
 
   if (tournamentId && tournamentId !== 'ALL') {
-    whereClause.tournamentId = tournamentId;
+    whereClause.registrations = {
+      some: {
+        status: 'APPROVED',
+        tournamentId: tournamentId,
+      },
+    };
   }
 
   // Execute query
@@ -25,7 +34,11 @@ export async function getPublicTeams(params: GetPublicTeamsParams = {}) {
       where: whereClause,
       include: {
         players: true,
-        tournament: true,
+        registrations: {
+          include: {
+            tournament: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',

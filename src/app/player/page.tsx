@@ -22,7 +22,6 @@ export default async function PlayerPage() {
   const masterTeam = await prisma.team.findFirst({
     where: {
       ownerId: session.user.id,
-      tournamentId: null,
     },
     include: {
       players: true,

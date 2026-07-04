@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db';
 export async function getGlobalStatistics() {
   const [tournamentsCount, teamsCount, playersCount] = await Promise.all([
     prisma.tournament.count(),
-    prisma.team.count({ where: { status: 'APPROVED' } }),
+    prisma.team.count({ where: { registrations: { some: { status: 'APPROVED' } } } }),
     prisma.player.count(),
   ]);
 
@@ -14,13 +14,13 @@ export async function getGlobalStatistics() {
       status: { not: 'COMPLETED' },
     },
     select: {
-      _count: { select: { teams: { where: { status: 'APPROVED' } } } },
+      _count: { select: { registrations: { where: { status: 'APPROVED' } } } },
       maxSlots: true,
     },
   });
 
   const hasActiveRegistration = availableTournaments.some(
-    (t) => t._count.teams < t.maxSlots
+    (t) => t._count.registrations < t.maxSlots
   );
 
   return {
@@ -40,7 +40,7 @@ export async function getFeaturedTournaments() {
     take: 4,
     include: {
       _count: {
-        select: { teams: { where: { status: 'APPROVED' } } },
+        select: { registrations: { where: { status: 'APPROVED' } } },
       },
     },
   });
@@ -64,7 +64,7 @@ export async function getMiniLeaderboard() {
 
   // Tarik data tim dan skornya
   const teams = await prisma.team.findMany({
-    where: { tournamentId: latestTournament.id, status: 'APPROVED' },
+    where: { registrations: { some: { tournamentId: latestTournament.id, status: 'APPROVED' } } },
     select: {
       id: true,
       name: true,

@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 
 export type TournamentWithTeams = Prisma.TournamentGetPayload<{
-  include: { teams: true };
+  include: { registrations: { include: { team: true } } };
 }>;
 
 export type TournamentWithMatches = Prisma.TournamentGetPayload<{

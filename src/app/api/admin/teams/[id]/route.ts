@@ -29,13 +29,13 @@ export async function PATCH(
       );
     }
 
-    const updatedTeam = await prisma.team.update({
-      where: { id },
+    const updatedTeam = await prisma.tournamentRegistration.updateMany({
+      where: { teamId: id },
       data: { status },
     });
 
     return NextResponse.json({
-      message: `Status tim ${updatedTeam.name} berhasil diubah menjadi ${status}`,
+      message: `Status tim berhasil diubah menjadi ${status}`,
       team: updatedTeam,
     });
   } catch (error) {

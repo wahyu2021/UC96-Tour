@@ -146,7 +146,7 @@ export interface Tournament {
   maxSlots: number;
   prizePool: string | null;
   status: string;
-  _count: { teams: number };
+  _count: { registrations: number };
 }
 
 export interface FeaturedTournamentsProps {

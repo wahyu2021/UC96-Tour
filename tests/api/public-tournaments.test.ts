@@ -49,7 +49,7 @@ describe('Public Tournaments API', () => {
       status: 'ONGOING',
       startDate: new Date(Date.now() - 10000),
       endDate: new Date(Date.now() + 100000),
-      teams: [{ id: 't1', name: 'Evos', players: [] }],
+      registrations: [{ team: { id: 't1', name: 'Evos', players: [] } }],
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -20,6 +20,7 @@ export async function GET(
       where: { id: teamId },
       include: {
         players: true,
+        registrations: true,
         matchResults: {
           include: {
             match: {
@@ -41,8 +42,9 @@ export async function GET(
       return NextResponse.json({ error: 'Team not found' }, { status: 404 });
     }
 
+    const isApproved = team.registrations.some((r) => r.status === 'APPROVED');
     // Only allow APPROVED teams to be viewed publicly
-    if (team.status !== 'APPROVED') {
+    if (!isApproved) {
       return NextResponse.json(
         { error: 'Team not found or not approved' },
         { status: 404 }

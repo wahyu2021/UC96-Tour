@@ -1,6 +1,9 @@
 import { prisma } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import { Badge } from '@/components/ui/Badge';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { QuickJoinButton } from '@/components/features/public/QuickJoinButton';
 import { CalendarDays, Users, Trophy, Shield, Swords } from 'lucide-react';
 import Link from 'next/link';
 import { formatRupiah } from '@/lib/utils';
@@ -26,10 +29,14 @@ export default async function TournamentDetailPage({
   const tour = await prisma.tournament.findUnique({
     where: { id },
     include: {
-      teams: {
+      registrations: {
         where: { status: 'APPROVED' },
         include: {
-          players: true,
+          team: {
+            include: {
+              players: true,
+            },
+          },
         },
       },
     },
@@ -38,6 +45,11 @@ export default async function TournamentDetailPage({
   if (!tour) {
     notFound();
   }
+
+  const teams = tour.registrations.map((r) => r.team);
+
+  const session = await getServerSession(authOptions);
+  const isLoggedIn = !!session?.user;
 
   // Status Logic
   let dynamicStatus = tour.status;
@@ -95,7 +107,7 @@ export default async function TournamentDetailPage({
             <div className="flex items-center gap-2">
               <Users className="text-brand-500 h-5 w-5" />
               <span>
-                {tour.teams.length} / {tour.maxSlots} Tim Terdaftar
+                {teams.length} / {tour.maxSlots} Tim Terdaftar
               </span>
             </div>
             {tour.prizePool && (
@@ -159,16 +171,16 @@ export default async function TournamentDetailPage({
           <div className="lg:col-span-1">
             <h2 className="font-heading mb-6 flex items-center gap-2 text-xl font-bold text-neutral-900 dark:text-white">
               <Swords className="text-brand-500 h-6 w-6" />
-              Tim Berpartisipasi ({tour.teams.length})
+              Tim Berpartisipasi ({teams.length})
             </h2>
 
             <div className="flex flex-col gap-3">
-              {tour.teams.length === 0 ? (
+              {teams.length === 0 ? (
                 <div className="rounded-xl border border-dashed border-neutral-300 p-6 text-center text-sm text-neutral-500 dark:border-neutral-800">
                   Belum ada tim yang disetujui.
                 </div>
               ) : (
-                tour.teams.map((team) => (
+                teams.map((team) => (
                   <Link
                     href={`/teams/${team.id}`}
                     key={team.id}
@@ -200,14 +212,13 @@ export default async function TournamentDetailPage({
             </div>
 
             {dynamicStatus !== 'COMPLETED' &&
-              tour.teams.length < tour.maxSlots && (
+              teams.length < tour.maxSlots && (
                 <div className="mt-6">
-                  <Link
-                    href="/register"
-                    className="flex w-full items-center justify-center rounded-lg bg-[var(--color-primary)] px-4 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90"
-                  >
-                    Daftarkan Tim Anda
-                  </Link>
+                  <QuickJoinButton
+                    tournamentId={tour.id}
+                    tournamentName={tour.name}
+                    isLoggedIn={isLoggedIn}
+                  />
                 </div>
               )}
           </div>

@@ -33,7 +33,6 @@ export async function POST(req: Request) {
       where: {
         id: masterTeamId,
         ownerId: session.user.id,
-        tournamentId: null,
       },
       include: { players: true },
     });
@@ -51,7 +50,7 @@ export async function POST(req: Request) {
       include: {
         _count: {
           select: {
-            teams: { where: { status: 'APPROVED' } },
+            registrations: { where: { status: 'APPROVED' } },
           },
         },
       },
@@ -72,7 +71,7 @@ export async function POST(req: Request) {
       );
     }
 
-    if (tournament._count.teams >= tournament.maxSlots) {
+    if (tournament._count.registrations >= tournament.maxSlots) {
       return NextResponse.json(
         { error: 'Kuota tim untuk turnamen ini sudah penuh' },
         { status: 400 }
@@ -80,10 +79,12 @@ export async function POST(req: Request) {
     }
 
     // 3. Cek apakah tim ini sudah terdaftar (berdasarkan Tag/Name di turnamen ini)
-    const existingRegistration = await prisma.team.findFirst({
+    const existingRegistration = await prisma.tournamentRegistration.findFirst({
       where: {
         tournamentId,
-        OR: [{ name: masterTeam.name }, { tag: masterTeam.tag }],
+        team: {
+          OR: [{ name: masterTeam.name }, { tag: masterTeam.tag }],
+        },
       },
     });
 
@@ -100,7 +101,9 @@ export async function POST(req: Request) {
       where: {
         inGameId: { in: inGameIds },
         team: {
-          tournamentId: tournamentId,
+          registrations: {
+            some: { tournamentId: tournamentId },
+          },
         },
       },
     });
@@ -114,24 +117,11 @@ export async function POST(req: Request) {
       );
     }
 
-    // 5. Kloning Master Team menjadi Pendaftaran Turnamen
-    const playersData = masterTeam.players.map((p) => ({
-      ign: p.ign,
-      inGameId: p.inGameId,
-      role: p.role,
-    }));
-
-    const newTeamRegistration = await prisma.team.create({
+    const newTeamRegistration = await prisma.tournamentRegistration.create({
       data: {
-        name: masterTeam.name,
-        tag: masterTeam.tag,
-        logoUrl: masterTeam.logoUrl,
-        ownerId: session.user.id,
+        teamId: masterTeam.id,
         tournamentId: tournamentId,
         status: 'PENDING',
-        players: {
-          create: playersData,
-        },
       },
     });
 

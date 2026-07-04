@@ -12,21 +12,24 @@ export async function GET(
     const tournament = await prisma.tournament.findUnique({
       where: { id },
       include: {
-        teams: {
+        registrations: {
           where: { status: 'APPROVED' },
-          select: {
-            id: true,
-            name: true,
-            tag: true,
-            logoUrl: true,
-            players: {
+          include: {
+            team: {
               select: {
-                ign: true,
-                role: true,
+                id: true,
+                name: true,
+                tag: true,
+                logoUrl: true,
+                players: {
+                  select: {
+                    ign: true,
+                    role: true,
+                  }
+                }
               }
             }
           },
-          orderBy: { name: 'asc' }
         },
       },
     });
@@ -47,7 +50,14 @@ export async function GET(
       }
     }
 
-    return NextResponse.json({ ...tournament, dynamicStatus });
+    const responseData = {
+      ...tournament,
+      dynamicStatus,
+      teams: tournament.registrations.map(r => r.team).sort((a, b) => a.name.localeCompare(b.name)),
+    };
+    // @ts-ignore
+    delete responseData.registrations;
+    return NextResponse.json(responseData);
   } catch (error) {
     console.error('Failed to fetch tournament detail:', error);
     return NextResponse.json(

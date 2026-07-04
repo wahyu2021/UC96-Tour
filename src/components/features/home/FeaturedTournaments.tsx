@@ -93,7 +93,7 @@ export function FeaturedTournaments({ tournaments }: FeaturedTournamentsProps) {
                       <span>
                         Slot:{' '}
                         <strong className="text-white">
-                          {tour._count.teams} / {tour.maxSlots}
+                          {tour._count.registrations} / {tour.maxSlots}
                         </strong>{' '}
                         Tim
                       </span>

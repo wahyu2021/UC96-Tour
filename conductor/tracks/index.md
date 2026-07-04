@@ -22,5 +22,5 @@
 
 ---
 
-- [ ] **Track: Implement one click tournament join for captains**
+- [x] **Track: Implement one click tournament join for captains**
       _Link: [./025-one-click-tournament-join/](./025-one-click-tournament-join/)_

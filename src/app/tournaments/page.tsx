@@ -14,7 +14,7 @@ export default async function PublicTournamentsPage() {
     orderBy: { startDate: 'desc' },
     include: {
       _count: {
-        select: { teams: { where: { status: 'APPROVED' } } },
+        select: { registrations: { where: { status: 'APPROVED' } } },
       },
     },
   });
@@ -112,7 +112,7 @@ export default async function PublicTournamentsPage() {
                         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-900/20 dark:text-brand-400">
                           <Users className="h-4 w-4 shrink-0" />
                         </div>
-                        <span>{tour._count.teams} / {tour.maxSlots} Tim</span>
+                        <span>{tour._count.registrations} / {tour.maxSlots} Tim</span>
                       </div>
                       
                       {tour.prizePool && (

@@ -37,8 +37,12 @@ export default async function ScoreInputPage({
   const teams = match.tournamentId
     ? await prisma.team.findMany({
         where: {
-          tournamentId: match.tournamentId,
-          status: 'APPROVED',
+          registrations: {
+            some: {
+              tournamentId: match.tournamentId,
+              status: 'APPROVED',
+            },
+          },
         },
         select: {
           id: true,

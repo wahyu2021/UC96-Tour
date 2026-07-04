@@ -17,7 +17,11 @@ export async function GET(
 
   try {
     const teams = await prisma.team.findMany({
-      where: { tournamentId, status: 'APPROVED' },
+      where: {
+        registrations: {
+          some: { tournamentId, status: 'APPROVED' },
+        },
+      },
       select: { id: true, name: true, logoUrl: true },
       orderBy: { name: 'asc' },
     });

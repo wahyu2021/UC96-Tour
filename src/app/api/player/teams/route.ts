@@ -16,7 +16,6 @@ export async function GET() {
     const teams = await prisma.team.findMany({
       where: {
         ownerId: session.user.id,
-        tournamentId: null,
       },
       include: {
         players: true,
@@ -56,8 +55,6 @@ export async function POST(req: Request) {
     // Cek apakah ada master tim dengan nama/tag yang sama milik user ini
     const existingTeam = await prisma.team.findFirst({
       where: {
-        ownerId: session.user.id,
-        tournamentId: null,
         OR: [{ name: data.name }, { tag: data.tag }],
       },
     });
@@ -88,8 +85,6 @@ export async function POST(req: Request) {
         tag: data.tag,
         logoUrl: data.logoUrl,
         ownerId: session.user.id,
-        // tournamentId dibiarkan null
-        status: 'APPROVED', // Profil master otomatis approved untuk dirinya sendiri
         players: {
           create: playersData,
         },

@@ -42,7 +42,11 @@ export default async function TeamDetailsPage({
     where: { id: p.id },
     include: {
       players: true,
-      tournament: true,
+      registrations: {
+        include: {
+          tournament: true,
+        },
+      },
       matchResults: {
         include: {
           match: {
@@ -63,7 +67,9 @@ export default async function TeamDetailsPage({
   const session = await getServerSession(authOptions);
   const isAdmin = session?.user?.role === 'ADMIN';
 
-  if (!team || (team.status !== 'APPROVED' && !isAdmin)) {
+  const status = team?.registrations?.[0]?.status || 'PENDING';
+
+  if (!team || (status !== 'APPROVED' && !isAdmin)) {
     notFound();
   }
 
@@ -116,13 +122,13 @@ export default async function TeamDetailsPage({
               <p className="mt-2 text-xl font-bold text-[var(--color-primary)]">
                 [{team.tag}]
               </p>
-              {team.tournament && (
+              {team.registrations[0]?.tournament && (
                 <div className="mt-4">
                   <Badge
                     variant="outline"
                     className="border-neutral-300 dark:border-neutral-700"
                   >
-                    {team.tournament.name}
+                    {team.registrations[0].tournament.name}
                   </Badge>
                 </div>
               )}

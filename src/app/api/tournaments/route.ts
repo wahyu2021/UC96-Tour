@@ -7,7 +7,7 @@ export async function GET() {
       orderBy: { startDate: 'desc' },
       include: {
         _count: {
-          select: { teams: { where: { status: 'APPROVED' } } },
+          select: { registrations: { where: { status: 'APPROVED' } } },
         },
       },
     });

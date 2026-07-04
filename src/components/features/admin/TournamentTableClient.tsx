@@ -29,7 +29,7 @@ type TournamentData = {
   maxSlots: number;
   prizePool: string | null;
   status: string;
-  _count?: { teams: number };
+  _count?: { registrations: number };
 };
 
 export function TournamentTableClient({
@@ -259,7 +259,7 @@ export function TournamentTableClient({
                     {new Date(t.endDate).toLocaleDateString('id-ID')}
                   </td>
                   <td className="px-6 py-5 font-bold">
-                    {t._count?.teams || 0} / {t.maxSlots}
+                    {t._count?.registrations || 0} / {t.maxSlots}
                   </td>
                   <td className="px-6 py-5 font-medium">
                     {t.prizePool ? (

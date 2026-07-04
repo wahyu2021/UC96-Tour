@@ -20,10 +20,9 @@ type Team = {
   name: string;
   tag: string;
   logoUrl: string | null;
-  status: string;
   createdAt: Date;
   players: Player[];
-  tournament: { name: string } | null;
+  registrations: { status: string; tournament: { name: string } }[];
 };
 
 export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
@@ -47,7 +46,7 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
       }
 
       setTeams((prev) =>
-        prev.map((t) => (t.id === teamId ? { ...t, status: newStatus } : t))
+        prev.map((t) => (t.id === teamId ? { ...t, registrations: t.registrations.map(r => ({ ...r, status: newStatus })) } : t))
       );
       toast.success(data.message, { id: toastId });
     } catch (error) {
@@ -61,7 +60,7 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
     const matchQuery =
       t.name.toLowerCase().includes(filterQuery.toLowerCase()) ||
       t.tag.toLowerCase().includes(filterQuery.toLowerCase());
-    const matchStatus = statusFilter === 'ALL' || t.status === statusFilter;
+    const matchStatus = statusFilter === 'ALL' || t.registrations[0]?.status === statusFilter;
     return matchQuery && matchStatus;
   });
 
@@ -160,21 +159,21 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
                       </td>
                       <td className="px-6 py-5">
                         <span className="inline-flex items-center rounded-md bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-800 dark:bg-neutral-800 dark:text-neutral-300">
-                          {team.tournament?.name || 'Tanpa Turnamen'}
+                          {team.registrations[0]?.tournament?.name || 'Tanpa Turnamen'}
                         </span>
                       </td>
                       <td className="px-6 py-5">
                         <Badge
                           variant={
-                            team.status === 'APPROVED'
+                            team.registrations[0]?.status === 'APPROVED'
                               ? 'success'
-                              : team.status === 'REJECTED'
+                              : team.registrations[0]?.status === 'REJECTED'
                                 ? 'danger'
                                 : 'warning'
                           }
                           dot
                         >
-                          {team.status}
+                          {team.registrations[0]?.status || 'PENDING'}
                         </Badge>
                       </td>
                       <td className="px-6 py-5 text-right">
@@ -188,7 +187,7 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
                           </Link>
                           <div className="w-[130px]">
                             <Select
-                              value={team.status}
+                              value={team.registrations[0]?.status || 'PENDING'}
                               onChange={(val) =>
                                 handleStatusChange(team.id, val)
                               }

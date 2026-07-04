@@ -14,21 +14,21 @@ enum TournamentStatus {
 }
 
 model Tournament {
-  id          String           @id @default(cuid())
-  name        String           @unique
-  description String?          @db.Text
-  bannerUrl   String?          @db.Text
-  backgroundUrl String?        @db.Text
-  startDate   DateTime
-  endDate     DateTime
-  maxSlots    Int              @default(32)
-  prizePool   String?
-  status      TournamentStatus @default(DRAFT)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  id            String           @id @default(cuid())
+  name          String           @unique
+  description   String?          @db.Text
+  bannerUrl     String?          @db.Text
+  backgroundUrl String?          @db.Text
+  startDate     DateTime
+  endDate       DateTime
+  maxSlots      Int              @default(32)
+  prizePool     String?
+  status        TournamentStatus @default(DRAFT)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 
-  teams       Team[]
-  matches     Match[]
+  registrations TournamentRegistration[]
+  matches       Match[]
 
   @@map("tournaments")
 }
@@ -52,53 +52,67 @@ enum MatchStatus {
 }
 
 model Team {
-  id           String       @id @default(cuid())
-  name         String       @unique
-  tag          String       @unique
+  id           String     @id @default(cuid())
+  name         String     @unique
+  tag          String     @unique
   logoUrl      String?
-  status       TeamStatus   @default(PENDING)
-  tournamentId String?
   ownerId      String?
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
-  tournament   Tournament?  @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
-  owner        User?        @relation(fields: [ownerId], references: [id], onDelete: SetNull)
-  players      Player[]
-  matchResults MatchResult[]
+  owner         User?                    @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  players       Player[]
+  matchResults  MatchResult[]
+  registrations TournamentRegistration[]
 
-  @@index([tournamentId])
   @@index([ownerId])
   @@map("teams")
 }
 
-model Player {
-  id          String     @id @default(cuid())
-  ign         String
-  inGameId    String     @unique
-  steamId     String?    @unique
-  role        PlayerRole @default(MEMBER)
-  teamId      String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+model TournamentRegistration {
+  id           String     @id @default(cuid())
+  teamId       String
+  tournamentId String
+  status       TeamStatus @default(PENDING)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
-  team        Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  team         Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  tournament   Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, tournamentId])
+  @@index([teamId])
+  @@index([tournamentId])
+  @@map("tournament_registrations")
+}
+
+model Player {
+  id        String     @id @default(cuid())
+  ign       String
+  inGameId  String     @unique
+  steamId   String?    @unique
+  role      PlayerRole @default(MEMBER)
+  teamId    String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
   @@index([teamId])
   @@map("players")
 }
 
 model Match {
-  id          String      @id @default(cuid())
-  scheduledAt DateTime
-  group       String
-  map         String
-  status      MatchStatus @default(SCHEDULED)
+  id           String      @id @default(cuid())
+  scheduledAt  DateTime
+  group        String
+  map          String
+  status       MatchStatus @default(SCHEDULED)
   tournamentId String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
-  tournament   Tournament? @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  tournament   Tournament?   @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
   matchResults MatchResult[]
 
   @@index([tournamentId])
@@ -106,19 +120,19 @@ model Match {
 }
 
 model MatchResult {
-  id             String   @id @default(cuid())
-  killPoints     Int      @default(0)
-  placementPoints Int     @default(0)
-  totalPoints    Int      @default(0)
-  finishPosition Int
-  isWwcd         Boolean  @default(false)
-  teamId         String
-  matchId        String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id              String   @id @default(cuid())
+  killPoints      Int      @default(0)
+  placementPoints Int      @default(0)
+  totalPoints     Int      @default(0)
+  finishPosition  Int
+  isWwcd          Boolean  @default(false)
+  teamId          String
+  matchId         String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  team           Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  match          Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  team  Team  @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  match Match @relation(fields: [matchId], references: [id], onDelete: Cascade)
 
   @@unique([teamId, matchId])
   @@index([teamId])
@@ -144,26 +158,26 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts      Account[]
-  sessions      Session[]
-  teams         Team[]
+  accounts Account[]
+  sessions Session[]
+  teams    Team[]
 
   @@map("users")
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

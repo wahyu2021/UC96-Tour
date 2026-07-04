@@ -21,6 +21,10 @@ vi.mock('@/lib/db', () => ({
     player: {
       findMany: vi.fn(),
     },
+    tournamentRegistration: {
+      findFirst: vi.fn(),
+      create: vi.fn(),
+    },
   },
 }));
 
@@ -76,18 +80,19 @@ describe('Player 1-Click Register API (/api/player/register)', () => {
       status: 'ONGOING',
       endDate: new Date(Date.now() + 100000),
       maxSlots: 16,
-      _count: { teams: 0 },
+      _count: { registrations: 0 },
     } as any);
 
     // No existing registration for this team
-    vi.mocked(prisma.team.findFirst).mockResolvedValueOnce(null);
+    vi.mocked(prisma.tournamentRegistration.findFirst).mockResolvedValueOnce(null);
     // No players already registered in other teams
     vi.mocked(prisma.player.findMany).mockResolvedValueOnce([]);
 
     // Create success
-    vi.mocked(prisma.team.create).mockResolvedValueOnce({
-      id: 'new_team',
-      name: 'Team A',
+    vi.mocked(prisma.tournamentRegistration.create).mockResolvedValueOnce({
+      id: 'reg1',
+      teamId: 'm1',
+      tournamentId: 't1',
       status: 'PENDING',
     } as any);
 

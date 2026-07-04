@@ -9,7 +9,7 @@ export default async function TournamentsPage() {
   const tournaments = await prisma.tournament.findMany({
     orderBy: { createdAt: 'desc' },
     include: {
-      _count: { select: { teams: { where: { status: 'APPROVED' } } } },
+      _count: { select: { registrations: { where: { status: 'APPROVED' } } } },
     },
   });
 

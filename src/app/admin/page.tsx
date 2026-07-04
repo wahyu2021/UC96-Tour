@@ -35,13 +35,13 @@ export default async function AdminDashboardPage() {
     prisma.tournament.count(),
     prisma.tournament.count({ where: { status: 'ONGOING' } }),
     prisma.team.count(),
-    prisma.team.count({ where: { status: 'APPROVED' } }),
+    prisma.team.count({ where: { registrations: { some: { status: 'APPROVED' } } } }),
     prisma.match.count(),
     prisma.match.count({ where: { status: 'ONGOING' } }),
     prisma.team.findMany({
       take: 5,
       orderBy: { createdAt: 'desc' },
-      include: { tournament: true },
+      include: { registrations: { include: { tournament: true } } },
     }),
   ]);
 
@@ -329,7 +329,7 @@ export default async function AdminDashboardPage() {
                         <p className="mt-0.5 text-xs text-neutral-500">
                           Turnamen:{' '}
                           <span className="font-semibold">
-                            {team.tournament?.name || 'N/A'}
+                            {team.registrations[0]?.tournament?.name || 'N/A'}
                           </span>
                         </p>
                       </div>
@@ -337,14 +337,14 @@ export default async function AdminDashboardPage() {
                     <div className="flex flex-col items-end gap-1">
                       <span
                         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                          team.status === 'APPROVED'
+                          team.registrations[0]?.status === 'APPROVED'
                             ? 'bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400'
-                            : team.status === 'REJECTED'
+                            : team.registrations[0]?.status === 'REJECTED'
                               ? 'bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400'
                               : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-400'
                         }`}
                       >
-                        {team.status}
+                        {team.registrations[0]?.status || 'PENDING'}
                       </span>
                       <span className="flex items-center text-[10px] text-neutral-400">
                         <Clock className="mr-1 h-3 w-3" />
