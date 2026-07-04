@@ -19,3 +19,8 @@
 
 - [x] **Track: 022-confirm-modal-custom**
       _Link: [./022-confirm-modal-custom/](./022-confirm-modal-custom/)_
+
+---
+
+- [ ] **Track: Implement one click tournament join for captains**
+      _Link: [./025-one-click-tournament-join/](./025-one-click-tournament-join/)_
