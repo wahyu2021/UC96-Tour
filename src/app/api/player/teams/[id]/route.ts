@@ -72,8 +72,16 @@ export const PUT = withAuthRoute(async (req, context, session) => {
     });
 
     return NextResponse.json(updatedTeam, { status: 200 });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Update master team error:', error);
+    
+    if (error.code === 'P2002') {
+      return NextResponse.json(
+        { error: 'Salah satu ID PUBG (In-Game ID) yang dimasukkan sudah terdaftar di tim lain!' },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

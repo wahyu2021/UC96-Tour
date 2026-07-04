@@ -84,8 +84,17 @@ export const POST = withAuthRoute(async (req, context, session) => {
     });
 
     return NextResponse.json(newTeam, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Create master team error:', error);
+    
+    // Handle Prisma Unique Constraint Error (P2002)
+    if (error.code === 'P2002') {
+      return NextResponse.json(
+        { error: 'Salah satu ID PUBG (In-Game ID) yang dimasukkan sudah terdaftar di tim lain!' },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
