@@ -61,13 +61,9 @@ export function Navbar({
   const [isOpen, setIsOpen] = React.useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = React.useState(true); // Terbuka secara default di mobile
 
-  if (
-    pathname &&
-    (pathname.startsWith('/admin') ||
-      pathname.startsWith('/login') ||
-      pathname.startsWith('/signup'))
-  )
+  if (pathname && pathname.startsWith('/admin')) {
     return null;
+  }
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
