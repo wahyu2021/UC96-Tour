@@ -18,3 +18,7 @@
   - [x] Task: Menjalankan `npm run test` untuk memastikan implementasi otentikasi tidak merusak tes yang ada (dan memperbaiki pengujian yang mungkin gagal akibat tambahan _auth check_).
   - [x] Task: Menguji manual via API tester untuk memastikan rute `admin` dan `upload` menolak akses tanpa sesi yang valid.
   - [x] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions 525dcf2
