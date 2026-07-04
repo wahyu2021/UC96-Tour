@@ -31,6 +31,7 @@ describe('Public Tournaments API', () => {
       },
     ];
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (prisma.tournament.findMany as any).mockResolvedValue(mockTournaments);
 
     const response = await getTournaments();
@@ -48,11 +49,10 @@ describe('Public Tournaments API', () => {
       status: 'ONGOING',
       startDate: new Date(Date.now() - 10000),
       endDate: new Date(Date.now() + 100000),
-      teams: [
-        { id: 't1', name: 'Evos', players: [] }
-      ],
+      teams: [{ id: 't1', name: 'Evos', players: [] }],
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (prisma.tournament.findUnique as any).mockResolvedValue(mockTournament);
 
     const request = new Request('http://localhost:3000/api/tournaments/1');
