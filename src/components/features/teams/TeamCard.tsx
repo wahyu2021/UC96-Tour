@@ -2,24 +2,7 @@ import * as React from 'react';
 import { Badge } from '@/components/ui/Badge';
 import { Users, Crown } from 'lucide-react';
 import Link from 'next/link';
-
-interface Player {
-  id: string;
-  ign: string;
-  inGameId: string;
-  isCaptain: boolean;
-}
-
-interface TeamCardProps {
-  team: {
-    id: string;
-    name: string;
-    tag: string;
-    logo?: string | null;
-    tournament?: { name: string } | null;
-    players: Player[];
-  };
-}
+import { Player, TeamCardProps } from '@/types';
 
 export function TeamCard({ team }: TeamCardProps) {
   // Ambil inisial tim untuk avatar fallback

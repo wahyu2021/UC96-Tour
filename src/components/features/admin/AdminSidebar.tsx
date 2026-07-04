@@ -16,10 +16,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LogoutButton } from '@/components/features/auth/LogoutButton';
-
-interface AdminSidebarProps {
-  userName?: string | null;
-}
+import { AdminSidebarProps } from '@/types';
 
 export function AdminSidebar({ userName }: AdminSidebarProps) {
   const pathname = usePathname();

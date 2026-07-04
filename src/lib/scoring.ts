@@ -1,7 +1,4 @@
-export interface ScoringRule {
-  rank: number;
-  placementPoints: number;
-}
+import { ScoringRule } from '@/types';
 
 export const DEFAULT_RULES: ScoringRule[] = [
   { rank: 1, placementPoints: 10 },

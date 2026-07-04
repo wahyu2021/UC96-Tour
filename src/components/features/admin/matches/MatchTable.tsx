@@ -15,19 +15,11 @@ import { Select } from '@/components/ui/Select';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { MatchFormModal } from './MatchFormModal';
 import Link from 'next/link';
+import { MatchInfo } from '@/types';
 
 interface TournamentInfo {
   id: string;
   name: string;
-}
-
-interface MatchInfo {
-  id: string;
-  scheduledAt: string;
-  map: string;
-  group?: string;
-  status: string;
-  tournament?: { id: string; name: string };
 }
 
 export function MatchTable({

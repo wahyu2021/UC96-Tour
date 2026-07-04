@@ -16,8 +16,7 @@ export default async function ScoreInputPage({
   params: Promise<{ id: string }>;
 }) {
   const session = await getServerSession(authOptions);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (!session || (session.user as any)?.role !== 'ADMIN') {
+  if (!session || session.user?.role !== 'ADMIN') {
     redirect('/auth/login');
   }
 

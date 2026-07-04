@@ -4,10 +4,7 @@ import * as React from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Calendar } from 'lucide-react';
-
-interface DateFilterProps {
-  availableDates: string[]; // ['2024-06-25', '2024-06-26']
-}
+import { DateFilterProps } from '@/types';
 
 export function DateFilter({ availableDates }: DateFilterProps) {
   const router = useRouter();

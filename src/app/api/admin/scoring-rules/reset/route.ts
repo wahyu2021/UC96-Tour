@@ -16,8 +16,7 @@ const DEFAULT_PUBG_RULES = [
 
 export async function POST() {
   const session = await getServerSession(authOptions);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (!session || (session.user as any)?.role !== 'ADMIN') {
+  if (!session || session.user?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

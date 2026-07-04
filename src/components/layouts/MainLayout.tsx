@@ -4,10 +4,7 @@ import { Footer } from './Footer';
 
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-
-interface MainLayoutProps {
-  children: React.ReactNode;
-}
+import { MainLayoutProps } from '@/types';
 
 export async function MainLayout({ children }: MainLayoutProps) {
   const session = await getServerSession(authOptions);

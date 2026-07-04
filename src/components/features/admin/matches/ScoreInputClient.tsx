@@ -4,33 +4,13 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Save, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { getPlacementPoints, DEFAULT_RULES, ScoringRule } from '@/lib/scoring';
-
-interface Team {
-  id: string;
-  name: string;
-  tag: string;
-  logoUrl: string | null;
-}
-
-interface ExistingScore {
-  teamId: string;
-  finishPosition: number;
-  killPoints: number;
-}
-
-interface ScoreInputClientProps {
-  match: {
-    id: string;
-    map: string;
-    group: string;
-    scheduledAt: Date;
-    tournament: { name: string } | null;
-  };
-  teams: Team[];
-  initialScores: ExistingScore[];
-  scoringRules: ScoringRule[];
-}
+import { getPlacementPoints, DEFAULT_RULES } from '@/lib/scoring';
+import {
+  Team,
+  ExistingScore,
+  ScoreInputClientProps,
+  ScoringRule,
+} from '@/types';
 
 export function ScoreInputClient({
   match,

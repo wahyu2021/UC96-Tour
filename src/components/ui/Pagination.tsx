@@ -4,11 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-interface PaginationProps {
-  totalPages: number;
-  currentPage: number;
-}
+import { PaginationProps } from '@/types';
 
 export function Pagination({ totalPages, currentPage }: PaginationProps) {
   const pathname = usePathname();

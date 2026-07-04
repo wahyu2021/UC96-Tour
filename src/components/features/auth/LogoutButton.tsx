@@ -2,10 +2,7 @@
 
 import { signOut } from 'next-auth/react';
 import { cn } from '@/lib/utils';
-
-interface LogoutButtonProps {
-  isCollapsed?: boolean;
-}
+import { LogoutButtonProps } from '@/types';
 
 export function LogoutButton({ isCollapsed }: LogoutButtonProps) {
   return (

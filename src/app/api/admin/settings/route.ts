@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/db';
+import { UpdateSettingsRequest } from '@/types';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
-  // @ts-expect-error next-auth session user role is not typed by default
   if (!session || session.user?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -26,13 +26,13 @@ export async function GET() {
 
 export async function PUT(req: Request) {
   const session = await getServerSession(authOptions);
-  // @ts-expect-error next-auth session user role is not typed by default
   if (!session || session.user?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const { settings } = await req.json(); // { key1: val1, key2: val2 }
+    const body: UpdateSettingsRequest = await req.json();
+    const { settings } = body;
 
     if (!settings || typeof settings !== 'object') {
       return NextResponse.json(

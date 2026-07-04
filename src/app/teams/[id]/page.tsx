@@ -63,8 +63,7 @@ export default async function TeamDetailsPage({
   });
 
   const session = await getServerSession(authOptions);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const isAdmin = (session?.user as any)?.role === 'ADMIN';
+  const isAdmin = session?.user?.role === 'ADMIN';
 
   if (!team || (team.status !== 'APPROVED' && !isAdmin)) {
     notFound();

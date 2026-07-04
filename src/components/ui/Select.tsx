@@ -2,20 +2,7 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-export interface SelectOption {
-  value: string;
-  label: string;
-}
-
-export interface SelectProps {
-  options: SelectOption[];
-  value?: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  error?: string;
-  className?: string;
-}
+import { SelectOption, SelectProps } from '@/types';
 
 export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
   (

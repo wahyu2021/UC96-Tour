@@ -9,13 +9,9 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import { VisitorChartChartData } from '@/types';
 
-interface ChartData {
-  date: string;
-  count: number;
-}
-
-export function VisitorChart({ data }: { data: ChartData[] }) {
+export function VisitorChart({ data }: { data: VisitorChartChartData[] }) {
   return (
     <div className="h-72 w-full">
       <ResponsiveContainer width="100%" height="100%">

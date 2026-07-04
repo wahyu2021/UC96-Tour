@@ -12,19 +12,7 @@ import {
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-
-interface LeaderboardTeam {
-  rank: number;
-  teamId: string;
-  teamName: string;
-  tag: string;
-  logoUrl: string | null;
-  matchesPlayed: number;
-  totalKills: number;
-  placementPoints: number;
-  totalPoints: number;
-  wwcd: number;
-}
+import { LeaderboardTeam } from '@/types';
 
 export function LeaderboardTable() {
   const [data, setData] = React.useState<LeaderboardTeam[]>([]);

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Save, RefreshCcw, Info } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { ScoringRule } from '@/lib/scoring';
+import { ScoringRule } from '@/types';
 
 export default function ScoringRulesPage() {
   const [rules, setRules] = React.useState<ScoringRule[]>([]);

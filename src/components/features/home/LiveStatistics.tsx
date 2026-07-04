@@ -1,13 +1,6 @@
 import * as React from 'react';
 import { Trophy, Shield, Users } from 'lucide-react';
-
-interface StatsProps {
-  stats: {
-    tournamentsCount: number;
-    teamsCount: number;
-    playersCount: number;
-  };
-}
+import { StatsProps } from '@/types';
 
 export function LiveStatistics({ stats }: StatsProps) {
   const statItems = [
@@ -42,7 +35,10 @@ export function LiveStatistics({ stats }: StatsProps) {
       <div className="mx-auto max-w-5xl rounded-2xl border border-neutral-800 bg-[#121212] p-8 shadow-2xl backdrop-blur-xl">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:divide-x md:divide-neutral-800">
           {statItems.map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center justify-center text-center">
+            <div
+              key={idx}
+              className="flex flex-col items-center justify-center text-center"
+            >
               <div className={`mb-4 rounded-full p-4 ${item.bg}`}>
                 <item.icon className={`h-8 w-8 ${item.color}`} />
               </div>
@@ -50,7 +46,7 @@ export function LiveStatistics({ stats }: StatsProps) {
                 {item.value}
                 <span className={`text-xl ${item.color}`}>{item.suffix}</span>
               </div>
-              <div className="mt-2 text-sm font-medium uppercase tracking-widest text-neutral-400">
+              <div className="mt-2 text-sm font-medium tracking-widest text-neutral-400 uppercase">
                 {item.title}
               </div>
             </div>

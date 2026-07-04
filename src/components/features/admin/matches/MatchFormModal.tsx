@@ -6,18 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
-
-interface TournamentInfo {
-  id: string;
-  name: string;
-}
-
-interface MatchFormModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSuccess: () => void;
-  tournaments: TournamentInfo[];
-}
+import { TournamentInfo, MatchFormModalProps } from '@/types';
 
 export function MatchFormModal({
   isOpen,

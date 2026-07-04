@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { getPlacementPoints } from '@/lib/scoring';
+import { UpdateMatchScoresRequest } from '@/types';
 
 export async function GET(
   req: Request,
@@ -36,8 +37,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (!session || (session.user as any)?.role !== 'ADMIN') {
+  if (!session || session.user?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -45,7 +45,8 @@ export async function POST(
   const matchId = resolvedParams.id;
 
   try {
-    const { scores } = await req.json();
+    const body: UpdateMatchScoresRequest = await req.json();
+    const { scores } = body;
 
     if (!Array.isArray(scores)) {
       return NextResponse.json(

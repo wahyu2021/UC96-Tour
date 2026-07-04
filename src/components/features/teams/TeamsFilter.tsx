@@ -4,10 +4,7 @@ import * as React from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
-
-interface TeamsFilterProps {
-  tournaments: { id: string; name: string }[];
-}
+import { TeamsFilterProps } from '@/types';
 
 export function TeamsFilter({ tournaments }: TeamsFilterProps) {
   const router = useRouter();

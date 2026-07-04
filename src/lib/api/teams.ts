@@ -1,18 +1,10 @@
 import { prisma } from '@/lib/db';
-
-interface GetPublicTeamsParams {
-  search?: string;
-  tournamentId?: string;
-  page?: number;
-  limit?: number;
-}
+import { GetPublicTeamsParams } from '@/types';
 
 export async function getPublicTeams(params: GetPublicTeamsParams = {}) {
   const { search, tournamentId, page = 1, limit = 12 } = params;
   const skip = (page - 1) * limit;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const whereClause: any = {
+  const whereClause: import('@prisma/client').Prisma.TeamWhereInput = {
     status: 'APPROVED',
   };
 

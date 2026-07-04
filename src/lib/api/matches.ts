@@ -1,15 +1,11 @@
 import { prisma } from '@/lib/db';
-
-interface GetPublicMatchesParams {
-  date?: string; // Format: YYYY-MM-DD
-}
+import { GetPublicMatchesParams } from '@/types';
 
 export async function getPublicMatches(params: GetPublicMatchesParams = {}) {
   const { date } = params;
 
   // Build where clause
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const whereClause: any = {};
+  const whereClause: import('@prisma/client').Prisma.MatchWhereInput = {};
 
   if (date) {
     // Parsing date string to match start and end of the day in UTC

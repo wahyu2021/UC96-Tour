@@ -23,16 +23,18 @@ export async function PATCH(
   try {
     const { id } = await params;
     const session = await getServerSession(authOptions);
-    if (!session || (session.user as any)?.role !== 'ADMIN') {
+    if (!session || session.user?.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
     const validatedData = updateSchema.parse(body);
 
-    const dataToUpdate: any = { ...validatedData };
-    if (validatedData.startDate) dataToUpdate.startDate = new Date(validatedData.startDate);
-    if (validatedData.endDate) dataToUpdate.endDate = new Date(validatedData.endDate);
+    const dataToUpdate: Record<string, unknown> = { ...validatedData };
+    if (validatedData.startDate)
+      dataToUpdate.startDate = new Date(validatedData.startDate);
+    if (validatedData.endDate)
+      dataToUpdate.endDate = new Date(validatedData.endDate);
 
     const tournament = await prisma.tournament.update({
       where: { id },
@@ -52,7 +54,7 @@ export async function DELETE(
   try {
     const { id } = await params;
     const session = await getServerSession(authOptions);
-    if (!session || (session.user as any)?.role !== 'ADMIN') {
+    if (!session || session.user?.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

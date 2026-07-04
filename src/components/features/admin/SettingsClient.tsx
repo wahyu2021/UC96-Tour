@@ -4,12 +4,9 @@ import * as React from 'react';
 import { toast } from 'sonner';
 import { Save, Trash2, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { SettingsClientProps } from '@/types';
 
-interface Props {
-  initialSettings: Record<string, string>;
-}
-
-export function SettingsClient({ initialSettings }: Props) {
+export function SettingsClient({ initialSettings }: SettingsClientProps) {
   const [settings, setSettings] = React.useState(initialSettings);
   const [isSaving, setIsSaving] = React.useState(false);
 

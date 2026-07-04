@@ -9,13 +9,13 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import { RegistrationChartChartData } from '@/types';
 
-interface ChartData {
-  date: string;
-  count: number;
-}
-
-export function RegistrationChart({ data }: { data: ChartData[] }) {
+export function RegistrationChart({
+  data,
+}: {
+  data: RegistrationChartChartData[];
+}) {
   return (
     <div className="h-72 w-full">
       <ResponsiveContainer width="100%" height="100%">

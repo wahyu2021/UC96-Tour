@@ -7,5 +7,5 @@
 
 ---
 
-- [ ] **Track: 020-typescript-refactor**
+- [x] **Track: 020-typescript-refactor**
       _Link: [./020-typescript-refactor/](./020-typescript-refactor/)_
