@@ -19,3 +19,8 @@
 
 - [x] **Track: 022-confirm-modal-custom**
       _Link: [./022-confirm-modal-custom/](./022-confirm-modal-custom/)_
+
+---
+
+- [ ] **Track: 024-perbaikan-hasil-audit**
+      _Link: [./024-perbaikan-hasil-audit/](./024-perbaikan-hasil-audit/)_
