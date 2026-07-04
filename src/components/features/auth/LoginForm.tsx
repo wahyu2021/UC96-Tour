@@ -84,7 +84,7 @@ export function LoginForm() {
           disabled={isLoading}
           className="mt-8 flex w-full items-center justify-center rounded-lg bg-[var(--color-primary)] px-4 py-3.5 text-sm font-bold tracking-wide text-white transition-all hover:bg-[var(--color-primary-hover)] hover:shadow-[0_0_15px_rgba(211,47,47,0.4)] disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {isLoading ? 'Mengautentikasi...' : 'Masuk ke Sistem'}
+          {isLoading ? 'Mengautentikasi...' : 'Masuk'}
         </button>
 
         <p className="text-center text-sm text-neutral-600 dark:text-neutral-400">
