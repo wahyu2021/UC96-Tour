@@ -164,18 +164,24 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
                         </span>
                       </td>
                       <td className="px-6 py-5">
-                        <Badge
-                          variant={
-                            team.registrations[0]?.status === 'APPROVED'
-                              ? 'success'
-                              : team.registrations[0]?.status === 'REJECTED'
-                                ? 'danger'
-                                : 'warning'
-                          }
-                          dot
-                        >
-                          {team.registrations[0]?.status || 'PENDING'}
-                        </Badge>
+                        {team.registrations.length > 0 ? (
+                          <Badge
+                            variant={
+                              team.registrations[0]?.status === 'APPROVED'
+                                ? 'success'
+                                : team.registrations[0]?.status === 'REJECTED'
+                                  ? 'danger'
+                                  : 'warning'
+                            }
+                            dot
+                          >
+                            {team.registrations[0]?.status}
+                          </Badge>
+                        ) : (
+                          <span className="text-xs font-medium text-neutral-500 italic">
+                            Belum Mendaftar
+                          </span>
+                        )}
                       </td>
                       <td className="px-6 py-5 text-right">
                         <div className="flex items-center justify-end gap-3">
@@ -186,19 +192,21 @@ export function TeamTableClient({ initialTeams }: { initialTeams: Team[] }) {
                           >
                             Lihat Detail
                           </Link>
-                          <div className="w-[130px]">
-                            <Select
-                              value={team.registrations[0]?.status || 'PENDING'}
-                              onChange={(val) =>
-                                handleStatusChange(team.id, val)
-                              }
-                              options={[
-                                { value: 'PENDING', label: 'PENDING' },
-                                { value: 'APPROVED', label: 'APPROVE' },
-                                { value: 'REJECTED', label: 'REJECT' },
-                              ]}
-                            />
-                          </div>
+                          {team.registrations.length > 0 && (
+                            <div className="w-[130px]">
+                              <Select
+                                value={team.registrations[0]?.status}
+                                onChange={(val) =>
+                                  handleStatusChange(team.id, val)
+                                }
+                                options={[
+                                  { value: 'PENDING', label: 'PENDING' },
+                                  { value: 'APPROVED', label: 'APPROVE' },
+                                  { value: 'REJECTED', label: 'REJECT' },
+                                ]}
+                              />
+                            </div>
+                          )}
                         </div>
                       </td>
                     </tr>
