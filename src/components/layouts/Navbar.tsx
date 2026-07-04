@@ -13,8 +13,10 @@ import {
   BarChart3,
   Edit3,
   LayoutDashboard,
+  LogOut,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { signOut } from 'next-auth/react';
 
 const MAIN_LINKS = [
   { name: 'Beranda', href: '/' },
@@ -186,6 +188,13 @@ export function Navbar({
                 <LayoutDashboard className="h-4 w-4" />
                 Dasbor Kapten
               </Link>
+              <button
+                onClick={() => signOut({ callbackUrl: '/login' })}
+                className="flex items-center gap-2 rounded-full border border-red-200 bg-transparent px-5 py-2 text-sm font-bold text-red-600 transition-colors hover:bg-red-50 hover:text-red-700 dark:border-red-900/50 dark:text-red-500 dark:hover:bg-red-900/20"
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </button>
             </>
           ) : isAdmin ? (
             <>
@@ -318,14 +327,26 @@ export function Navbar({
 
             <div className="mt-6 space-y-3 border-t border-neutral-100 pt-6 dark:border-neutral-800">
               {isPlayer ? (
-                <Link
-                  href="/player"
-                  onClick={() => setIsOpen(false)}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-base font-bold text-white transition-opacity hover:opacity-90"
-                >
-                  <LayoutDashboard className="h-5 w-5" />
-                  Dasbor Kapten
-                </Link>
+                <>
+                  <Link
+                    href="/player"
+                    onClick={() => setIsOpen(false)}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-base font-bold text-white transition-opacity hover:opacity-90"
+                  >
+                    <LayoutDashboard className="h-5 w-5" />
+                    Dasbor Kapten
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      signOut({ callbackUrl: '/login' });
+                    }}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-transparent px-4 py-3 text-base font-bold text-red-600 transition-colors hover:bg-red-50 dark:border-red-900/50 dark:text-red-500 dark:hover:bg-red-900/20"
+                  >
+                    <LogOut className="h-5 w-5" />
+                    Logout
+                  </button>
+                </>
               ) : isAdmin ? (
                 <Link
                   href="/admin/dashboard"
