@@ -12,5 +12,10 @@
 
 ---
 
-- [ ] **Track: 021-daily-scrim-system**
+- [x] **Track: 021-daily-scrim-system**
       _Link: [./021-daily-scrim-system/](./021-daily-scrim-system/)_
+
+---
+
+- [ ] **Track: 022-confirm-modal-custom**
+      _Link: [./022-confirm-modal-custom/](./022-confirm-modal-custom/)_
