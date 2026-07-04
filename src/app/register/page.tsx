@@ -14,7 +14,8 @@ export const dynamic = 'force-dynamic';
 export default async function RegisterPage() {
   const session = await getServerSession(authOptions);
 
-  let masterTeam = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let masterTeam: any = undefined;
   if (session?.user?.id) {
     const t = await prisma.team.findFirst({
       where: {
