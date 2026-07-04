@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Badge } from '@/components/ui/Badge';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
-import { UploadCloud } from 'lucide-react';
+import { UploadCloud, Pencil } from 'lucide-react';
 import { formatRupiah } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -41,6 +41,7 @@ export function TournamentTableClient({
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -50,22 +51,40 @@ export function TournamentTableClient({
     prizePool: '',
     bannerUrl: '',
     backgroundUrl: '',
+    status: 'UPCOMING',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const router = useRouter();
 
-  const handleOpenModal = () => {
-    setFormData({
-      name: '',
-      description: '',
-      startDate: '',
-      endDate: '',
-      maxSlots: 32,
-      prizePool: '',
-      bannerUrl: '',
-      backgroundUrl: '',
-    });
+  const handleOpenModal = (t?: TournamentData) => {
+    if (t) {
+      setEditingId(t.id);
+      setFormData({
+        name: t.name,
+        description: t.description || '',
+        startDate: new Date(t.startDate).toISOString().split('T')[0],
+        endDate: new Date(t.endDate).toISOString().split('T')[0],
+        maxSlots: t.maxSlots,
+        prizePool: t.prizePool || '',
+        bannerUrl: t.bannerUrl || '',
+        backgroundUrl: t.backgroundUrl || '',
+        status: t.status,
+      });
+    } else {
+      setEditingId(null);
+      setFormData({
+        name: '',
+        description: '',
+        startDate: '',
+        endDate: '',
+        maxSlots: 32,
+        prizePool: '',
+        bannerUrl: '',
+        backgroundUrl: '',
+        status: 'UPCOMING',
+      });
+    }
     setIsModalOpen(true);
   };
 
@@ -73,8 +92,13 @@ export function TournamentTableClient({
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const res = await fetch('/api/admin/tournaments', {
-        method: 'POST',
+      const url = editingId
+        ? `/api/admin/tournaments/${editingId}`
+        : '/api/admin/tournaments';
+      const method = editingId ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
@@ -82,9 +106,18 @@ export function TournamentTableClient({
         }),
       });
       if (res.ok) {
-        const newTour = await res.json();
-        setTournaments([newTour, ...tournaments]);
+        const updatedTour = await res.json();
+        if (editingId) {
+          setTournaments(
+            tournaments.map((t) => (t.id === editingId ? updatedTour : t))
+          );
+          toast.success('Turnamen berhasil diperbarui!');
+        } else {
+          setTournaments([updatedTour, ...tournaments]);
+          toast.success('Turnamen berhasil ditambahkan!');
+        }
         setIsModalOpen(false);
+        setEditingId(null);
         router.refresh();
       } else {
         toast.error('Gagal menyimpan turnamen. Pastikan nama belum dipakai.');
@@ -162,7 +195,10 @@ export function TournamentTableClient({
           >
             Generate Daily Scrim
           </Button>
-          <Button onClick={handleOpenModal} className="w-full sm:w-auto">
+          <Button
+            onClick={() => handleOpenModal()}
+            className="w-full sm:w-auto"
+          >
             + Tambah Turnamen
           </Button>
         </div>
@@ -176,8 +212,8 @@ export function TournamentTableClient({
                 <th className="px-6 py-5">Nama Turnamen</th>
                 <th className="px-6 py-5">Tanggal</th>
                 <th className="px-6 py-5">Slot Terisi</th>
-                <th className="px-6 py-5">Prize Pool</th>
-                <th className="px-6 py-5 text-right">Status</th>
+                <th className="px-6 py-5 text-center">Status</th>
+                <th className="px-6 py-5 text-right">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
@@ -207,7 +243,7 @@ export function TournamentTableClient({
                       <span className="text-neutral-400">-</span>
                     )}
                   </td>
-                  <td className="px-6 py-5 text-right">
+                  <td className="px-6 py-5 text-center">
                     <Badge
                       variant={
                         t.status === 'ONGOING'
@@ -220,6 +256,16 @@ export function TournamentTableClient({
                     >
                       {t.status}
                     </Badge>
+                  </td>
+                  <td className="px-6 py-5 text-right">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleOpenModal(t)}
+                    >
+                      <Pencil className="mr-2 h-4 w-4" />
+                      Edit
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -240,8 +286,11 @@ export function TournamentTableClient({
 
       <Modal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Tambah Turnamen Baru"
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingId(null);
+        }}
+        title={editingId ? 'Edit Turnamen' : 'Tambah Turnamen Baru'}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -258,6 +307,23 @@ export function TournamentTableClient({
               placeholder="Ex: UC96 Summer Cup"
             />
           </div>
+
+          {editingId && (
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                Status Turnamen *
+              </label>
+              <Select
+                value={formData.status}
+                onChange={(v) => setFormData({ ...formData, status: v })}
+                options={[
+                  { value: 'UPCOMING', label: 'UPCOMING' },
+                  { value: 'ONGOING', label: 'ONGOING' },
+                  { value: 'COMPLETED', label: 'COMPLETED' },
+                ]}
+              />
+            </div>
+          )}
 
           <div className="grid grid-cols-2 gap-4">
             <div>
