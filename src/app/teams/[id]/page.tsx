@@ -4,14 +4,12 @@ import { notFound } from 'next/navigation';
 import {
   Users,
   Trophy,
-  Target,
   Target as TargetIcon,
   Crown,
   ArrowLeft,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 

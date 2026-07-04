@@ -19,7 +19,6 @@ const typesPath = path.join(
   'types',
   'components.ts'
 );
-const componentsTypes = new Set();
 
 function extractAndReplace(filePath) {
   let content = fs.readFileSync(filePath, 'utf-8');

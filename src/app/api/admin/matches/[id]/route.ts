@@ -13,7 +13,8 @@ export async function PATCH(
 ) {
   try {
     const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!session)
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     if (!session || session.user?.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -53,7 +54,8 @@ export async function DELETE(
 ) {
   try {
     const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!session)
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     if (!session || session.user?.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -65,7 +67,7 @@ export async function DELETE(
     });
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }

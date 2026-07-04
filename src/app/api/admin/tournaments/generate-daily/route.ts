@@ -5,7 +5,8 @@ import { prisma } from '@/lib/db';
 export async function POST(req: Request) {
   try {
     const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!session)
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     if (!session || session.user?.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
       if (body.date) {
         targetDate = new Date(body.date);
       }
-    } catch (_) {
+    } catch {
       // Body kosong, gunakan hari ini
     }
 

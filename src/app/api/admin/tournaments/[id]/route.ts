@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/auth';
 import { prisma } from '@/lib/db';
-import { z } from 'zod';
 
 import { updateTournamentSchema } from '@/lib/validations/tournament';
 
@@ -12,7 +11,8 @@ export async function PATCH(
   try {
     const { id } = await params;
     const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!session)
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     if (!session || session.user?.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -32,7 +32,7 @@ export async function PATCH(
     });
 
     return NextResponse.json(tournament);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update' }, { status: 500 });
   }
 }
@@ -44,14 +44,15 @@ export async function DELETE(
   try {
     const { id } = await params;
     const session = await requireAdmin();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!session)
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     if (!session || session.user?.role !== 'ADMIN') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     await prisma.tournament.delete({ where: { id } });
     return NextResponse.json({ message: 'Deleted successfully' });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
   }
 }
