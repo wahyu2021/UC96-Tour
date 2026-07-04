@@ -17,6 +17,9 @@ const fontOutfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  ),
   title: 'UC96 Tournament',
   description:
     'Sistem Manajemen Turnamen PUBG Resmi untuk Unit Combat 96. Daftarkan tim Anda dan buktikan kemampuan di arena e-sports terbaik.',
