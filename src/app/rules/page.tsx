@@ -22,8 +22,7 @@ export default async function RulesPage() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
           <h1 className="font-heading mb-4 text-4xl font-black uppercase italic md:text-5xl">
-            Kitab{' '}
-            <span className="text-[var(--color-primary)]">Undang-Undang</span>
+            Kitab <span className="text-(--color-primary)">Undang-Undang</span>
           </h1>
           <p className="text-neutral-400">
             Aturan resmi turnamen UC96. Wajib dibaca dan dipatuhi oleh seluruh
@@ -47,7 +46,7 @@ export default async function RulesPage() {
         {/* General Rules */}
         <div className="mb-12">
           <h2 className="mb-6 flex items-center gap-3 text-2xl font-black uppercase">
-            <FileText className="h-6 w-6 text-[var(--color-primary)]" />
+            <FileText className="h-6 w-6 text-(--color-primary)" />
             Aturan Umum
           </h2>
           <div className="rounded-2xl border border-neutral-800 bg-[#121212] p-2">
@@ -71,7 +70,7 @@ export default async function RulesPage() {
         {/* Scoring Table */}
         <div>
           <h2 className="mb-6 flex items-center gap-3 text-2xl font-black uppercase">
-            <CheckCircle2 className="h-6 w-6 text-[var(--color-primary)]" />
+            <CheckCircle2 className="h-6 w-6 text-(--color-primary)" />
             Sistem Poin (Placement)
           </h2>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -84,7 +83,7 @@ export default async function RulesPage() {
                   <span className="text-lg font-bold text-white">
                     #{score.rank}
                   </span>
-                  <span className="text-xl font-black text-[var(--color-primary)]">
+                  <span className="text-xl font-black text-(--color-primary)">
                     {score.placementPoints} Pts
                   </span>
                 </div>
@@ -96,16 +95,16 @@ export default async function RulesPage() {
             )}
 
             {/* Kill Point Card */}
-            <div className="col-span-full mt-2 flex items-center justify-between rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/10 p-5 shadow-[0_0_15px_rgba(255,0,0,0.1)]">
+            <div className="border-primary/30 bg-primary/10 col-span-full mt-2 flex items-center justify-between rounded-xl border p-5 shadow-[0_0_15px_rgba(255,0,0,0.1)]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--color-primary)] text-white">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-(--color-primary) text-white">
                   <CheckCircle2 className="h-6 w-6" />
                 </div>
                 <span className="text-lg font-bold text-white">
                   Setiap 1 Kill
                 </span>
               </div>
-              <span className="text-2xl font-black text-[var(--color-primary)]">
+              <span className="text-2xl font-black text-(--color-primary)">
                 1 Pts
               </span>
             </div>

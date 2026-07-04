@@ -36,7 +36,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
         title={isCollapsed ? 'Perluas Sidebar' : 'Perkecil Sidebar'}
-        className="absolute top-12 -right-5 z-50 hidden h-12 w-5 items-center justify-center rounded-r-xl border border-l-0 border-neutral-200 bg-white text-neutral-400 shadow-[4px_0_10px_-3px_rgba(0,0,0,0.1)] transition-all hover:-right-6 hover:w-6 hover:bg-neutral-50 hover:text-[var(--color-primary)] md:flex dark:border-neutral-800 dark:bg-[#121212] dark:shadow-none dark:hover:bg-neutral-900 dark:hover:text-[var(--color-primary)]"
+        className="absolute top-12 -right-5 z-50 hidden h-12 w-5 items-center justify-center rounded-r-xl border border-l-0 border-neutral-200 bg-white text-neutral-400 shadow-[4px_0_10px_-3px_rgba(0,0,0,0.1)] transition-all hover:-right-6 hover:w-6 hover:bg-neutral-50 hover:text-(--color-primary) md:flex dark:border-neutral-800 dark:bg-[#121212] dark:shadow-none dark:hover:bg-neutral-900 dark:hover:text-(--color-primary)"
       >
         <ChevronLeft
           className={cn(
@@ -53,7 +53,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
         )}
       >
         {/* Header & Toggle */}
-        <div className="mb-10 flex min-h-[40px] items-center justify-between">
+        <div className="mb-10 flex min-h-10 items-center justify-between">
           {!isCollapsed && (
             <div className="overflow-hidden">
               <h2 className="font-heading text-xl font-black tracking-widest whitespace-nowrap text-neutral-900 uppercase dark:text-white">
@@ -61,7 +61,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
               </h2>
               <p className="mt-1 overflow-hidden text-sm text-ellipsis whitespace-nowrap text-neutral-500">
                 Halo,{' '}
-                <span className="font-bold text-[var(--color-primary)]">
+                <span className="font-bold text-(--color-primary)">
                   {userName}
                 </span>
               </p>
@@ -70,7 +70,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
 
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="ml-auto flex-shrink-0 rounded-md p-2 text-neutral-500 hover:bg-neutral-100 md:hidden dark:text-neutral-400 dark:hover:bg-neutral-800"
+            className="ml-auto shrink-0 rounded-md p-2 text-neutral-500 hover:bg-neutral-100 md:hidden dark:text-neutral-400 dark:hover:bg-neutral-800"
             title={isCollapsed ? 'Perluas Sidebar' : 'Perkecil Sidebar'}
           >
             {isCollapsed ? (
@@ -92,7 +92,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
                 'flex items-center gap-3 rounded-lg py-3 text-sm font-semibold transition-colors',
                 isCollapsed ? 'justify-center px-0' : 'px-4',
                 pathname === '/admin'
-                  ? 'bg-[var(--color-primary)] text-white shadow-md shadow-red-500/20'
+                  ? 'bg-(--color-primary) text-white shadow-md shadow-red-500/20'
                   : 'bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800/50 dark:hover:text-white'
               )}
             >
@@ -117,7 +117,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
                 'flex items-center gap-3 rounded-lg py-3 text-sm font-semibold transition-colors',
                 isCollapsed ? 'justify-center px-0' : 'px-4',
                 pathname === '/admin/teams'
-                  ? 'bg-[var(--color-primary)] text-white shadow-md shadow-red-500/20'
+                  ? 'bg-(--color-primary) text-white shadow-md shadow-red-500/20'
                   : 'bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800/50 dark:hover:text-white'
               )}
             >
@@ -133,7 +133,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
                 'flex items-center gap-3 rounded-lg py-3 text-sm font-semibold transition-colors',
                 isCollapsed ? 'justify-center px-0' : 'px-4',
                 pathname === '/admin/tournaments'
-                  ? 'bg-[var(--color-primary)] text-white shadow-md shadow-red-500/20'
+                  ? 'bg-(--color-primary) text-white shadow-md shadow-red-500/20'
                   : 'bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800/50 dark:hover:text-white'
               )}
             >
@@ -158,7 +158,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
                 'flex items-center gap-3 rounded-lg py-3 text-sm font-semibold transition-colors',
                 isCollapsed ? 'justify-center px-0' : 'px-4',
                 pathname === '/admin/matches'
-                  ? 'bg-[var(--color-primary)] text-white shadow-md shadow-red-500/20'
+                  ? 'bg-(--color-primary) text-white shadow-md shadow-red-500/20'
                   : 'bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800/50 dark:hover:text-white'
               )}
             >
@@ -175,7 +175,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
                 'flex items-center gap-3 rounded-lg py-3 text-sm font-semibold transition-colors',
                 isCollapsed ? 'justify-center px-0' : 'px-4',
                 pathname === '/admin/scoring-rules'
-                  ? 'bg-[var(--color-primary)] text-white shadow-md shadow-red-500/20'
+                  ? 'bg-(--color-primary) text-white shadow-md shadow-red-500/20'
                   : 'bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800/50 dark:hover:text-white'
               )}
             >
@@ -192,7 +192,7 @@ export function AdminSidebar({ userName }: AdminSidebarProps) {
                 'flex items-center gap-3 rounded-lg py-3 text-sm font-semibold transition-colors',
                 isCollapsed ? 'justify-center px-0' : 'px-4',
                 pathname === '/admin/settings'
-                  ? 'bg-[var(--color-primary)] text-white shadow-md shadow-red-500/20'
+                  ? 'bg-(--color-primary) text-white shadow-md shadow-red-500/20'
                   : 'bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800/50 dark:hover:text-white'
               )}
             >
