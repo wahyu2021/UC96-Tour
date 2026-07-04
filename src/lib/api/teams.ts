@@ -18,8 +18,8 @@ export async function getPublicTeams(params: GetPublicTeamsParams = {}) {
 
   if (search) {
     whereClause.OR = [
-      { name: { contains: search, mode: 'insensitive' } },
-      { tag: { contains: search, mode: 'insensitive' } },
+      { name: { contains: search } },
+      { tag: { contains: search } },
     ];
   }
 

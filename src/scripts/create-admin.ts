@@ -4,8 +4,13 @@ import { prisma } from '../lib/db';
 
 async function main() {
   const username = 'admin';
-  const plainPassword = 'panitia123';
+  const plainPassword = process.env.ADMIN_INITIAL_PASSWORD || 'panitia123';
 
+  if (!process.env.ADMIN_INITIAL_PASSWORD) {
+    console.warn(
+      '⚠️  Peringatan: Menggunakan password default karena ADMIN_INITIAL_PASSWORD tidak diset di .env'
+    );
+  }
   // Enkripsi password menggunakan bcrypt dengan cost factor 10
   const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
