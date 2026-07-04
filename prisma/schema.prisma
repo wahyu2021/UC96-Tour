@@ -58,14 +58,17 @@ model Team {
   logoUrl      String?
   status       TeamStatus   @default(PENDING)
   tournamentId String?
+  ownerId      String?
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 
   tournament   Tournament?  @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  owner        User?        @relation(fields: [ownerId], references: [id], onDelete: SetNull)
   players      Player[]
   matchResults MatchResult[]
 
   @@index([tournamentId])
+  @@index([ownerId])
   @@map("teams")
 }
 
@@ -124,19 +127,58 @@ model MatchResult {
 }
 
 enum UserRole {
+  PLAYER
   ADMIN
   SUPERADMIN
 }
 
 model User {
-  id        String   @id @default(cuid())
-  username  String   @unique
-  password  String
-  role      UserRole @default(ADMIN)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  username      String?   @unique
+  password      String?
+  role          UserRole  @default(PLAYER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  teams         Team[]
 
   @@map("users")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 model ScoringConfig {

@@ -35,6 +35,10 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Username tidak terdaftar di sistem.');
         }
 
+        if (!user.password) {
+          throw new Error('Akun ini menggunakan login sosial (OAuth).');
+        }
+
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
           user.password

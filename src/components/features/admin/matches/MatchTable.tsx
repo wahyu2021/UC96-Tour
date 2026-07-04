@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Select } from '@/components/ui/Select';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { MatchFormModal } from './MatchFormModal';
 import Link from 'next/link';
 import { MatchInfo } from '@/types';
@@ -34,6 +35,10 @@ export function MatchTable({
     React.useState<string>('ALL');
   const [selectedStatus, setSelectedStatus] = React.useState<string>('ALL');
   const [selectedGroup, setSelectedGroup] = React.useState<string>('ALL');
+  const [confirmDeleteId, setConfirmDeleteId] = React.useState<string | null>(
+    null
+  );
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   const uniqueGroups = React.useMemo(() => {
     const groups = new Set<string>();
@@ -76,13 +81,21 @@ export function MatchTable({
     fetchMatches();
   }, [fetchMatches]);
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Yakin ingin menghapus jadwal pertandingan ini?')) return;
+  const handleDelete = async () => {
+    if (!confirmDeleteId) return;
+    setIsDeleting(true);
     try {
-      const res = await fetch(`/api/admin/matches/${id}`, { method: 'DELETE' });
-      if (res.ok) fetchMatches();
+      const res = await fetch(`/api/admin/matches/${confirmDeleteId}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        setConfirmDeleteId(null);
+        fetchMatches();
+      }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -282,7 +295,7 @@ export function MatchTable({
                           variant="ghost"
                           size="sm"
                           className="h-8 px-2 text-neutral-400 hover:text-red-600"
-                          onClick={() => handleDelete(match.id)}
+                          onClick={() => setConfirmDeleteId(match.id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -301,6 +314,17 @@ export function MatchTable({
         onClose={() => setIsModalOpen(false)}
         onSuccess={fetchMatches}
         tournaments={activeTournaments}
+      />
+
+      <ConfirmModal
+        isOpen={!!confirmDeleteId}
+        onClose={() => setConfirmDeleteId(null)}
+        onConfirm={handleDelete}
+        title="Hapus Jadwal"
+        description="Apakah Anda yakin ingin menghapus jadwal pertandingan ini? Data yang dihapus tidak dapat dikembalikan."
+        confirmText="Ya, Hapus"
+        variant="danger"
+        isLoading={isDeleting}
       />
     </div>
   );

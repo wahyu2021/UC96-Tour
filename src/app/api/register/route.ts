@@ -21,22 +21,37 @@ export async function POST(request: Request) {
     const tournament = await prisma.tournament.findUnique({
       where: { id: data.tournamentId },
       include: {
-        _count: { select: { teams: true } },
+        _count: {
+          select: {
+            teams: {
+              where: { status: 'APPROVED' },
+            },
+          },
+        },
       },
     });
 
     if (!tournament) {
-      return NextResponse.json({ error: 'Turnamen tidak ditemukan' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Turnamen tidak ditemukan' },
+        { status: 404 }
+      );
     }
 
     // Hitung status dinamis
     const now = new Date();
     if (tournament.status === 'COMPLETED' || now > tournament.endDate) {
-      return NextResponse.json({ error: 'Pendaftaran turnamen ini sudah ditutup' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Pendaftaran turnamen ini sudah ditutup' },
+        { status: 400 }
+      );
     }
 
     if (tournament._count.teams >= tournament.maxSlots) {
-      return NextResponse.json({ error: 'Kuota tim untuk turnamen ini sudah penuh' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Kuota tim untuk turnamen ini sudah penuh' },
+        { status: 400 }
+      );
     }
 
     // 2. Cek apakah Nama Tim atau Tag sudah dipakai
@@ -77,7 +92,12 @@ export async function POST(request: Request) {
     const playersData = data.players.map((p, index) => ({
       ign: p.ign,
       inGameId: p.inGameId,
-      role: index === 0 ? ('CAPTAIN' as const) : index === 4 ? ('STANDBY' as const) : ('MEMBER' as const),
+      role:
+        index === 0
+          ? ('CAPTAIN' as const)
+          : index === 4
+            ? ('STANDBY' as const)
+            : ('MEMBER' as const),
     }));
 
     // 5. Simpan ke Database (Relasional Transaction)

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { UploadCloud } from 'lucide-react';
 import { formatRupiah } from '@/lib/utils';
 
@@ -44,6 +45,7 @@ export function TournamentTableClient({
     backgroundUrl: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const router = useRouter();
 
   const handleOpenModal = () => {
@@ -88,6 +90,31 @@ export function TournamentTableClient({
     }
   };
 
+  const handleGenerateDaily = async () => {
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/admin/tournaments/generate-daily', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setIsConfirmModalOpen(false);
+        alert(data.message);
+        router.refresh();
+        window.location.reload();
+      } else {
+        alert(data.error || 'Gagal generate turnamen.');
+        setIsConfirmModalOpen(false);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Terjadi kesalahan pada server');
+      setIsConfirmModalOpen(false);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const filteredTournaments = tournaments.filter((t) => {
     const matchQuery = t.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchStatus = statusFilter === 'ALL' || t.status === statusFilter;
@@ -119,7 +146,15 @@ export function TournamentTableClient({
             />
           </div>
         </div>
-        <div className="w-full sm:w-auto">
+        <div className="flex w-full items-center gap-2 sm:w-auto">
+          <Button
+            onClick={() => setIsConfirmModalOpen(true)}
+            disabled={isSubmitting}
+            variant="secondary"
+            className="w-full bg-green-100 text-green-700 hover:bg-green-200 sm:w-auto dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50"
+          >
+            Generate Daily Scrim
+          </Button>
           <Button onClick={handleOpenModal} className="w-full sm:w-auto">
             + Tambah Turnamen
           </Button>
@@ -267,11 +302,15 @@ export function TournamentTableClient({
               <Input
                 type="text"
                 value={formData.prizePool}
-                onChange={(e) => setFormData({ ...formData, prizePool: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, prizePool: e.target.value })
+                }
                 placeholder="Contoh: 10000000"
               />
               {formData.prizePool && !isNaN(Number(formData.prizePool)) && (
-                <p className="mt-1 text-xs text-neutral-500">Preview: {formatRupiah(formData.prizePool)}</p>
+                <p className="mt-1 text-xs text-neutral-500">
+                  Preview: {formatRupiah(formData.prizePool)}
+                </p>
               )}
             </div>
           </div>
@@ -285,7 +324,7 @@ export function TournamentTableClient({
                 <div className="mt-4 flex text-sm leading-6 text-neutral-600 dark:text-neutral-400">
                   <label
                     htmlFor="banner-upload"
-                    className="relative cursor-pointer rounded-md font-semibold text-[var(--color-primary)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--color-primary)] hover:text-brand-600 dark:hover:text-brand-400"
+                    className="hover:text-brand-600 dark:hover:text-brand-400 relative cursor-pointer rounded-md font-semibold text-[var(--color-primary)] focus-within:ring-2 focus-within:ring-[var(--color-primary)] focus-within:outline-none"
                   >
                     <span>Pilih file gambar</span>
                     <input
@@ -299,7 +338,10 @@ export function TournamentTableClient({
                         if (file) {
                           const reader = new FileReader();
                           reader.onloadend = () => {
-                            setFormData({ ...formData, bannerUrl: reader.result as string });
+                            setFormData({
+                              ...formData,
+                              bannerUrl: reader.result as string,
+                            });
                           };
                           reader.readAsDataURL(file);
                         }
@@ -308,14 +350,20 @@ export function TournamentTableClient({
                   </label>
                   <p className="pl-1">atau tarik ke sini</p>
                 </div>
-                <p className="text-xs leading-5 text-neutral-500">PNG, JPG, GIF hingga 5MB</p>
+                <p className="text-xs leading-5 text-neutral-500">
+                  PNG, JPG, GIF hingga 5MB
+                </p>
               </div>
             </div>
             {formData.bannerUrl && (
               <div className="mt-4 flex justify-center">
-                <div className="h-64 w-auto aspect-[9/16] overflow-hidden rounded-xl border border-neutral-200 shadow-sm dark:border-neutral-700">
+                <div className="aspect-[9/16] h-64 w-auto overflow-hidden rounded-xl border border-neutral-200 shadow-sm dark:border-neutral-700">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={formData.bannerUrl} alt="Preview" className="h-full w-full object-cover" />
+                  <img
+                    src={formData.bannerUrl}
+                    alt="Preview"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               </div>
             )}
@@ -333,7 +381,10 @@ export function TournamentTableClient({
                 if (file) {
                   const reader = new FileReader();
                   reader.onloadend = () => {
-                    setFormData({ ...formData, backgroundUrl: reader.result as string });
+                    setFormData({
+                      ...formData,
+                      backgroundUrl: reader.result as string,
+                    });
                   };
                   reader.readAsDataURL(file);
                 }
@@ -342,7 +393,11 @@ export function TournamentTableClient({
             {formData.backgroundUrl && (
               <div className="mt-2 flex w-full justify-center overflow-hidden rounded-xl border border-neutral-200 shadow-sm dark:border-neutral-700">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={formData.backgroundUrl} alt="Preview BG" className="w-full aspect-[16/9] object-cover" />
+                <img
+                  src={formData.backgroundUrl}
+                  alt="Preview BG"
+                  className="aspect-[16/9] w-full object-cover"
+                />
               </div>
             )}
           </div>
@@ -374,6 +429,17 @@ export function TournamentTableClient({
           </div>
         </form>
       </Modal>
+
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
+        onConfirm={handleGenerateDaily}
+        title="Generate Daily Scrim"
+        description="Apakah Anda yakin ingin men-generate turnamen Daily Scrim hari ini beserta 3 jadwal Matches secara otomatis?"
+        confirmText="Generate Sekarang"
+        variant="default"
+        isLoading={isSubmitting}
+      />
     </div>
   );
 }

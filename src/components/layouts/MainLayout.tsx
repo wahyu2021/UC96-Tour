@@ -8,13 +8,13 @@ import { MainLayoutProps } from '@/types';
 
 export async function MainLayout({ children }: MainLayoutProps) {
   const session = await getServerSession(authOptions);
-  const isAdmin =
-    (session?.user as { role?: string })?.role === 'ADMIN' ||
-    (session?.user as { role?: string })?.role === 'SUPERADMIN';
+  const userRole = (session?.user as { role?: string })?.role;
+  const isAdmin = userRole === 'ADMIN' || userRole === 'SUPERADMIN';
+  const isPlayer = userRole === 'PLAYER';
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar isAdmin={isAdmin} />
+      <Navbar isAdmin={isAdmin} isPlayer={isPlayer} />
       <main className="flex-1">{children}</main>
       <Footer />
     </div>

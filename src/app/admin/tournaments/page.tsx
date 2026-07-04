@@ -8,7 +8,9 @@ export const metadata = {
 export default async function TournamentsPage() {
   const tournaments = await prisma.tournament.findMany({
     orderBy: { createdAt: 'desc' },
-    include: { _count: { select: { teams: true } } },
+    include: {
+      _count: { select: { teams: { where: { status: 'APPROVED' } } } },
+    },
   });
 
   return (
@@ -19,7 +21,8 @@ export default async function TournamentsPage() {
             Manajemen Turnamen
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-neutral-600 sm:text-base dark:text-neutral-400">
-            Buat dan pantau aktivitas turnamen. Anda bisa membuka dan menutup pendaftaran dari sini.
+            Buat dan pantau aktivitas turnamen. Anda bisa membuka dan menutup
+            pendaftaran dari sini.
           </p>
         </div>
       </div>

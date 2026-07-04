@@ -26,7 +26,7 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
       include: {
         _count: {
-          select: { teams: true },
+          select: { teams: { where: { status: 'APPROVED' } } },
         },
       },
     });
@@ -48,9 +48,10 @@ export async function GET() {
     });
 
     return NextResponse.json(processedTournaments);
-  } catch (err) {
+  } catch (error) {
+    console.error(error);
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Failed to create tournament' },
       { status: 500 }
     );
   }

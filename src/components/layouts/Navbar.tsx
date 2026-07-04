@@ -50,7 +50,13 @@ const DROPDOWN_LINKS = [
   },
 ];
 
-export function Navbar({ isAdmin }: { isAdmin?: boolean }) {
+export function Navbar({
+  isAdmin,
+  isPlayer,
+}: {
+  isAdmin?: boolean;
+  isPlayer?: boolean;
+}) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = React.useState(true); // Terbuka secara default di mobile
@@ -172,14 +178,44 @@ export function Navbar({ isAdmin }: { isAdmin?: boolean }) {
         </div>
 
         {/* Right Actions (Desktop) */}
-        <div className="hidden md:flex md:items-center">
-          <Link
-            href="/register"
-            className="flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-bold text-white transition-transform hover:scale-105 hover:bg-[var(--color-primary-hover)] hover:shadow-lg"
-          >
-            <Edit3 className="h-4 w-4" />
-            Daftar Tim
-          </Link>
+        <div className="hidden md:flex md:items-center md:gap-3">
+          {isPlayer ? (
+            <>
+              <Link
+                href="/player"
+                className="flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-bold text-white transition-transform hover:scale-105 hover:bg-[var(--color-primary-hover)] hover:shadow-lg"
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Dasbor Kapten
+              </Link>
+            </>
+          ) : isAdmin ? (
+            <>
+              <Link
+                href="/admin/dashboard"
+                className="flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-bold text-white transition-transform hover:scale-105 hover:bg-[var(--color-primary-hover)] hover:shadow-lg"
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Panel Admin
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="flex items-center gap-2 rounded-full border border-neutral-200 bg-transparent px-5 py-2 text-sm font-bold text-neutral-700 transition-colors hover:bg-neutral-50 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-white"
+              >
+                Login
+              </Link>
+              <Link
+                href="/register"
+                className="flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-2 text-sm font-bold text-white transition-transform hover:scale-105 hover:bg-[var(--color-primary-hover)] hover:shadow-lg"
+              >
+                <Edit3 className="h-4 w-4" />
+                Daftar Tim
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile menu button */}
@@ -282,15 +318,44 @@ export function Navbar({ isAdmin }: { isAdmin?: boolean }) {
               )}
             </div>
 
-            <div className="mt-6 border-t border-neutral-100 pt-6 dark:border-neutral-800">
-              <Link
-                href="/register"
-                onClick={() => setIsOpen(false)}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-base font-bold text-white transition-opacity hover:opacity-90"
-              >
-                <Edit3 className="h-5 w-5" />
-                Pendaftaran Tim
-              </Link>
+            <div className="mt-6 space-y-3 border-t border-neutral-100 pt-6 dark:border-neutral-800">
+              {isPlayer ? (
+                <Link
+                  href="/player"
+                  onClick={() => setIsOpen(false)}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-base font-bold text-white transition-opacity hover:opacity-90"
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  Dasbor Kapten
+                </Link>
+              ) : isAdmin ? (
+                <Link
+                  href="/admin/dashboard"
+                  onClick={() => setIsOpen(false)}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-base font-bold text-white transition-opacity hover:opacity-90"
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  Panel Admin
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-transparent px-4 py-3 text-base font-bold text-neutral-700 transition-colors hover:bg-neutral-50 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-white"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setIsOpen(false)}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-base font-bold text-white transition-opacity hover:opacity-90"
+                  >
+                    <Edit3 className="h-5 w-5" />
+                    Pendaftaran Tim
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

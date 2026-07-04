@@ -17,5 +17,5 @@
 
 ---
 
-- [ ] **Track: 022-confirm-modal-custom**
+- [x] **Track: 022-confirm-modal-custom**
       _Link: [./022-confirm-modal-custom/](./022-confirm-modal-custom/)_
