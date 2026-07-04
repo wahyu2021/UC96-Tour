@@ -61,28 +61,6 @@ export async function POST(req: Request) {
         startDate,
         endDate,
         status: 'ONGOING',
-        matches: {
-          create: [
-            {
-              map: 'Erangel',
-              group: 'A',
-              scheduledAt: new Date(new Date(startDate).setHours(20, 10, 0, 0)),
-              status: 'SCHEDULED',
-            },
-            {
-              map: 'Miramar',
-              group: 'A',
-              scheduledAt: new Date(new Date(startDate).setHours(20, 50, 0, 0)),
-              status: 'SCHEDULED',
-            },
-            {
-              map: 'Sanhok',
-              group: 'A',
-              scheduledAt: new Date(new Date(startDate).setHours(21, 30, 0, 0)),
-              status: 'SCHEDULED',
-            },
-          ],
-        },
       },
       include: {
         matches: true,
